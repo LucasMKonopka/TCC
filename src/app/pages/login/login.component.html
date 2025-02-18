@@ -5,8 +5,8 @@
         <h1 class = "titulo">TITULO</h1>
         <h2 class = "subtitulo">Mais eficiência no controle de pacientes</h2>
 
-        <input class = "login-email" type = "text" placeholder="Digite seu email">
-        <input class = "login-senha" type = "text" placeholder="Digite sua senha">
+        <input class = "login-email" type = "text" placeholder="Digite seu email"  [(ngModel)]="email" name="email">
+        <input class = "login-senha" type = "password" placeholder="Digite sua senha" [(ngModel)]="password" name="password">
         <a routerLink="/esqueceu-senha" class="esqueceu-senha">Esqueceu sua senha?</a>
         
         <app-button textButton="Acessar" size = "100" (click)="login()"></app-button>

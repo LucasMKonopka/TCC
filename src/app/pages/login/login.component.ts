@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -7,14 +8,20 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  constructor(private rota: Router){}
+  constructor(private authService: AuthService, private router: Router) { }
 
-  email: string;
-  senha: string;
+  email: string = '';
+  password: string = '';
 
   login(){
-    sessionStorage.setItem('user', this.email);
-    sessionStorage.setItem('user', this.senha);
-    this.rota.navigate(['home']);
+    this.authService.login(this.email, this.password).subscribe(
+      () => {
+        this.router.navigate(['/home']);
+      },
+      (error) => {
+        console.error('Erro no login:', error);
+        alert('Erro no login: ' + error.message);
+      }
+    );
   }
 }
