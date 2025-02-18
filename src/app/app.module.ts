@@ -8,6 +8,11 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ButtonComponent } from './components/button/button.component';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { environment } from '../environments/environment.development';
+import {AngularFireModule} from '@angular/fire/compat';
 
 @NgModule({
   declarations: [
@@ -21,10 +26,14 @@ import { ButtonComponent } from './components/button/button.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideFirebaseApp(() => initializeApp({"projectId":"tcc-lucas-a9f3e","appId":"1:1029651621986:web:d0fdcb9cf53b6118f7c93b","storageBucket":"tcc-lucas-a9f3e.firebasestorage.app","apiKey":"AIzaSyCNq5TH4HjvH2nTpBVzOce-8TNrW4YnZcU","authDomain":"tcc-lucas-a9f3e.firebaseapp.com","messagingSenderId":"1029651621986"})),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore())
   ],
   bootstrap: [AppComponent]
 })
