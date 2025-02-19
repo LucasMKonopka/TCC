@@ -1,21 +1,32 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { from, Observable } from 'rxjs';
+import { from, Observable, switchMap } from 'rxjs';
+import { Firestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private afAuth: AngularFireAuth, private router: Router) { }
+  constructor(private afAuth: AngularFireAuth, private router: Router, private firestore: AngularFirestore) { }
 
   login(email: string, password: string): Observable<any> {
     return from(this.afAuth.signInWithEmailAndPassword(email, password));
   }
 
-  signUp(email: string, password: string): Observable<any> {
-    return from(this.afAuth.createUserWithEmailAndPassword(email, password));
+  signUp(nome: string, cpf: string, email: string, password: string): Observable<any> {
+    return from(this.afAuth.createUserWithEmailAndPassword(email, password)).pipe(
+      switchMap((userCredential) => {
+        // Armazene os dados do nutricionista no Firestore
+        return this.firestore.collection('nutricionistas').doc(userCredential.user?.uid).set({
+          nome,
+          cpf,
+          email
+        });
+      })
+    );
   }
 
   resetPassword(email: string): Observable<void> {

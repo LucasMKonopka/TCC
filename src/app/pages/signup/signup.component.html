@@ -1,0 +1,23 @@
+<div class = "area-cadastro-background d-none d-md-block"></div>
+
+<div class = "area-form-cadastro">
+    <form>
+        <h1 class = "titulo">CADASTRE-SE</h1>
+
+        <input class = "cadastro-nome" type = "text" placeholder="Digite seu nome"  [(ngModel)]="nome" name="nome">
+        <input class = "cadastro-cpf" type = "text" placeholder="Digite seu CPF"  [(ngModel)]="cpf" name="cpf">
+        <input class = "cadastro-email" type = "text" placeholder="Digite seu email"  [(ngModel)]="email" name="email">
+        <input class = "cadastro-senha" type = "password" placeholder="Digite sua senha" [(ngModel)]="password" name="password">
+        <input class = "repete-senha" type = "password" placeholder="Digite sua senha novamente" [(ngModel)]="repetepassword" name="repetepassword">
+        
+        <div class="botoes-cadastro">
+            <app-button class="btn-acessar" textButton="Acessar" size="100" (click)="signUp()"></app-button>
+            <app-button class="btn-voltar" textButton="Voltar" size="100" routerLink="/Login"></app-button>
+        </div>
+
+
+    </form>
+
+    <p class = "footer"> © 2025 | Desenvolvido por Lucas Miguel Konopka </p>
+
+</div>

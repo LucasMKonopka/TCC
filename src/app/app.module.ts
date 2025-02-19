@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 //alerts
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { SignupComponent } from './pages/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ToastrModule } from 'ngx-toastr';
     LoginComponent,
     ButtonComponent,
     MenuComponent,
-    HomeComponent
+    HomeComponent,
+    SignupComponent
     
   ],
   imports: [
