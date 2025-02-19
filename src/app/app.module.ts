@@ -14,6 +14,9 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { environment } from '../environments/environment.development';
 import {AngularFireModule} from '@angular/fire/compat';
 import { FormsModule } from '@angular/forms';
+//alerts
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,10 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     FormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    //alerts
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+    //fim alerts
   ],
   providers: [
     provideAnimationsAsync(),
