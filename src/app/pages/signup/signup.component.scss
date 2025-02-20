@@ -19,7 +19,10 @@
     align-items: center;
     justify-content: center;
     flex-wrap: nowrap;
-    padding: 150px;
+
+}
+form{
+    width: 70%;
 }
 
 @media only screen and (max-width: 767px) { .area-form-cadastro{ width: 100%; } }
