@@ -3,12 +3,38 @@
 <div class = "area-form-cadastro">
     <form>
         <h1 class = "titulo">CADASTRE-SE</h1>
+        
 
-        <input class = "cadastro-nome" type = "text" placeholder="Digite seu nome"  [(ngModel)]="nome" name="nome">
-        <input class = "cadastro-cpf" type = "text" placeholder="Digite seu CPF"  [(ngModel)]="cpf" name="cpf">
-        <input class = "cadastro-email" type = "text" placeholder="Digite seu email"  [(ngModel)]="email" name="email">
-        <input class = "cadastro-senha" type = "password" placeholder="Digite sua senha" [(ngModel)]="password" name="password">
-        <input class = "repete-senha" type = "password" placeholder="Digite sua senha novamente" [(ngModel)]="repetepassword" name="repetepassword">
+        <input class = "cadastro-nome" type = "text" placeholder="Digite seu nome"  [(ngModel)]="nome" name="nome" required minlength="3" #nomeControl="ngModel">
+        <div *ngIf="nomeControl.invalid && nomeControl.touched" class="error">
+            <span *ngIf="nomeControl.errors?.['required']">Nome é obrigatório.</span>
+            <span *ngIf="nomeControl.errors?.['minlength']">Nome precisa ter mais de 3 caracteres.</span>
+        </div>
+        
+        <input class = "cadastro-cpf" type = "text" placeholder="Digite seu CPF"  [(ngModel)]="cpf" name="cpf" required minlength="11" #cpfControl="ngModel">
+        <div *ngIf="cpfControl.invalid && cpfControl.touched" class="error">
+            <span *ngIf="cpfControl.errors?.['required']">CPF é obrigatório.</span>
+            <span *ngIf="cpfControl.errors?.['minlength']">CPF precisa ter 11 caracteres.</span>
+        </div>
+
+        <input class = "cadastro-email" type = "text" placeholder="Digite seu email"  [(ngModel)]="email" name="email" required email #emailControl="ngModel">
+        <div *ngIf="emailControl.invalid && emailControl.touched" class="error">
+            <span *ngIf="emailControl.errors?.['required']">E-mail é obrigatório.</span>
+            <span *ngIf="emailControl.errors?.['email']">Insira um e-mail válido.</span>
+        </div>
+
+
+        <input class = "cadastro-senha" type = "password" placeholder="Digite sua senha" [(ngModel)]="password" name="password" required minlength="6" #passwordControl="ngModel">
+        <div *ngIf="passwordControl.invalid && passwordControl.touched" class="error">
+            <span *ngIf="passwordControl.errors?.['required']">Senha é obrigatória.</span>
+            <span *ngIf="passwordControl.errors?.['minlength']">A senha deve ter no mínimo 6 caracteres.</span>
+        </div>
+
+
+        <input class = "repete-senha" type = "password" placeholder="Digite sua senha novamente" [(ngModel)]="repetepassword" name="repetepassword" required #repetepasswordControl="ngModel">
+        <div *ngIf="repetepasswordControl.invalid && repetepasswordControl.touched" class="error">
+            <span *ngIf="repetepasswordControl.errors?.['required']">Confirmação de senha é obrigatória.</span>
+        </div>
         
         <div class="botoes-cadastro">
             <button class="btn btn-success w-100"  (click)="signUp()">Acessar</button>
