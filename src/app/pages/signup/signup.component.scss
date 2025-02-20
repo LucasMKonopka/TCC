@@ -46,6 +46,9 @@
     margin-bottom: 16px;
     transition: 0.3s linear all;
     box-shadow: inset 1px 1px 2px #babecc80, inset -1px -1px 2px #d8d8d8b0;
+    &:focus{
+        border: 1px solid var(--primary-color);
+    }
     
 }
 
@@ -54,16 +57,11 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    //align-items: center; /* Centraliza os botões */
-    
+    gap: 10px;
+    color: white;
 }
 
-.btn-acessar,
-.btn-voltar {
-    width: 100%; /* Faz os botões ocuparem toda a largura disponível */
-    max-width: 400px; /* 400pxDefine um tamanho máximo */
-    padding: 10px 20px;
-}
+
 
 .footer{
     position: absolute;

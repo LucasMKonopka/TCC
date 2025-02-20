@@ -11,8 +11,8 @@
         <input class = "repete-senha" type = "password" placeholder="Digite sua senha novamente" [(ngModel)]="repetepassword" name="repetepassword">
         
         <div class="botoes-cadastro">
-            <app-button class="btn-acessar" textButton="Acessar" size="100" (click)="signUp()"></app-button>
-            <app-button class="btn-voltar" textButton="Voltar" size="100" routerLink="/Login"></app-button>
+            <button class="btn btn-success w-100"  (click)="signUp()">Acessar</button>
+            <button class="btn btn-success w-100" routerLink="/Login">Voltar</button>
         </div>
 
 
