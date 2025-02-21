@@ -19,6 +19,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { SignupComponent } from './pages/signup/signup.component';
 import { ReactiveFormsModule } from '@angular/forms';
+//angular material
+import { MatIconModule } from '@angular/material/icon';
+import {MatProgressSpinnerModule, MatSpinner} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -41,6 +44,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     //fim alerts
+    MatIconModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     provideAnimationsAsync(),
