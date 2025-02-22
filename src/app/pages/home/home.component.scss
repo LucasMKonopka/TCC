@@ -11,6 +11,8 @@ h2 {
     background-color: #e0e0e0;
     padding: 10px;
     border-radius: 8px;
+    max-height: 300px; // Tamanho fixo do container
+    overflow-y: auto;
 }
 
 .consultas-container ul {
@@ -22,7 +24,7 @@ h2 {
     margin: 5px 0;
 }
 
-.consultas-container a {
+.consultas-container a{
     text-decoration: none;
     color: #333;
     font-weight: bold;
