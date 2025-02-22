@@ -1,0 +1,75 @@
+.welcome-section {
+    padding: 20px;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.consultas-container {
+    background-color: #e0e0e0;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.consultas-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.consultas-container li {
+    margin: 5px 0;
+}
+
+.consultas-container a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    display: block;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.consultas-container a:hover {
+    background-color: #ddd;
+}
+
+//lado direito
+li{
+    font-size: 14px;
+    font-weight: 500;
+    color: #868686;
+    padding: 14px 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #dbdbdb;
+    mat-icon{ margin-right: 14px; font-size: 22px;}
+}
+
+.img-perfil{
+    border-radius: 50px;
+    width: 40%;
+}
+
+.container-perfil{
+    width: 100%;
+    text-align: center;
+    h4{
+        font-size: 16px;
+        color: #474747;
+        font-weight: 500;
+        margin: 8px 0px 0px 0px;
+    }
+    h5{
+        font-size: 14px;
+        color: #6d6d6d;
+        font-weight: 400;
+        margin: 2px 0px 0px 0px;
+    }
+    li{ justify-content: center; color: var(--primary-color); border: none; }
+}
+
+.texto-p{ font-size: 14px; font-style: italic; color: #767676}
