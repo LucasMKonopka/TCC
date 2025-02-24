@@ -48,6 +48,7 @@ li{
     display: flex;
     align-items: center;
     border-bottom: 1px solid #dbdbdb;
+    cursor: pointer;
     mat-icon{ margin-right: 14px; font-size: 22px;}
 }
 
@@ -71,6 +72,7 @@ li{
         font-weight: 400;
         margin: 2px 0px 0px 0px;
     }
+    
     li{ justify-content: center; color: var(--primary-color); border: none; }
 }
 

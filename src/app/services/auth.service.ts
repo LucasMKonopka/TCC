@@ -19,7 +19,7 @@ export class AuthService {
   signUp(nome: string, cpf: string, email: string, password: string): Observable<any> {
     return from(this.afAuth.createUserWithEmailAndPassword(email, password)).pipe(
       switchMap((userCredential) => {
-        // Armazene os dados do nutricionista no Firestore
+        //dados do nutricionista no Firestore
         return this.firestore.collection('nutricionistas').doc(userCredential.user?.uid).set({
           nome,
           cpf,
@@ -35,6 +35,26 @@ export class AuthService {
 
   logout(): Observable<void> {
     return from(this.afAuth.signOut());
+  }
+
+  deleteUser(): Observable<void> {
+    return new Observable<void>(observer => {
+      this.afAuth.currentUser.then(user => {
+        if (user) {
+          const uid = user.uid;
+          // dados Firestore
+          this.firestore.collection('nutricionistas').doc(uid).delete().then(() => {
+            // usuario
+            user.delete().then(() => {
+              observer.next();
+              observer.complete();
+            }).catch(error => observer.error(error));
+          }).catch(error => observer.error(error));
+        } else {
+          observer.error('Usuário não autenticado.');
+        }
+      }).catch(error => observer.error(error));
+    });
   }
   
   getCurrentUser (): Observable<any> {
@@ -54,4 +74,5 @@ export class AuthService {
       });
     });
   }
+  
 }
