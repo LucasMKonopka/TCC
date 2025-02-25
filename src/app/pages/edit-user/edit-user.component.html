@@ -1,1 +1,31 @@
 <app-menu></app-menu>
+
+<div class = "area-edit-background d-none d-md-block"></div>
+
+<div class = "area-form-edit">
+    <form>
+        <h1 class = "titulo">MEUS DADOS</h1>
+
+        <img [src]="foto || 'assets/imgs/avatar.jpg'" alt="Foto do Usuário" class="img-perfil">
+        <input class="arquivo" type="file" (change)="onFileSelected($event)" accept="image/*">
+
+        <label for="nomeEdit">Nome</label>
+        <input type="text" id="nome" [(ngModel)]="nomeEdit" name="nome" required>
+
+        <label for="cpfEdit">CPF</label>
+        <input tye="text" id="cpf" [(ngModel)]="cpfEdit" name="cpf" required>
+
+        <label for="emailEdit">Email</label>
+        <input type="text" id="email" [(ngModel)]="emailEdit" name="cpf" required>
+
+        <label for="senhaEdit">Senha</label>
+        <input type="text" id="senha" [(ngModel)]="senhaEdit" name="senha" required>
+
+        <label for="senhaRepet">Repita sua nova senha</label>
+        <input type="text" id="newSenha" [(ngModel)]="senhaRepet" required>
+
+        <app-button textButton="Salvar" size = "100" (click)="salvarEdit()"></app-button>
+
+
+    </form>
+</div>

@@ -7,4 +7,15 @@ import { Component } from '@angular/core';
 })
 export class EditUserComponent {
 
+  nomeEdit: string = '';
+  emailEdit: string = '';
+  cpfEdit: string = '';
+  senhaEdit: string = '';
+  senhaRepet: string = '';
+  foto: string | null = null;
+  userLocation: string = 'Localização não disponível';
+
+  onFileSelected(event: any){}
+
+  salvarEdit(){}
 }
