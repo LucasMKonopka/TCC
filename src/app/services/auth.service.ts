@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { from, Observable, switchMap } from 'rxjs';
 import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth'; 
 
 @Injectable({
   providedIn: 'root'
@@ -74,7 +76,7 @@ export class AuthService {
       });
     });
   }
-
+  //contar pacientes
   countPacientes(nutricionistaId: string): Observable<number> {
     return new Observable(observer => {
       this.firestore.collection('pacientes', ref => ref.where('nutricionistaId', '==', nutricionistaId)).snapshotChanges().subscribe(pacientes => {
@@ -82,7 +84,7 @@ export class AuthService {
       });
     });
   }
-  
+  //contar consultas
   countConsultas(nutricionistaId: string): Observable<number> {
     return new Observable(observer => {
       this.firestore.collection('consultas', ref => ref.where('nutricionistaId', '==', nutricionistaId)).snapshotChanges().subscribe(consultas => {
@@ -90,5 +92,64 @@ export class AuthService {
       });
     });
   }
+
+
+  //edit user
+  updateUser (updatedData: any): Observable<void> {
+    return new Observable(observer => {
+      this.afAuth.currentUser .then(user => {
+        if (user) {
+          const uid = user.uid;
+          this.firestore.collection('nutricionistas').doc(uid).update(updatedData).then(() => {
+            observer.next();
+            observer.complete();
+          }).catch(error => observer.error(error));
+        } else {
+          observer.error('Usuário não autenticado.');
+        }
+      }).catch(error => observer.error(error));
+    });
+  }
+
+  updatePassword(newPassword: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.afAuth.currentUser.then(user => {
+        if (user) {
+          user.updatePassword(newPassword).then(() => {
+            console.log('Senha atualizada com sucesso');
+            resolve();
+          }).catch(error => {
+            console.error('Erro ao atualizar a senha:', error);
+            reject(error);
+          });
+        } else {
+          reject('Usuário não autenticado.');
+        }
+      }).catch(error => {
+        reject(error);
+      });
+    });
+  }
   
+  reauthenticate(password: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.afAuth.currentUser.then(user => {
+        if (user && user.email) {
+          console.log('E-mail do usuário:', user.email); // Verifique o e-mail
+          const credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
+          user.reauthenticateWithCredential(credential).then(() => {
+            resolve();
+          }).catch(error => {
+            console.error('Erro na reautenticação:', error); // Verifique o erro
+            reject(error);
+          });
+        } else {
+          reject('Usuário não autenticado.');
+        }
+      }).catch(error => {
+        reject(error);
+      });
+    });
+  }
+   
 }

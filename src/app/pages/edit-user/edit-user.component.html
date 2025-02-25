@@ -16,13 +16,10 @@
         <input tye="text" id="cpf" [(ngModel)]="cpfEdit" name="cpf" required>
 
         <label for="emailEdit">Email</label>
-        <input type="text" id="email" [(ngModel)]="emailEdit" name="cpf" required>
+        <input type="text" id="email" [(ngModel)]="emailEdit" name="email" required>
 
-        <label for="senhaEdit">Senha</label>
-        <input type="text" id="senha" [(ngModel)]="senhaEdit" name="senha" required>
-
-        <label for="senhaRepet">Repita sua nova senha</label>
-        <input type="text" id="newSenha" [(ngModel)]="senhaRepet" required>
+        <label for="senhaEdit">Nova Senha</label>
+        <input type="password" id="senha" [(ngModel)]="senhaEdit" name="senha" required>
 
         <app-button textButton="Salvar" size = "100" (click)="salvarEdit()"></app-button>
 
