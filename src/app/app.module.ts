@@ -22,6 +22,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 //angular material
 import { MatIconModule } from '@angular/material/icon';
 import {MatProgressSpinnerModule, MatSpinner} from '@angular/material/progress-spinner';
+import { EditUserComponent } from './pages/edit-user/edit-user.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {MatProgressSpinnerModule, MatSpinner} from '@angular/material/progress-s
     ButtonComponent,
     MenuComponent,
     HomeComponent,
-    SignupComponent
+    SignupComponent,
+    EditUserComponent
     
   ],
   imports: [
