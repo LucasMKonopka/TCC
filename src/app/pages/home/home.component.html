@@ -29,12 +29,10 @@
                     <img src="../../../assets/imgs/avatar.jpg" class="img-perfil">
                     <h4>Seja Bem-vindo</h4>
                     <h5>{{userName}}</h5>
-                    <li><mat-icon>location_on</mat-icon>Irati - PR</li>
+                    <p>Conta criada em: {{dataCadastro}}</p>
+                    <p>Pacientes cadastrados: {{totalPacientes}}</p>
+                    <p>Consultas realizadas: {{totalConsultas}}</p>
                 </div>
-
-                <hr class="hr">
-                <p class="texto-p">"Um sonho é apenas um desejo, até o momento em que você começa a atuar sobre ele, e propõe-se a transformá-lo em uma meta."</p>
-                <hr class="hr">
 
                 <li routerLink="/editUser"><mat-icon>person</mat-icon>Meus Dados</li>
                 <li (click)="confirmarExclusao()"><mat-icon>delete</mat-icon>Excluir Conta</li>

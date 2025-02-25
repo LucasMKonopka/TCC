@@ -64,7 +64,7 @@ export class AuthService {
           const userRef = doc(this.firestoreH, `nutricionistas/${user.uid}`);
           const docSnap = await getDoc(userRef);
           if (docSnap.exists()) {
-            observer.next({ uid: user.uid, ...docSnap.data() });
+            observer.next({ uid: user.uid, ...docSnap.data(), metadata: user.metadata });
           } else {
             observer.next(null);
           }
