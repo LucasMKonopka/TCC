@@ -74,5 +74,21 @@ export class AuthService {
       });
     });
   }
+
+  countPacientes(nutricionistaId: string): Observable<number> {
+    return new Observable(observer => {
+      this.firestore.collection('pacientes', ref => ref.where('nutricionistaId', '==', nutricionistaId)).snapshotChanges().subscribe(pacientes => {
+        observer.next(pacientes.length);
+      });
+    });
+  }
+  
+  countConsultas(nutricionistaId: string): Observable<number> {
+    return new Observable(observer => {
+      this.firestore.collection('consultas', ref => ref.where('nutricionistaId', '==', nutricionistaId)).snapshotChanges().subscribe(consultas => {
+        observer.next(consultas.length);
+      });
+    });
+  }
   
 }

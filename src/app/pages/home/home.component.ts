@@ -25,19 +25,36 @@ export class HomeComponent {
       if (user) {
         this.userName = user.nome;
         console.log('Usuário autenticado:', user);
-  
-        // Utiliza a data de criação da conta no Firebase Authentication
+        
         if (user.metadata && user.metadata.creationTime) {
-          this.dataCadastro = new Date(user.metadata.creationTime).toLocaleDateString('pt-BR'); // Formato brasileiro
+          this.dataCadastro = new Date(user.metadata.creationTime).toLocaleDateString('pt-BR'); 
           console.log('Data de cadastro obtida do Firebase Auth:', this.dataCadastro);
         } else {
           console.warn('Data de criação não encontrada no metadata do usuário.');
           this.dataCadastro = '';
         }
+  
+        // Carregar o total de pacientes e consultas
+        this.loadPacientesAndConsultas(user.uid);
       } else {
         console.log('Usuário não autenticado');
         this.router.navigate(['/Login']);
       }
+    });
+  }
+  
+  // Método para carregar o total de pacientes e consultas
+  private loadPacientesAndConsultas(nutricionistaId: string) {
+    // Contar pacientes
+    this.authService.countPacientes(nutricionistaId).subscribe(total => {
+      this.totalPacientes = total;
+      console.log('Total de pacientes:', this.totalPacientes);
+    });
+  
+    // Contar consultas
+    this.authService.countConsultas(nutricionistaId).subscribe(total => {
+      this.totalConsultas = total;
+      console.log('Total de consultas:', this.totalConsultas);
     });
   }
 
