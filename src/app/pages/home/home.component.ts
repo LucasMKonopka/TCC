@@ -77,7 +77,7 @@ export class HomeComponent {
 
   deleteUser(){
     this.authService.deleteUser().subscribe(() => {
-      this.toastr.success('Usuário excluído com sucesso!', 'Sucesso'); 
+      this.toastr.success('Conta excluída com sucesso!', 'Sucesso'); 
       this.router.navigate(['/Login']);
     }, error => {
       console.error('Erro ao excluir o usuário:', error);

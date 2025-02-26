@@ -26,7 +26,6 @@ export class EditUserComponent implements OnInit{
         this.nomeEdit = user.nome;
         this.cpfEdit = user.cpf;
         this.emailEdit = user.email;
-        // Se você tiver uma URL da foto no Firestore, carregue-a aqui
         // this.foto = user.fotoUrl; // Exemplo, ajuste conforme necessário
       } else {
         console.log('Usuário não autenticado');
@@ -47,6 +46,12 @@ export class EditUserComponent implements OnInit{
   }
 
   salvarEdit() {
+    // Verifica se o formulário é válido
+    if (this.isFormInvalid()) {
+      this.toastr.warning('Por favor, preencha todos os campos corretamente.', 'Atenção');
+      return;
+    }
+  
     Swal.fire({
       title: 'Confirmação de Senha',
       input: 'password',
@@ -92,5 +97,20 @@ export class EditUserComponent implements OnInit{
         });
       }
     });
+  }
+
+  isFormInvalid(): boolean {
+    return (
+      Boolean(!this.nomeEdit || this.nomeEdit.length < 3) ||
+      Boolean(!this.cpfEdit || this.cpfEdit.length !== 11) ||
+      Boolean(!this.emailEdit || !this.isValidEmail(this.emailEdit)) ||
+      Boolean(this.senhaEdit && this.senhaEdit.length < 6)
+    );
+  }
+  
+  // Método para validar o formato do email
+  isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   }
 }
