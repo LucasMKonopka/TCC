@@ -23,6 +23,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import {MatProgressSpinnerModule, MatSpinner} from '@angular/material/progress-spinner';
 import { EditUserComponent } from './pages/edit-user/edit-user.component';
+//calendario
+import { CalendarioComponent } from './pages/calendario/calendario.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
+
 
 @NgModule({
   declarations: [
@@ -33,7 +39,8 @@ import { EditUserComponent } from './pages/edit-user/edit-user.component';
     MenuComponent,
     HomeComponent,
     SignupComponent,
-    EditUserComponent
+    EditUserComponent,
+    CalendarioComponent
     
   ],
   imports: [
@@ -48,6 +55,10 @@ import { EditUserComponent } from './pages/edit-user/edit-user.component';
     //fim alerts
     MatIconModule,
     MatProgressSpinnerModule,
+    //calendario
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCardModule,
   ],
   providers: [
     provideAnimationsAsync(),

@@ -1,0 +1,113 @@
+// Definição de cores personalizadas
+$primary-color: rgb(211, 211, 211);
+$secondary-color: orange;
+$text-color: #333;
+$background-color: #f8f9fa;
+
+::ng-deep .mat-calendar-body-selected {
+  background-color: var(--primary-color) !important; /* Cor de fundo da bolinha */
+  color: white !important; /* Cor do texto da data */
+}
+
+// Estilização geral
+.container {
+  display: flex;
+  justify-content: space-between;
+  background-color: $background-color;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+// Estilização do calendário
+.calendario {
+  width: 500px;
+  padding: 20px;
+  background-color: $primary-color;
+  border-radius: 10px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+// Estilização dos detalhes das consultas
+.detalhes {
+  flex: 1;
+  margin-left: 20px;
+  padding: 20px;
+  background-color: $primary-color;
+  border-radius: 10px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+
+  h2 {
+    color: $text-color;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  h3 {
+    margin-top: 20px;
+    color: darken($text-color, 20%);
+  }
+
+  // Agregar espaço entre o formulário de agendamento e a lista de consultas
+  .consultas-lista {
+    margin-top: 20px;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: lighten($primary-color, 10%);
+      padding: 8px;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      color: $text-color;
+    }
+  }
+}
+
+// Estilização do botão "Agendar"
+button.agendar-btn {
+  width: 100%; // Largura igual aos inputs
+  height: 50px; // Aumentando a altura para destaque
+  background-color: #198754 !important; // Mantendo a cor definida corretamente
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.mat-icon-button {
+  color: white;
+}
+
+.mat-icon {
+  font-size: 25px;
+}
+
+// Inputs personalizados
+input {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid darken($secondary-color, 20%);
+  border-radius: 5px;
+  outline: none;
+}
