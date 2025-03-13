@@ -1,21 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CalendarioService } from "../../services/calendario.service";
 
 @Component({
   selector: 'app-calendario',
   templateUrl: './calendario.component.html',
   styleUrls: ['./calendario.component.scss']
 })
-export class CalendarioComponent {
+export class CalendarioComponent implements OnInit {
   dataSelecionada: Date = new Date();  
   ultimaDataValida: Date = new Date();
-  consultas: { data: string, horario: string, paciente: string }[] = [];
-  consultasDoDia: { horario: string, paciente: string }[] = [];
+  consultas: { id: string; data: string; horario: string; paciente: string }[] = [];  
+  consultasDoDia: { id: string; horario: string; paciente: string }[] = []; 
 
   novoHorario: string = '';
   novoPaciente: string = '';
 
-  constructor() {
-    this.atualizarConsultasDoDia();
+  constructor(private calendarioService: CalendarioService) {}
+
+  ngOnInit() {
+    this.carregarConsultas();  
   }
 
   selecionarDia(novaData: Date) {
@@ -57,11 +60,22 @@ export class CalendarioComponent {
       paciente: this.novoPaciente
     };
 
-    this.consultas.push(novaConsulta);
-    this.atualizarConsultasDoDia();
+    this.calendarioService.salvarConsulta(novaConsulta.horario, novaConsulta.paciente)
+      .then(() => {
+        this.consultas.push({
+          id: '',
+          data: novaConsulta.data,
+          horario: novaConsulta.horario,
+          paciente: novaConsulta.paciente
+        });
+        this.atualizarConsultasDoDia();
 
-    this.novoHorario = '';
-    this.novoPaciente = '';
+        this.novoHorario = '';
+        this.novoPaciente = '';
+      })
+      .catch((error) => {
+        alert('Erro ao agendar a consulta: ' + error.message);
+      });
   }
 
   editarConsulta(index: number) {
@@ -98,5 +112,16 @@ export class CalendarioComponent {
     if (charCode >= 48 && charCode <= 57) { // Bloqueia números (0-9)
       event.preventDefault();
     }
+  }
+
+  carregarConsultas() {
+    this.calendarioService.carregarConsultas()
+      .then(consultas => {
+        this.consultas = consultas; 
+        this.atualizarConsultasDoDia();
+      })
+      .catch((error) => {
+        alert('Erro ao carregar consultas: ' + error.message);
+      });
   }
 }
