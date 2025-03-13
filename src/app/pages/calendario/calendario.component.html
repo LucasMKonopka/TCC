@@ -1,26 +1,23 @@
 <app-menu></app-menu>
 
 <div class="container">
-  <!-- Calendário -->
+
   <mat-card class="calendario">
     <mat-calendar [(selected)]="dataSelecionada" (selectedChange)="selecionarDia($event)"></mat-calendar>
   </mat-card>
 
-  <!-- Consultas -->
   <mat-card class="detalhes">
     <h2>Consultas para {{ dataSelecionada | date: 'dd/MM/yyyy' }}</h2>
 
-    <!-- Agendar Nova Consulta -->
     <h3>Agendar Nova Consulta</h3>
     <label>Horário:</label>
     <input matInput type="time" [(ngModel)]="novoHorario">
 
     <label>Paciente:</label>
-    <input matInput type="text" [(ngModel)]="novoPaciente">
+    <input matInput type="text" [(ngModel)]="novoPaciente" (keypress)="bloquearNumeros($event)">
 
     <button class="agendar-btn" (click)="agendarConsulta()">Agendar</button>
 
-    <!-- Consultas Marcadas -->
     <div class="consultas-lista">
         <ul>
           <li *ngFor="let consulta of consultasDoDia; let i = index">
