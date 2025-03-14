@@ -48,59 +48,114 @@ export class CalendarioComponent implements OnInit {
       alert('Por favor, preencha todos os campos!');
       return;
     }
-
+  
     if (/\d/.test(this.novoPaciente)) { 
       alert('O nome do paciente não pode conter números!');
       return;
     }
-
+  
     const novaConsulta = {
       data: this.formatarData(this.dataSelecionada),
       horario: this.novoHorario,
       paciente: this.novoPaciente
     };
-
-    this.calendarioService.salvarConsulta(novaConsulta.horario, novaConsulta.paciente)
-      .then(() => {
-        this.consultas.push({
-          id: '',
-          data: novaConsulta.data,
-          horario: novaConsulta.horario,
-          paciente: novaConsulta.paciente
+  
+    if (this.isEditando && this.consultaEditandoIndex !== null) {
+      // Atualiza a consulta existente
+      const consulta = this.consultasDoDia[this.consultaEditandoIndex];
+  
+      this.calendarioService.atualizarConsulta(consulta.id, novaConsulta.horario, novaConsulta.paciente, novaConsulta.data)
+        .then(() => {
+          // Atualiza a lista local
+          const consultaAtualizada = {
+            id: consulta.id,
+            data: novaConsulta.data,
+            horario: novaConsulta.horario,
+            paciente: novaConsulta.paciente
+          };
+  
+          // Atualiza a lista de consultas
+          this.consultas = this.consultas.map(c =>
+            c.id === consulta.id ? consultaAtualizada : c
+          );
+  
+          // Atualiza a lista de consultas do dia
+          this.atualizarConsultasDoDia();
+  
+          // Limpa os campos de edição
+          this.limparCampos();
+        })
+        .catch(error => {
+          alert('Erro ao atualizar a consulta: ' + error.message);
         });
-        this.atualizarConsultasDoDia();
-
-        this.novoHorario = '';
-        this.novoPaciente = '';
-      })
-      .catch((error) => {
-        alert('Erro ao agendar a consulta: ' + error.message);
-      });
+    } else {
+      // Agendar nova consulta
+      this.calendarioService.salvarConsulta(novaConsulta.horario, novaConsulta.paciente)
+        .then((docRef) => {
+          this.consultas.push({
+            id: docRef.id,
+            data: novaConsulta.data,
+            horario: novaConsulta.horario,
+            paciente: novaConsulta.paciente
+          });
+          this.atualizarConsultasDoDia();
+  
+          this.limparCampos();
+        })
+        .catch((error) => {
+          alert('Erro ao agendar a consulta: ' + error.message);
+        });
+    }
+  }
+  
+  // Método para limpar os campos e resetar o modo de edição
+  limparCampos() {
+    this.novoHorario = '';
+    this.novoPaciente = '';
+    this.isEditando = false;
+    this.consultaEditandoIndex = null;
   }
 
-  editarConsulta(index: number) {
-    const consulta = this.consultasDoDia[index];
+  isEditando: boolean = false;
+consultaEditandoIndex: number | null = null; // Para armazenar o índice da consulta que está sendo editada
 
-    this.novoHorario = consulta.horario;
-    this.novoPaciente = consulta.paciente;
+editarConsulta(index: number) {
+  const consulta = this.consultasDoDia[index];
 
-    const dataFormatada = this.formatarData(this.dataSelecionada);
-    this.consultas = this.consultas.filter(
-      c => !(c.data === dataFormatada && c.horario === consulta.horario && c.paciente === consulta.paciente)
-    );
-
-    this.atualizarConsultasDoDia();
+  if (!consulta.id) {
+    alert('Erro: Consulta sem ID. Não é possível editar.');
+    return;
   }
+
+  // Preenche os campos com os dados da consulta selecionada
+  this.novoHorario = consulta.horario;
+  this.novoPaciente = consulta.paciente;
+
+  // Define o modo de edição
+  this.isEditando = true;
+  this.consultaEditandoIndex = index; // Armazena o índice da consulta que está sendo editada
+}
 
   excluirConsulta(index: number) {
     const consulta = this.consultasDoDia[index];
-    const dataFormatada = this.formatarData(this.dataSelecionada);
-
-    this.consultas = this.consultas.filter(
-      c => !(c.data === dataFormatada && c.horario === consulta.horario && c.paciente === consulta.paciente)
-    );
-
-    this.atualizarConsultasDoDia();
+  
+    if (!consulta.id) {
+      alert('Erro: Consulta sem ID. Não é possível excluir.');
+      return;
+    }
+  
+    // Exclui no Firestore
+    this.calendarioService.excluirConsulta(consulta.id)
+      .then(() => {
+        // Remove a consulta da lista local
+        this.consultas = this.consultas.filter(c => c.id !== consulta.id);
+  
+        // Atualiza a lista de consultas do dia
+        this.atualizarConsultasDoDia();
+      })
+      .catch(error => {
+        alert('Erro ao excluir a consulta: ' + error.message);
+      });
   }
 
   formatarData(data: Date): string {

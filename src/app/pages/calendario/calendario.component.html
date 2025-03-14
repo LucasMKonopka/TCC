@@ -19,17 +19,17 @@
     <button class="agendar-btn" (click)="agendarConsulta()">Agendar</button>
 
     <div class="consultas-lista">
-        <ul>
-          <li *ngFor="let consulta of consultasDoDia; let i = index">
-            <span>{{ consulta.horario }} - {{ consulta.paciente }}</span>
-            <button mat-icon-button color="primary" (click)="editarConsulta(i)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" (click)="excluirConsulta(i)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </li>
-        </ul>
+      <ul>
+        <li *ngFor="let consulta of consultasDoDia; let i = index">
+          <span>{{ consulta.horario }} - {{ consulta.paciente }}</span>
+          <button mat-icon-button color="primary" (click)="editarConsulta(i)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="excluirConsulta(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </li>
+      </ul>
       </div>
     <div *ngIf="consultasDoDia.length === 0">
       <p>Nenhuma consulta marcada para este dia.</p>

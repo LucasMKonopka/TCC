@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, deleteDoc, doc, query, where, getDocs } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, deleteDoc, updateDoc, doc, query, where, getDocs } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 
 @Injectable({
@@ -37,6 +37,19 @@ export class CalendarioService {
         horario: data['horario'], 
         paciente: data['paciente']
       };
+    });
+  }
+
+  async atualizarConsulta(id: string, novoHorario: string, novoPaciente: string, novaData: string) {
+    if (!id) {
+      throw new Error('ID da consulta não pode ser vazio.');
+    }
+  
+    const consultaRef = doc(this.firestore, 'agendamento', id);
+    return updateDoc(consultaRef, {
+      horario: novoHorario,
+      paciente: novoPaciente,
+      data: novaData
     });
   }
 
