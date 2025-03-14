@@ -17,6 +17,7 @@ export class HomeComponent {
   dataCadastro: string = '';
   totalConsultas: number = 0;
   totalPacientes: number = 0;
+  consultasDoDia: { horario: string; paciente: string }[] = []; // Adicione esta linha
 
   constructor(private authService: AuthService, private firestore: Firestore, private router: Router, private toastr: ToastrService) {}
 
@@ -36,12 +37,14 @@ export class HomeComponent {
   
         // Carregar o total de pacientes e consultas
         this.loadPacientesAndConsultas(user.uid);
+        this.loadConsultasDoDia(user.uid);
       } else {
         console.log('Usuário não autenticado');
         this.router.navigate(['/Login']);
       }
     });
   }
+  
   
   // Método para carregar o total de pacientes e consultas
   private loadPacientesAndConsultas(nutricionistaId: string) {
@@ -56,6 +59,24 @@ export class HomeComponent {
       this.totalConsultas = total;
       console.log('Total de consultas:', this.totalConsultas);
     });
+  }
+
+  // Método para carregar as consultas do dia atual
+  private loadConsultasDoDia(nutricionistaId: string) {
+    const dataAtual = new Date();
+    const dataFormatada = this.formatarData(dataAtual); // Formata a data para YYYY-MM-DD
+  
+    this.authService.getConsultasDoDia(nutricionistaId, dataFormatada).subscribe(consultas => {
+      this.consultasDoDia = consultas;
+      console.log('Consultas do dia:', this.consultasDoDia);
+    }, error => {
+      console.error('Erro ao carregar consultas do dia:', error);
+    });
+  }
+
+  // Método para formatar a data
+  private formatarData(data: Date): string {
+    return data.toISOString().split('T')[0]; // Formato YYYY-MM-DD
   }
 
   confirmarExclusao() {

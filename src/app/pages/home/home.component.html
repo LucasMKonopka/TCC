@@ -9,12 +9,10 @@
                 <p>Suas consultas no dia de hoje são:</p>
                 <div class="consultas-container">
                     <ul>
-                        <li><a href="#">09:00 - Lucas Miguel Konopka</a></li>
-                        <li><a href="#">10:00 - Lucas Miguel Konopka</a></li>
-                        <li><a href="#">13:30 - Lucas Miguel Konopka</a></li>
-                        <li><a href="#">16:30 - Lucas Miguel Konopka</a></li>
-                        
-                        
+                        <li *ngFor="let consulta of consultasDoDia">
+                            <a href="#">{{consulta.horario}} - {{consulta.paciente}}</a>
+                        </li>
+                        <li *ngIf="consultasDoDia.length === 0">Nenhuma consulta marcada para hoje.</li>
                     </ul>
                 </div>
             </div>
