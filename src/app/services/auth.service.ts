@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { from, Observable, switchMap } from 'rxjs';
-import { Firestore, doc, getDoc, collection, query, where, getDocs } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, collection, query, where, getDocs, orderBy } from '@angular/fire/firestore';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';  
-import { orderBy } from 'firebase/firestore'; 
 
 @Injectable({
   providedIn: 'root'
@@ -159,7 +158,8 @@ export class AuthService {
       const q = query(
         consultasRef,
         where('data', '==', data), // Filtrando pela data
-        where('userId', '==', nutricionistaId) // Filtrando pelo userId
+        where('userId', '==', nutricionistaId),
+        orderBy('horario', 'asc')  // Filtrando pelo userId
       );
   
       getDocs(q).then(snapshot => {
