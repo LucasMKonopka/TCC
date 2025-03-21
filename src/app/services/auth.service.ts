@@ -104,13 +104,26 @@ export class AuthService {
   
         const credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
   
+        // Reautentica o usuário
         user.reauthenticateWithCredential(credential).then(() => {
           console.log('Reautenticação bem-sucedida');
   
-          // Enviar e-mail de verificação para o novo e-mail
+          // Envia e-mail de verificação para o novo e-mail
           user.verifyBeforeUpdateEmail(newEmail).then(() => {
             console.log('E-mail de verificação enviado para:', newEmail);
-            resolve();
+  
+            // Atualiza o e-mail na coleção 'nutricionistas' no Firestore
+            const uid = user.uid;
+            this.firestore.collection('nutricionistas').doc(uid).update({ email: newEmail })
+              .then(() => {
+                console.log('E-mail atualizado no Firestore');
+                resolve();
+              })
+              .catch(error => {
+                console.error('Erro ao atualizar o e-mail no Firestore:', error);
+                reject(error);
+              });
+  
           }).catch(error => {
             console.error('Erro ao enviar e-mail de verificação:', error);
             reject(error);
@@ -124,7 +137,6 @@ export class AuthService {
       }).catch(error => reject(error));
     });
   }
-
 
   //edit user
   updateUser (updatedData: any): Observable<void> {

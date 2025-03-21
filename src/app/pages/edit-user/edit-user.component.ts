@@ -62,11 +62,25 @@ export class EditUserComponent implements OnInit{
       preConfirm: (senhaAtual) => {
         return this.authService.updateEmail(this.emailEdit, senhaAtual)
           .then(() => {
-            Swal.fire(
-              'E-mail de verificação enviado!',
-              'Verifique sua caixa de entrada e confirme o novo e-mail antes da alteração.',
-              'info'
-            );
+            // Atualiza os outros dados no Firestore
+            const updatedData = {
+              nome: this.nomeEdit,
+              cpf: this.cpfEdit,
+              email: this.emailEdit,
+            };
+  
+            return this.authService.updateUser(updatedData).toPromise()
+              .then(() => {
+                Swal.fire(
+                  'E-mail de verificação enviado!',
+                  'Verifique sua caixa de entrada e confirme o novo e-mail antes da alteração.',
+                  'info'
+                );
+              })
+              .catch(error => {
+                Swal.showValidationMessage(`Erro ao atualizar os dados: ${error}`);
+                return false;
+              });
           })
           .catch(error => {
             Swal.showValidationMessage(`Erro: ${error}`);
