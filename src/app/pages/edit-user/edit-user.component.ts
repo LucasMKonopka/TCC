@@ -46,7 +46,6 @@ export class EditUserComponent implements OnInit{
   }
 
   salvarEdit() {
-    // Verifica se o formulário é válido
     if (this.isFormInvalid()) {
       this.toastr.warning('Por favor, preencha todos os campos corretamente.', 'Atenção');
       return;
@@ -61,40 +60,18 @@ export class EditUserComponent implements OnInit{
       confirmButtonText: 'Confirmar',
       cancelButtonText: 'Cancelar',
       preConfirm: (senhaAtual) => {
-        return this.authService.reauthenticate(senhaAtual).then(() => {
-          return true;
-        }).catch(error => {
-          Swal.showValidationMessage(`Senha incorreta: ${error.message}`);
-          return false;
-        });
-      }
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const updatedData = {
-          nome: this.nomeEdit,
-          cpf: this.cpfEdit,
-          email: this.emailEdit,
-        };
-  
-        // Atualize os dados do usuário
-        this.authService.updateUser(updatedData).subscribe(() => {
-          // Se uma nova senha foi fornecida, atualize a senha
-          if (this.senhaEdit) {
-            this.authService.updatePassword(this.senhaEdit).then(() => {
-              this.toastr.success('Dados e senha atualizados com sucesso!', 'Sucesso');
-              this.router.navigate(['/home']);
-            }).catch(error => {
-              console.error('Erro ao atualizar a senha:', error);
-              this.toastr.error('Erro ao atualizar a senha.', 'Erro');
-            });
-          } else {
-            this.toastr.success('Dados atualizados com sucesso!', 'Sucesso');
-            this.router.navigate(['/home']);
-          }
-        }, error => {
-          console.error('Erro ao atualizar os dados:', error);
-          this.toastr.error('Erro ao atualizar os dados.', 'Erro');
-        });
+        return this.authService.updateEmail(this.emailEdit, senhaAtual)
+          .then(() => {
+            Swal.fire(
+              'E-mail de verificação enviado!',
+              'Verifique sua caixa de entrada e confirme o novo e-mail antes da alteração.',
+              'info'
+            );
+          })
+          .catch(error => {
+            Swal.showValidationMessage(`Erro: ${error}`);
+            return false;
+          });
       }
     });
   }

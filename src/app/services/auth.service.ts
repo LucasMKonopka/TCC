@@ -92,6 +92,38 @@ export class AuthService {
       });
     });
   }
+  
+
+  updateEmail(newEmail: string, password: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.afAuth.currentUser.then(user => {
+        if (!user || !user.email) {
+          reject('Usuário não autenticado.');
+          return;
+        }
+  
+        const credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
+  
+        user.reauthenticateWithCredential(credential).then(() => {
+          console.log('Reautenticação bem-sucedida');
+  
+          // Enviar e-mail de verificação para o novo e-mail
+          user.verifyBeforeUpdateEmail(newEmail).then(() => {
+            console.log('E-mail de verificação enviado para:', newEmail);
+            resolve();
+          }).catch(error => {
+            console.error('Erro ao enviar e-mail de verificação:', error);
+            reject(error);
+          });
+  
+        }).catch(error => {
+          console.error('Erro na reautenticação:', error);
+          reject(error);
+        });
+  
+      }).catch(error => reject(error));
+    });
+  }
 
 
   //edit user
