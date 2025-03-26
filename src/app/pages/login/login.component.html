@@ -1,22 +1,20 @@
-<div class = "area-login-background d-none d-md-block"></div>
+<div class="area-login-background d-none d-md-block"></div>
 
-<div class = "area-form">
+<div class="area-form">
     <form>
-        <h1 class = "titulo">TITULO</h1>
-        <h2 class = "subtitulo">Mais eficiência no controle de pacientes</h2>
+        <h1 class="titulo">GESTORNUTRI</h1>
+        <h2 class="subtitulo">Mais eficiência no controle de pacientes</h2>
 
-        <input class = "login-email" type = "text" placeholder="Digite seu email"  [(ngModel)]="email" name="email">
-        <input class = "login-senha" type = "password" placeholder="Digite sua senha" [(ngModel)]="password" name="password">
-        <a routerLink="/esqueceu-senha" class="esqueceu-senha">Esqueceu sua senha?</a>
+        <input class="login-email" type="text" placeholder="Digite seu email" [(ngModel)]="email" name="email">
+        <input class="login-senha" type="password" placeholder="Digite sua senha" [(ngModel)]="password" name="password">
+        <a href="javascript:void(0)" (click)="showPasswordReset()" class="esqueceu-senha">Esqueceu sua senha?</a>
         
-        <app-button textButton="Acessar" size = "100" (click)="login()"></app-button>
+        <app-button textButton="Acessar" size="100" (click)="login()"></app-button>
 
         <p class="cadastre-se">
             Não tem uma conta? <a routerLink="/signup">Cadastre-se</a>
         </p>
-
     </form>
 
-    <p class = "footer"> © 2025 | Desenvolvido por Lucas Miguel Konopka </p>
-
+    <p class="footer"> © 2025 | Desenvolvido por Lucas Miguel Konopka </p>
 </div>

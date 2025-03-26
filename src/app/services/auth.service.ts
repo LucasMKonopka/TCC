@@ -30,6 +30,24 @@ export class AuthService {
       })
     );
   }
+  async verifyEmailExists(email: string): Promise<boolean> {
+    try {
+      const normalizedEmail = email.trim().toLowerCase();
+      const signInMethods = await this.afAuth.fetchSignInMethodsForEmail(normalizedEmail);
+      return signInMethods.length > 0;
+    } catch (error) {
+      console.error('Erro ao verificar e-mail:', error);
+      //console.log('Código do erro:', error.code);
+  
+      if (error instanceof Error && 'code' in error) {
+        const firebaseError = error as { code: string };
+        if (firebaseError.code === 'auth/user-not-found') {
+          return false;
+        }
+      }
+      throw error;
+    }
+  }
 
   resetPassword(email: string): Observable<void> {
     return from(this.afAuth.sendPasswordResetEmail(email));

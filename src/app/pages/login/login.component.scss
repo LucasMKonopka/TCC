@@ -88,6 +88,15 @@ form{
     }
 }
 
+body.swal2-shown {
+    padding-right: 0px !important;
+    overflow: hidden !important;
+  }
+  
+  .swal2-popup {
+    margin-top: -1px !important;
+  }
+
 .cadastre-se {
     text-align: center;
     font-size: 14px;
