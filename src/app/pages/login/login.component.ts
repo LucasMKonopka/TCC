@@ -47,12 +47,15 @@ export class LoginComponent {
       backdrop: 'rgba(0,0,0,0.4)',
       heightAuto: false,
       customClass: {
-        container: 'no-scroll'
+        container: 'no-scroll',
+        popup: 'no-scroll-popup'
       },
       didOpen: () => {
+        document.body.classList.add('swal2-shown');
         document.body.style.overflow = 'hidden';
       },
       willClose: () => {
+        document.body.classList.remove('swal2-shown');
         document.body.style.overflow = 'auto';
       },
       preConfirm: () => {
@@ -61,28 +64,57 @@ export class LoginComponent {
           Swal.showValidationMessage('Por favor, digite seu e-mail');
           return false;
         }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        if (!this.isValidEmail(email)) {
           Swal.showValidationMessage('Digite um e-mail válido');
           return false;
         }
         return email;
       }
     }).then((result) => {
-      document.body.style.overflow = 'auto';
       if (result.isConfirmed && result.value) {
         this.authService.resetPassword(result.value).subscribe({
           next: () => {
-            Swal.fire(
-              'E-mail enviado!',
-              'Verifique sua caixa de entrada para redefinir sua senha.',
-              'success'
-            );
+            Swal.fire({
+              title: 'E-mail enviado!',
+              text: 'Verifique sua caixa de entrada para redefinir sua senha.',
+              icon: 'success',
+              backdrop: 'rgba(0,0,0,0.4)',
+              customClass: {
+                container: 'no-scroll',
+                popup: 'no-scroll-popup'
+              },
+              didOpen: () => {
+                document.body.classList.add('swal2-shown');
+                document.body.style.overflow = 'hidden';
+              },
+              willClose: () => {
+                document.body.classList.remove('swal2-shown');
+                document.body.style.overflow = 'auto';
+              }
+            });
           },
           error: (error) => {
             const message = error.code === 'auth/user-not-found' 
               ? 'E-mail não cadastrado' 
               : 'Erro ao enviar e-mail';
-            Swal.fire('Erro', message, 'error');
+            Swal.fire({
+              title: 'Erro',
+              text: message,
+              icon: 'error',
+              backdrop: 'rgba(0,0,0,0.4)',
+              customClass: {
+                container: 'no-scroll',
+                popup: 'no-scroll-popup'
+              },
+              didOpen: () => {
+                document.body.classList.add('swal2-shown');
+                document.body.style.overflow = 'hidden';
+              },
+              willClose: () => {
+                document.body.classList.remove('swal2-shown');
+                document.body.style.overflow = 'auto';
+              }
+            });
           }
         });
       }

@@ -1,31 +1,43 @@
-.area-login-background{
-    height: 100%;
+.area-login-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
     width: 55%;
-    display: block;
-    float: left;
     background-image: url('../../../assets/imgs/tela.jpg');
     background-color: var(--primary-color);
-    background-size: 100% auto;
-    background-position: center bottom;
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
+    z-index: 0;
+  }
+
+.area-form {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 45%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
 }
 
-.area-form{
-    height: 100%;
-    width: 45%;
-    float: left;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: nowrap;
-}
 
 form{
     width: 70%;
 }
 
-@media only screen and (max-width: 767px) { .area-form{ width: 100%; } }
+@media only screen and (max-width: 767px) {
+    .area-login-background {
+      display: none;
+    }
+    .area-form {
+      width: 100%;
+    }
+  }
 
 .titulo{
     font-size: 26px;
@@ -45,6 +57,12 @@ form{
     padding: 0;
     text-align: center;
 }
+.login-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
 
 .login-email{
     outline: none;
@@ -86,6 +104,19 @@ form{
     &:hover {
         text-decoration: underline;
     }
+}
+.no-scroll-popup {
+    overflow: hidden !important;
+  }
+  
+  .swal2-container {
+    z-index: 2000 !important;
+  }
+
+
+body.swal2-shown:not(.swal2-no-backdrop) {
+  overflow-y: hidden !important;
+  padding-right: 0 !important;
 }
 
 body.swal2-shown {
