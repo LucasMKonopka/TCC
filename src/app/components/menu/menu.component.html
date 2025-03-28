@@ -1,8 +1,14 @@
-<nav class = "sidemenu">
+<div class="mobile-menu-toggle" [class.hidden]="menuVisible" (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
+</div>
+
+<div class="menu-overlay" [class.visible]="menuVisible" (click)="toggleMenu()"></div>
+
+<nav class = "sidemenu" [class.mobile-visible]="menuVisible" (swipeleft)="onSwipeLeft()">
     <ul>
         <li routerLink="/home">
            <!--<img src = "../../../assets/imgs/logo.png" width="40px"> --> 
-            <span class = "logo">TITULO</span>
+            <span class = "logo">GESTORNUTRI</span>
         </li>
 
         <li routerLink="/home"><mat-icon>home</mat-icon>Home</li>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -9,6 +9,42 @@ import { Router } from '@angular/router';
 })
 export class MenuComponent {
   constructor(private authService: AuthService, private router: Router) {}
+
+  menuVisible = false;
+  touchStartX = 0;
+
+  toggleMenu(): void {
+    this.menuVisible = !this.menuVisible;
+    this.toggleBodyScroll();
+  }
+
+  @HostListener('document:touchstart', ['$event'])
+  onTouchStart(event: TouchEvent) {
+    this.touchStartX = event.touches[0].clientX;
+  }
+
+  @HostListener('document:touchend', ['$event'])
+  onTouchEnd(event: TouchEvent) {
+    const touchEndX = event.changedTouches[0].clientX;
+    const diffX = this.touchStartX - touchEndX;
+    
+    // Fecha o menu se arrastar mais de 100px para a esquerda
+    if (this.menuVisible && diffX > 100) {
+      this.toggleMenu();
+    }
+  }
+
+  onSwipeLeft(): void {
+    if (this.menuVisible) {
+      this.toggleMenu();
+    }
+  }
+
+  private toggleBodyScroll(): void {
+    if (window.innerWidth < 992) {
+      document.body.style.overflow = this.menuVisible ? 'hidden' : '';
+    }
+  }
 
   logout() {
     this.authService.logout().subscribe(() => {

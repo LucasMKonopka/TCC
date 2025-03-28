@@ -1,3 +1,12 @@
+.container-fluid {
+    padding-left: 226px; // 210px do menu + 16px de margem
+    
+    @media (max-width: 992px) {
+      padding-left: 15px;
+      padding-top: 60px; // Espaço para o botão de menu
+    }
+  }
+
 .welcome-section {
     padding: 20px;
 }
@@ -5,15 +14,23 @@
 h2 {
     font-size: 2rem;
     margin-bottom: 10px;
+
+    @media (max-width: 768px) {
+        font-size: 1.5rem;
+      }
 }
 
 .consultas-container {
     background-color: #e0e0e0;
     padding: 10px;
     border-radius: 8px;
-    max-height: 300px; // Tamanho fixo do container
+    max-height: 300px;
     overflow-y: auto;
-}
+    
+    @media (max-width: 768px) {
+      max-height: 200px;
+    }
+  }
 
 .consultas-container ul {
     list-style: none;
@@ -38,6 +55,13 @@ h2 {
     background-color: #ddd;
 }
 
+.card-info {
+    @media (max-width: 768px) {
+      margin-top: 20px;
+      padding: 15px;
+    }
+  }
+
 //lado direito
 li{
     font-size: 14px;
@@ -52,10 +76,14 @@ li{
     mat-icon{ margin-right: 14px; font-size: 22px;}
 }
 
-.img-perfil{
+.img-perfil {
     border-radius: 50px;
     width: 40%;
-}
+    
+    @media (max-width: 768px) {
+      width: 30%;
+    }
+  }
 p {
     margin: 5px 0;
     color: #6d6d6d;
@@ -79,5 +107,23 @@ p {
     
     li{ justify-content: center; color: var(--primary-color); border: none; }
 }
+
+
+.menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 999;
+    
+    @media (max-width: 992px) {
+      &.visible {
+        display: block;
+      }
+    }
+  }
 
 .texto-p{ font-size: 14px; font-style: italic; color: #767676}
