@@ -1,5 +1,6 @@
 .container-fluid {
-    padding-left: 226px; // 210px do menu + 16px de margem
+    padding-left: 226px;
+    min-height: 100vh;  // 210px do menu + 16px de margem
     
     @media (max-width: 992px) {
       padding-left: 15px;
