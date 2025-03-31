@@ -11,15 +11,28 @@ $background-color: #f8f9fa;
 
 .container-fluid {
   padding-left: 226px; // 210px do menu + 16px de margem
+  min-height: 100vh;
+  overflow-x: hidden;
   
   @media (max-width: 992px) {
     padding-left: 15px;
-    padding-top: 60px; // Espaço para o botão de menu
+    padding-top: 60px;
+    height: 100vh; // Garante altura total da viewport
+    overflow-y: auto; // Habilita rolagem vertical
+    -webkit-overflow-scrolling: touch; // Melhora rolagem em iOS
   }
 }
 
 .row {
   margin: 0;
+  min-height: calc(100vh - 60px); // Ajuste para altura
+  
+  @media (max-width: 992px) {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 120px); // Ajuste para mobile
+  }
+
 }
 
 .calendario {
@@ -42,6 +55,11 @@ $background-color: #f8f9fa;
   background-color: $primary-color;
   border-radius: 10px;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 80px; // Espaço para o botão fixo
+  
+  @media (max-width: 992px) {
+    margin-bottom: 100px; // Mais espaço em mobile
+  }
   
   h2 {
     color: $text-color;

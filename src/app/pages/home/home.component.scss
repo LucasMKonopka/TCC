@@ -1,6 +1,9 @@
 .container-fluid {
     padding-left: 226px;
     min-height: 100vh;  // 210px do menu + 16px de margem
+    height: 100vh;
+  overflow-y: auto; // Habilita rolagem vertical
+  -webkit-overflow-scrolling: touch;
     
     @media (max-width: 992px) {
       padding-left: 15px;
