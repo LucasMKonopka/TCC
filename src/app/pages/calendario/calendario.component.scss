@@ -5,49 +5,78 @@ $text-color: #333;
 $background-color: #f8f9fa;
 
 ::ng-deep .mat-calendar-body-selected {
-  background-color: var(--primary-color) !important; /* Cor de fundo da bolinha */
-  color: white !important; /* Cor do texto da data */
+  background-color: var(--primary-color) !important;
+  color: white !important;
 }
 
-.container {
-  display: flex;
-  justify-content: space-between;
-  background-color: $background-color;
-  padding: 20px;
-  border-radius: 8px;
+.container-fluid {
+  padding-left: 226px; // 210px do menu + 16px de margem
+  
+  @media (max-width: 992px) {
+    padding-left: 15px;
+    padding-top: 60px; // Espaço para o botão de menu
+  }
+}
+
+.row {
+  margin: 0;
 }
 
 .calendario {
-  width: 500px;
-  padding: 20px;
+  width: 100%;
+  padding: 15px;
   background-color: $primary-color;
   border-radius: 10px;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+  
+  @media (min-width: 992px) {
+    margin-bottom: 0;
+    height: 100%;
+  }
 }
 
 .detalhes {
-  flex: 1;
-  margin-left: 20px;
-  padding: 20px;
+  width: 100%;
+  padding: 15px;
   background-color: $primary-color;
   border-radius: 10px;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-
+  
   h2 {
     color: $text-color;
-    font-size: 20px;
+    font-size: 1.5rem;
     font-weight: bold;
+    
+    @media (max-width: 768px) {
+      font-size: 1.3rem;
+    }
   }
 
   h3 {
-    margin-top: 20px;
+    margin-top: 15px;
     color: darken($text-color, 20%);
+    font-size: 1.2rem;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
   }
 
   .consultas-lista {
     margin-top: 20px;
-    max-height: 150px;
+    max-height: 200px;
     overflow-y: auto;
+    
+    @media (max-width: 768px) {
+      max-height: 150px;
+    }
   }
 
   ul {
@@ -57,11 +86,12 @@ $background-color: #f8f9fa;
     li {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       background: lighten($primary-color, 10%);
-      padding: 8px;
-      margin-bottom: 5px;
+      padding: 10px;
+      margin-bottom: 8px;
       border-radius: 5px;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
       color: $text-color;
 
       span {
@@ -70,7 +100,7 @@ $background-color: #f8f9fa;
 
       .botoes {
         display: flex;
-        gap: 10px; 
+        gap: 5px;
       }
     }
   }
@@ -78,38 +108,54 @@ $background-color: #f8f9fa;
 
 button.agendar-btn {
   width: 100%;
-  height: 50px;
-  background-color: #198754 !important; 
+  height: 45px;
+  background-color: #198754 !important;
   color: white;
   font-size: 16px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s ease-in-out;
-
+  margin: 15px 0;
+  
   &:hover {
-    background-color: darken($primary-color, 10%);
+    background-color: darken(#198754, 10%) !important;
   }
+}
 
-  &:active {
-    transform: scale(0.98);
+input.form-control {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  outline: none;
+  font-size: 16px;
+  
+  &:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
 }
 
 .mat-icon-button {
-  color: white;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  
+  .mat-icon {
+    font-size: 20px;
+  }
 }
 
-.mat-icon {
-  font-size: 25px;
-}
-
-input {
-  display: block;
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid darken($secondary-color, 20%);
-  border-radius: 5px;
-  outline: none;
+// Ajustes para o calendário em mobile
+@media (max-width: 768px) {
+  ::ng-deep .mat-calendar {
+    width: 100% !important;
+    height: auto !important;
+  }
+  
+  ::ng-deep .mat-calendar-content {
+    padding: 8px !important;
+  }
 }
