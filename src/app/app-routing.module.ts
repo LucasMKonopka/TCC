@@ -5,6 +5,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { EditUserComponent } from './pages/edit-user/edit-user.component';
 import { CalendarioComponent } from './pages/calendario/calendario.component';
+import { NewpacienteComponent } from './pages/newpaciente/newpaciente.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: 'editUser', component: EditUserComponent},
   //{path: 'esqueceu-senha', component: EsqueceuSenha},
   {path: 'calendario', component: CalendarioComponent},
+  {path: 'newpacientes', component: NewpacienteComponent}
 ];
 
 @NgModule({

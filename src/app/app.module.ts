@@ -26,8 +26,12 @@ import { EditUserComponent } from './pages/edit-user/edit-user.component';
 //calendario
 import { CalendarioComponent } from './pages/calendario/calendario.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
+import { NewpacienteComponent } from './pages/newpaciente/newpaciente.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -40,7 +44,8 @@ import { MatCardModule } from '@angular/material/card';
     HomeComponent,
     SignupComponent,
     EditUserComponent,
-    CalendarioComponent
+    CalendarioComponent,
+    NewpacienteComponent
     
   ],
   imports: [
@@ -59,6 +64,10 @@ import { MatCardModule } from '@angular/material/card';
     MatDatepickerModule,
     MatNativeDateModule,
     MatCardModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatOptionModule,
   ],
   providers: [
     provideAnimationsAsync(),
