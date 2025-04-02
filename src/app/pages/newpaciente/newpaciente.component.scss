@@ -35,6 +35,28 @@
     padding: 16px;
     background-color: #f5f5f5;
     border-radius: 8px;
+
+    &.saude-section {
+        .mat-form-field {
+          /* Aumenta a altura dos campos */
+          .mat-form-field-wrapper {
+            padding-bottom: 1.5em; /* Mais espaço abaixo do campo */
+          }
+          
+          /* Aumenta o tamanho do texto */
+          .mat-input-element {
+            font-size: 16px;
+            padding: 12px 0; /* Mais espaço vertical */
+            min-height: 48px; /* Altura mínima maior */
+          }
+          
+          /* Aumenta a área do textarea */
+          textarea.mat-input-element {
+            min-height: 100px; /* Altura maior para textareas */
+            resize: vertical; /* Permite redimensionamento vertical */
+          }
+        }
+      }
   }
   
   .section-title {
@@ -116,4 +138,12 @@
         width: 100%;
       }
     }
+  }
+
+  .toast-success {
+    background-color: #4CAF50 !important;
+  }
+  
+  .toast-error {
+    background-color: #F44336 !important;
   }

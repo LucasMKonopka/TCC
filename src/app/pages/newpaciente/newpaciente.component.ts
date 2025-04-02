@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PacientesService } from '../../services/pacientes.service';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-newpaciente',
@@ -16,7 +16,7 @@ export class NewpacienteComponent implements OnInit {
     private fb: FormBuilder,
     private pacientesService: PacientesService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -49,10 +49,10 @@ export class NewpacienteComponent implements OnInit {
     if (this.form.valid) {
       try {
         await this.pacientesService.addPaciente(this.form.value);
-        this.snackBar.open('Paciente cadastrado com sucesso!', 'Fechar', { duration: 3000 });
+        this.toastr.success('Paciente cadastrado com sucesso!', 'Sucesso');
         this.router.navigate(['/pacientes']);
       } catch (erro) {
-        this.snackBar.open('Erro ao cadastrar paciente', 'Fechar', { duration: 3000 });
+        this.toastr.error('Erro ao cadastrar paciente', 'Erro');
         console.error(erro);
       }
     }

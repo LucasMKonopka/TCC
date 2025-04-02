@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PacientesService {
+  private collectionName = 'pacientes';
 
   constructor(private dataBaseStore: AngularFirestore) { }
 
@@ -14,8 +15,13 @@ export class PacientesService {
     return this.dataBaseStore.collection('pacientes', paciente => paciente.orderBy('name')).valueChanges({idField: 'firebaseId'}) as Observable<any[]>;
   }
 
-  addPaciente(paciente: any){
-    return this.dataBaseStore.collection('pacientes').add(paciente);
+  async addPaciente(paciente: any): Promise<string> {
+    const id = this.dataBaseStore.createId();
+    await this.dataBaseStore.collection(this.collectionName).doc(id).set({
+      ...paciente,
+      id: id // Garante que o ID está no documento
+    });
+    return id;
   }
 
   update(pacienteId: string, paciente: any){

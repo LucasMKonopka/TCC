@@ -90,35 +90,40 @@
         </section>
 
         <!-- Seção 3: Saúde -->
-        <section class="form-section">
-          <h3 class="section-title">Informações de Saúde</h3>
-          
-          <div class="form-row">
-            <mat-form-field appearance="outline" class="form-field-third">
-              <mat-label>Alergias</mat-label>
-              <input matInput formControlName="alergias">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="form-field-third">
-              <mat-label>Doenças Crônicas</mat-label>
-              <input matInput formControlName="doencasCronicas">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="form-field-third">
-              <mat-label>Medicamentos</mat-label>
-              <input matInput formControlName="medicamentosContinuos">
-            </mat-form-field>
-          </div>
-        </section>
+<section class="form-section saude-section">
+    <h3 class="section-title">Informações de Saúde</h3>
+    
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>Alergias</mat-label>
+        <textarea matInput formControlName="alergias" rows="3"></textarea>
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>Doenças Crônicas</mat-label>
+        <textarea matInput formControlName="doencasCronicas" rows="3"></textarea>
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>Medicamentos</mat-label>
+        <textarea matInput formControlName="medicamentosContinuos" rows="3"></textarea>
+      </mat-form-field>
+    </div>
+  </section>
 
         <!-- Botões de Ação -->
         <div class="action-buttons">
+            <button mat-raised-button type="button" (click)="cancelar()" class="cancel-button">
+                <mat-icon>cancel</mat-icon> Cancelar
+              </button>
           <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
             <mat-icon>save</mat-icon> Salvar
           </button>
-          <button mat-raised-button type="button" (click)="cancelar()" class="cancel-button">
-            <mat-icon>cancel</mat-icon> Cancelar
-          </button>
+          
         </div>
       </form>
     </mat-card-content>
