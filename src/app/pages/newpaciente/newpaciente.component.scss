@@ -1,12 +1,12 @@
 .cadastro-container {
-    padding: 20px 20px 20px 246px; /* 226px (menu) + 20px (padding) */
+    padding: 20px 20px 20px 246px;
   max-width: 1200px;
   margin: 0 auto;
   transition: padding 0.3s ease;
   
   @media (max-width: 992px) {
     padding-left: 20px;
-    padding-top: 80px; /* Espaço para o botão do menu mobile */
+    padding-top: 80px;
   }
   }
   
@@ -14,8 +14,8 @@
     padding: 24px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  position: relative; /* Garante que o z-index funcione */
-  z-index: 1; /* Coloca acima do menu */
+  position: relative; 
+  z-index: 1; 
   background: white;
   }
   
@@ -38,22 +38,19 @@
 
     &.saude-section {
         .mat-form-field {
-          /* Aumenta a altura dos campos */
           .mat-form-field-wrapper {
-            padding-bottom: 1.5em; /* Mais espaço abaixo do campo */
+            padding-bottom: 1.5em; 
           }
           
-          /* Aumenta o tamanho do texto */
           .mat-input-element {
             font-size: 16px;
-            padding: 12px 0; /* Mais espaço vertical */
-            min-height: 48px; /* Altura mínima maior */
+            padding: 12px 0; 
+            min-height: 48px; 
           }
           
-          /* Aumenta a área do textarea */
           textarea.mat-input-element {
-            min-height: 100px; /* Altura maior para textareas */
-            resize: vertical; /* Permite redimensionamento vertical */
+            min-height: 100px; 
+            resize: vertical;
           }
         }
       }

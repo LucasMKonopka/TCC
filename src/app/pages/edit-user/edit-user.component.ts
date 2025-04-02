@@ -26,7 +26,6 @@ export class EditUserComponent implements OnInit{
         this.nomeEdit = user.nome;
         this.cpfEdit = user.cpf;
         this.emailEdit = user.email;
-        // this.foto = user.fotoUrl; // Exemplo, ajuste conforme necessário
       } else {
         console.log('Usuário não autenticado');
         this.router.navigate(['/Login']);
@@ -62,7 +61,6 @@ export class EditUserComponent implements OnInit{
       preConfirm: (senhaAtual) => {
         return this.authService.updateEmail(this.emailEdit, senhaAtual)
           .then(() => {
-            // Atualiza os outros dados no Firestore
             const updatedData = {
               nome: this.nomeEdit,
               cpf: this.cpfEdit,
@@ -99,7 +97,6 @@ export class EditUserComponent implements OnInit{
     );
   }
   
-  // Método para validar o formato do email
   isValidEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);

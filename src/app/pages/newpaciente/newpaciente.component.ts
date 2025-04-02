@@ -11,7 +11,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
   styleUrls: ['./newpaciente.component.scss']
 })
 export class NewpacienteComponent implements OnInit {
-  form!: FormGroup; // Adicione a exclamação (!) para indicar que será inicializado depois
+  form!: FormGroup;
   loading = false; 
 
   constructor(

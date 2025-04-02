@@ -31,7 +31,7 @@ export class CalendarioComponent implements OnInit {
     hoje.setHours(0, 0, 0, 0);
 
     if (novaData < hoje) {
-      this.toastr.warning('Não é possível marcar consultas em dias passados!'); // Usar toastr
+      this.toastr.warning('Não é possível marcar consultas em dias passados!'); 
       this.dataSelecionada = this.ultimaDataValida; 
       return;
     }
@@ -50,12 +50,12 @@ export class CalendarioComponent implements OnInit {
 
   agendarConsulta() {
     if (!this.novoHorario.trim() || !this.novoPaciente.trim()) {
-      this.toastr.warning('Por favor, preencha todos os campos!'); // Usar toastr
+      this.toastr.warning('Por favor, preencha todos os campos!'); 
       return;
     }
   
     if (/\d/.test(this.novoPaciente)) { 
-      this.toastr.warning('O nome do paciente não pode conter números!'); // Usar toastr
+      this.toastr.warning('O nome do paciente não pode conter números!'); 
       return;
     }
   
@@ -66,20 +66,16 @@ export class CalendarioComponent implements OnInit {
     };
   
     if (this.isEditando && this.consultaEditandoIndex !== null) {
-      // Atualiza a consulta existente
       const consulta = this.consultasDoDia[this.consultaEditandoIndex];
   
-      // Verifica se o novo horário já está ocupado por outra consulta
       const horarioExistenteEdicao = this.consultasDoDia.find(c => c.horario === this.novoHorario && c.id !== consulta.id);
       if (horarioExistenteEdicao) {
-        this.toastr.warning('Já existe uma consulta agendada para este horário!'); // Usar toastr
+        this.toastr.warning('Já existe uma consulta agendada para este horário!'); 
         return;
       }
-  
-      // Se não houver conflito, atualiza a consulta
+
       this.calendarioService.atualizarConsulta(consulta.id, novaConsulta.horario, novaConsulta.paciente, novaConsulta.data)
         .then(() => {
-          // Atualiza a lista local
           const consultaAtualizada = {
             id: consulta.id,
             data: novaConsulta.data,
@@ -87,30 +83,25 @@ export class CalendarioComponent implements OnInit {
             paciente: novaConsulta.paciente
           };
   
-          // Atualiza a lista de consultas
           this.consultas = this.consultas.map(c =>
             c.id === consulta.id ? consultaAtualizada : c
           );
   
-          // Atualiza a lista de consultas do dia
           this.atualizarConsultasDoDia();
   
-          // Limpa os campos de edição
           this.limparCampos();
-          this.toastr.success('Consulta atualizada com sucesso!'); // Usar toastr
+          this.toastr.success('Consulta atualizada com sucesso!');
         })
         .catch(error => {
-          this.toastr.error('Erro ao atualizar a consulta: ' + error.message); // Usar toastr
+          this.toastr.error('Erro ao atualizar a consulta: ' + error.message); 
         });
     } else {
-      // Verifica se já existe uma consulta no mesmo horário
       const horarioExistente = this.consultasDoDia.find(c => c.horario === this.novoHorario);
       if (horarioExistente) {
-        this.toastr.warning('Já existe uma consulta agendada para este horário!'); // Usar toastr
+        this.toastr.warning('Já existe uma consulta agendada para este horário!'); 
         return;
       }
   
-      // Agendar nova consulta
       this.calendarioService.salvarConsulta(novaConsulta.horario, novaConsulta.paciente)
         .then((docRef) => {
           this.consultas.push({
@@ -122,15 +113,14 @@ export class CalendarioComponent implements OnInit {
           this.atualizarConsultasDoDia();
   
           this.limparCampos();
-          this.toastr.success('Consulta agendada com sucesso!'); // Usar toastr
+          this.toastr.success('Consulta agendada com sucesso!');
         })
         .catch((error) => {
-          this.toastr.error('Erro ao agendar a consulta: ' + error.message); // Usar toastr
+          this.toastr.error('Erro ao agendar a consulta: ' + error.message);
         });
     }
   }
-  
-  // Método para limpar os campos e resetar o modo de edição
+
   limparCampos() {
     this.novoHorario = '';
     this.novoPaciente = '';
@@ -142,17 +132,15 @@ export class CalendarioComponent implements OnInit {
     const consulta = this.consultasDoDia[index];
   
     if (!consulta.id) {
-      this.toastr.error('Erro: Consulta sem ID. Não é possível editar.'); // Usar toastr
+      this.toastr.error('Erro: Consulta sem ID. Não é possível editar.'); 
       return;
     }
   
-    // Preenche os campos com os dados da consulta selecionada
     this.novoHorario = consulta.horario;
     this.novoPaciente = consulta.paciente;
   
-    // Define o modo de edição
     this.isEditando = true;
-    this.consultaEditandoIndex = index; // Armazena o índice da consulta que está sendo editada
+    this.consultaEditandoIndex = index; 
   }
 
   excluirConsulta(index: number) {
@@ -163,7 +151,6 @@ export class CalendarioComponent implements OnInit {
       return;
     }
 
-    // Usando SweetAlert2 para confirmação
     Swal.fire({
       title: 'Você tem certeza?',
       text: "Esta consulta será excluída permanentemente!",
@@ -175,12 +162,9 @@ export class CalendarioComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        // Exclui no Firestore
         this.calendarioService.excluirConsulta(consulta.id)
           .then(() => {
-            // Remove a consulta da lista local
             this.consultas = this.consultas.filter(c => c.id !== consulta.id);
-            // Atualiza a lista de consultas do dia
             this.atualizarConsultasDoDia();
             Swal.fire('Excluído!', 'A consulta foi excluída com sucesso.', 'success');
           })
@@ -209,7 +193,7 @@ export class CalendarioComponent implements OnInit {
         this.atualizarConsultasDoDia();
       })
       .catch((error) => {
-        this.toastr.error('Erro ao carregar consultas: ' + error.message); // Usar toastr
+        this.toastr.error('Erro ao carregar consultas: ' + error.message);
       });
   }
 }

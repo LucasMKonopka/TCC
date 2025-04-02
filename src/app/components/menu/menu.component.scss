@@ -18,11 +18,11 @@
   
   @media (max-width: 992px) {
     transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); // Transição suave
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
     
     &.mobile-visible {
       transform: translateX(0);
-      box-shadow: 4px 0 20px rgba(0,0,0,0.3); // Sombra mais pronunciada
+      box-shadow: 4px 0 20px rgba(0,0,0,0.3);
     }
   }
 

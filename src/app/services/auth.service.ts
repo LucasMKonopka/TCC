@@ -126,11 +126,9 @@ export class AuthService {
         user.reauthenticateWithCredential(credential).then(() => {
           console.log('Reautenticação bem-sucedida');
   
-          // Envia e-mail de verificação para o novo e-mail
           user.verifyBeforeUpdateEmail(newEmail).then(() => {
             console.log('E-mail de verificação enviado para:', newEmail);
   
-            // Atualiza o e-mail na coleção 'nutricionistas' no Firestore
             const uid = user.uid;
             this.firestore.collection('nutricionistas').doc(uid).update({ email: newEmail })
               .then(() => {
@@ -197,12 +195,12 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       this.afAuth.currentUser.then(user => {
         if (user && user.email) {
-          console.log('E-mail do usuário:', user.email); // Verifique o e-mail
+          console.log('E-mail do usuário:', user.email); 
           const credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
           user.reauthenticateWithCredential(credential).then(() => {
             resolve();
           }).catch(error => {
-            console.error('Erro na reautenticação:', error); // Verifique o erro
+            console.error('Erro na reautenticação:', error); 
             reject(error);
           });
         } else {
@@ -216,12 +214,12 @@ export class AuthService {
 
   getConsultasDoDia(nutricionistaId: string, data: string): Observable<any[]> {
     return new Observable(observer => {
-      const consultasRef = collection(this.firestoreH, 'agendamento'); // Acessando a coleção 'agendamento'
+      const consultasRef = collection(this.firestoreH, 'agendamento'); 
       const q = query(
         consultasRef,
-        where('data', '==', data), // Filtrando pela data
+        where('data', '==', data), 
         where('userId', '==', nutricionistaId),
-        orderBy('horario', 'asc')  // Filtrando pelo userId
+        orderBy('horario', 'asc')  
       );
   
       getDocs(q).then(snapshot => {

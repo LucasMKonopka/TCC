@@ -28,7 +28,6 @@ export class MenuComponent {
     const touchEndX = event.changedTouches[0].clientX;
     const diffX = this.touchStartX - touchEndX;
     
-    // Fecha o menu se arrastar mais de 100px para a esquerda
     if (this.menuVisible && diffX > 100) {
       this.toggleMenu();
     }

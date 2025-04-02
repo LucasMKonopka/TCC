@@ -1,13 +1,13 @@
 .container-fluid {
     padding-left: 226px;
-    min-height: 100vh;  // 210px do menu + 16px de margem
+    min-height: 100vh;  
     height: 100vh;
-  overflow-y: auto; // Habilita rolagem vertical
+  overflow-y: auto; 
   -webkit-overflow-scrolling: touch;
     
     @media (max-width: 992px) {
       padding-left: 15px;
-      padding-top: 60px; // Espaço para o botão de menu
+      padding-top: 60px; 
     }
   }
 

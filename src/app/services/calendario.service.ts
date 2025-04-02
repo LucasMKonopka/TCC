@@ -30,10 +30,10 @@ export class CalendarioService {
     const snapshot = await getDocs(q);
     
     return snapshot.docs.map(doc => {
-      const data = doc.data();  // Dados do documento Firestore
+      const data = doc.data();
       return {
         id: doc.id, 
-        data: data['data'],    // Usando notação de chave
+        data: data['data'],
         horario: data['horario'], 
         paciente: data['paciente']
       };

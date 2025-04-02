@@ -1,7 +1,6 @@
-// paciente.service.ts
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AngularFireAuth } from '@angular/fire/compat/auth'; // Importe o AngularFireAuth
+import { AngularFireAuth } from '@angular/fire/compat/auth'; 
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,7 +11,7 @@ export class PacientesService {
 
   constructor(
     private dataBaseStore: AngularFirestore,
-    private afAuth: AngularFireAuth // Injete o AngularFireAuth
+    private afAuth: AngularFireAuth 
   ) { }
 
   getAllPacientes(nutricionistaId: string): Observable<any[]> {
@@ -34,7 +33,7 @@ export class PacientesService {
       ...paciente,
       id: id,
       nutricionistaId: user.uid,
-      dataCadastro: new Date().toISOString() // Adicionei data de cadastro como bônus
+      dataCadastro: new Date().toISOString() 
     });
     return id;
   }
