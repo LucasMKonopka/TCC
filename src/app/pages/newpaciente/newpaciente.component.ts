@@ -54,7 +54,9 @@ export class NewpacienteComponent implements OnInit {
       try {
         await this.pacientesService.addPaciente(this.form.value);
         this.toastr.success('Paciente cadastrado com sucesso!', 'Sucesso');
-        this.router.navigate(['/pacientes']);
+        this.form.reset(); 
+        this.initForm();
+        this.router.navigate(['/home']); 
       } catch (erro) {
         console.error('Erro completo:', erro);
         this.toastr.error('Erro ao cadastrar paciente', 'Erro');
@@ -63,8 +65,11 @@ export class NewpacienteComponent implements OnInit {
       }
     } else {
       this.toastr.warning('Por favor, preencha todos os campos obrigatórios', 'Atenção');
+      
     }
   }
+  
+
 
   buscarCEP(): void {
     const cep = this.form.get('cep')?.value.replace(/\D/g, '');
