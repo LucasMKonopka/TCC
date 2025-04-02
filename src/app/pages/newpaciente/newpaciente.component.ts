@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PacientesService } from '../../services/pacientes.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-newpaciente',
@@ -10,12 +11,14 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./newpaciente.component.scss']
 })
 export class NewpacienteComponent implements OnInit {
-  form!: FormGroup;  // Adicione a exclamação (!) para indicar que será inicializado depois
+  form!: FormGroup; // Adicione a exclamação (!) para indicar que será inicializado depois
+  loading = false; 
 
   constructor(
     private fb: FormBuilder,
     private pacientesService: PacientesService,
     private router: Router,
+    private afAuth: AngularFireAuth,
     private toastr: ToastrService,
   ) {}
 
@@ -47,14 +50,19 @@ export class NewpacienteComponent implements OnInit {
 
   async salvar(): Promise<void> {
     if (this.form.valid) {
+      this.loading = true;
       try {
         await this.pacientesService.addPaciente(this.form.value);
         this.toastr.success('Paciente cadastrado com sucesso!', 'Sucesso');
         this.router.navigate(['/pacientes']);
       } catch (erro) {
+        console.error('Erro completo:', erro);
         this.toastr.error('Erro ao cadastrar paciente', 'Erro');
-        console.error(erro);
+      } finally {
+        this.loading = false;
       }
+    } else {
+      this.toastr.warning('Por favor, preencha todos os campos obrigatórios', 'Atenção');
     }
   }
 
@@ -77,6 +85,12 @@ export class NewpacienteComponent implements OnInit {
   }
 
   cancelar(): void {
-    this.router.navigate(['/pacientes']);
+    if (this.form.dirty) {
+      if (confirm('Tem certeza que deseja cancelar? As alterações serão perdidas.')) {
+        this.router.navigate(['/pacientes']);
+      }
+    } else {
+      this.router.navigate(['/pacientes']);
+    }
   }
 }
