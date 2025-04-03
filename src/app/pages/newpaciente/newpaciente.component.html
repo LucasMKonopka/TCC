@@ -39,6 +39,9 @@
             <mat-form-field appearance="outline" class="form-field-half">
               <mat-label>CPF</mat-label>
               <input matInput formControlName="cpf" mask="000.000.000-00" required>
+              <mat-error *ngIf="form.get('cpf')?.hasError('pattern')">
+                Digite exatamente 11 números (sem pontos ou traço)
+              </mat-error>
               <mat-error *ngIf="form.get('cpf')?.hasError('cpfExistente')">
                 Este CPF já está cadastrado no sistema
               </mat-error>

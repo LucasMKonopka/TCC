@@ -31,7 +31,10 @@ export class NewpacienteComponent implements OnInit {
       nome: ['', Validators.required],
       dataNascimento: ['', Validators.required],
       sexo: ['', Validators.required],
-      cpf: ['', Validators.required],
+      cpf: ['', [
+        Validators.required,
+        Validators.pattern(/^\d{11}$/),
+      ]],
       telefone: ['', Validators.required],
       cep: ['', Validators.required],
       rua: ['', Validators.required],
@@ -52,7 +55,6 @@ export class NewpacienteComponent implements OnInit {
     if (this.form.valid) {
       this.loading = true;
       try {
-        // Verifica se CPF já existe antes de tentar cadastrar
         const cpfExistente = await this.pacientesService.verificarCpfExistente(this.form.value.cpf);
         if (cpfExistente) {
           this.toastr.error('Este CPF já está cadastrado no sistema', 'Erro');

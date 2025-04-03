@@ -23,7 +23,6 @@ export class PacientesService {
   }
 
   async verificarCpfExistente(cpf: string): Promise<boolean> {
-    // Remove pontos e traço do CPF para padronizar
     const cpfFormatado = cpf.replace(/\D/g, '');
     
     const snapshot = await this.dataBaseStore.collection(this.collectionName, 
@@ -39,7 +38,6 @@ export class PacientesService {
       throw new Error('Usuário não autenticado');
     }
   
-    // Verifica se CPF já existe
     const cpfExistente = await this.verificarCpfExistente(paciente.cpf);
     if (cpfExistente) {
       throw new Error('CPF já cadastrado no sistema');
