@@ -52,22 +52,40 @@ export class NewpacienteComponent implements OnInit {
     if (this.form.valid) {
       this.loading = true;
       try {
+        // Verifica se CPF já existe antes de tentar cadastrar
+        const cpfExistente = await this.pacientesService.verificarCpfExistente(this.form.value.cpf);
+        if (cpfExistente) {
+          this.toastr.error('Este CPF já está cadastrado no sistema', 'Erro');
+          this.form.get('cpf')?.setErrors({ cpfExistente: true });
+          return;
+        }
+  
         await this.pacientesService.addPaciente(this.form.value);
         this.toastr.success('Paciente cadastrado com sucesso!', 'Sucesso');
         this.form.reset(); 
         this.initForm();
         this.router.navigate(['/home']); 
-      } catch (erro) {
+      } catch (erro: unknown) {
         console.error('Erro completo:', erro);
-        this.toastr.error('Erro ao cadastrar paciente', 'Erro');
+        
+        if (erro instanceof Error) {
+          if (erro.message.includes('CPF já cadastrado')) {
+            this.toastr.error('Este CPF já está cadastrado no sistema', 'Erro');
+            this.form.get('cpf')?.setErrors({ cpfExistente: true });
+          } else {
+            this.toastr.error('Erro ao cadastrar paciente: ' + erro.message, 'Erro');
+          }
+        } else {
+          this.toastr.error('Ocorreu um erro desconhecido ao cadastrar paciente', 'Erro');
+        }
       } finally {
         this.loading = false;
       }
     } else {
       this.toastr.warning('Por favor, preencha todos os campos obrigatórios', 'Atenção');
-      
     }
   }
+  
   
 
 

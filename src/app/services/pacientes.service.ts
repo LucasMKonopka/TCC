@@ -22,20 +22,49 @@ export class PacientesService {
     ).valueChanges({idField: 'firebaseId'}) as Observable<any[]>;
   }
 
+  async verificarCpfExistente(cpf: string): Promise<boolean> {
+    // Remove pontos e traço do CPF para padronizar
+    const cpfFormatado = cpf.replace(/\D/g, '');
+    
+    const snapshot = await this.dataBaseStore.collection(this.collectionName, 
+      ref => ref.where('cpf', '==', cpfFormatado)
+    ).get().toPromise();
+
+    return !snapshot?.empty;
+  }
+
   async addPaciente(paciente: any): Promise<string> {
     const user = await this.afAuth.currentUser;
     if (!user) {
       throw new Error('Usuário não autenticado');
     }
-
-    const id = this.dataBaseStore.createId();
-    await this.dataBaseStore.collection(this.collectionName).doc(id).set({
-      ...paciente,
-      id: id,
-      nutricionistaId: user.uid,
-      dataCadastro: new Date().toISOString() 
-    });
-    return id;
+  
+    // Verifica se CPF já existe
+    const cpfExistente = await this.verificarCpfExistente(paciente.cpf);
+    if (cpfExistente) {
+      throw new Error('CPF já cadastrado no sistema');
+    }
+  
+    try {
+      const cpfFormatado = paciente.cpf.replace(/\D/g, '');
+      const id = this.dataBaseStore.createId();
+      
+      await this.dataBaseStore.collection(this.collectionName).doc(id).set({
+        ...paciente,
+        cpf: cpfFormatado,
+        id: id,
+        nutricionistaId: user.uid,
+        dataCadastro: new Date().toISOString() 
+      });
+      
+      return id;
+    } catch (erro: unknown) {
+      if (erro instanceof Error) {
+        throw new Error('Erro ao cadastrar paciente: ' + erro.message);
+      } else {
+        throw new Error('Erro desconhecido ao cadastrar paciente');
+      }
+    }
   }
 
   update(pacienteId: string, paciente: any){
@@ -45,4 +74,6 @@ export class PacientesService {
   deletePaciente(PacienteId: string){
     return this.dataBaseStore.collection('pacientes').doc(PacienteId).delete();
   }
+
+  
 }
