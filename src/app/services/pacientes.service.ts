@@ -15,11 +15,12 @@ export class PacientesService {
   ) { }
 
   getAllPacientes(nutricionistaId: string): Observable<any[]> {
+    console.log(`Buscando pacientes para nutricionista ${nutricionistaId}`);
     return this.dataBaseStore.collection(
       'pacientes', 
       ref => ref.where('nutricionistaId', '==', nutricionistaId)
                 .orderBy('nome')
-    ).valueChanges({idField: 'firebaseId'}) as Observable<any[]>;
+    ).valueChanges({ idField: 'id' });
   }
 
   async verificarCpfExistente(cpf: string): Promise<boolean> {

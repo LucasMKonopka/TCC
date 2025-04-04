@@ -32,6 +32,8 @@ import { NewpacienteComponent } from './pages/newpaciente/newpaciente.component'
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { ListpacientesComponent } from './pages/listpacientes/listpacientes.component';
+import { MatTableModule } from '@angular/material/table';
 
 
 @NgModule({
@@ -45,7 +47,8 @@ import { MatSelectModule } from '@angular/material/select';
     SignupComponent,
     EditUserComponent,
     CalendarioComponent,
-    NewpacienteComponent
+    NewpacienteComponent,
+    ListpacientesComponent
     
   ],
   imports: [
@@ -68,6 +71,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatInputModule,
     MatOptionModule,
+    MatTableModule
   ],
   providers: [
     provideAnimationsAsync(),

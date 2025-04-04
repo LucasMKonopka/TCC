@@ -1,0 +1,49 @@
+<app-menu></app-menu>
+
+<div class="container">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Pesquisar paciente</mat-label>
+      <input 
+        matInput 
+        (keyup)="aplicarFiltro($event)" 
+        placeholder="Digite o nome do paciente"
+      >
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  
+    <!-- Tabela -->
+    <table mat-table [dataSource]="dataSource" class="full-width">
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef>Nome</th>
+        <td mat-cell *matCellDef="let paciente">
+          <a (click)="verAtendimentos(paciente.id)" class="patient-link">
+            {{ paciente.nome }}
+          </a>
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="cpf">
+        <th mat-header-cell *matHeaderCellDef>CPF</th>
+        <td mat-cell *matCellDef="let paciente">
+          {{ paciente.cpf }}
+        </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef>Ações</th>
+        <td mat-cell *matCellDef="let paciente">
+          <button mat-icon-button color="primary" (click)="editarPaciente(paciente.id)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="excluirPaciente(paciente.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    
+  </div>
