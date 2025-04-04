@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-listpacientes',
@@ -63,15 +64,26 @@ export class ListpacientesComponent implements OnInit {
   }
 
   async excluirPaciente(pacienteId: string) {
-    if (confirm('Tem certeza que deseja excluir este paciente?')) {
-      try {
-        await this.pacientesService.deletePaciente(pacienteId);
-        this.toastr.success('Paciente excluído com sucesso!');
-        this.carregarPacientes();
-      } catch (error) {
-        this.toastr.error('Erro ao excluir paciente');
+    Swal.fire({
+      title: 'Você tem certeza?',
+      text: 'Essa ação não poderá ser desfeita!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sim, excluir!',
+      cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await this.pacientesService.deletePaciente(pacienteId);
+          this.toastr.success('Paciente excluído com sucesso!');
+          this.carregarPacientes(); // Atualiza a lista
+        } catch (error) {
+          this.toastr.error('Erro ao excluir paciente');
+        }
       }
-    }
+    });
   }
 
   aplicarFiltro(event: Event) {

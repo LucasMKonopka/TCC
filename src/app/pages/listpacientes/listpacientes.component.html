@@ -1,6 +1,7 @@
 <app-menu></app-menu>
 
 <div class="container">
+    <h1 class="titulo">Lista de Pacientes</h1>
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Pesquisar paciente</mat-label>
       <input 
@@ -10,8 +11,7 @@
       >
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
-  
-    <!-- Tabela -->
+
     <table mat-table [dataSource]="dataSource" class="full-width">
       <ng-container matColumnDef="nome">
         <th mat-header-cell *matHeaderCellDef>Nome</th>
