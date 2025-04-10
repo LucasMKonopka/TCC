@@ -4,6 +4,7 @@ import { PacientesService } from '../../services/pacientes.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-newpaciente',
@@ -77,6 +78,12 @@ export class NewpacienteComponent implements OnInit {
       this.loading = true;
       try {
         if (this.isEdit) {
+          const cpfExistente = await this.pacientesService.verificarCpfExistente(this.form.value.cpf);
+          if (cpfExistente) {
+            this.toastr.error('Este CPF já está cadastrado no sistema', 'Erro');
+            this.form.get('cpf')?.setErrors({ cpfExistente: true });
+            return;
+          }
           await this.pacientesService.update(this.route.snapshot.paramMap.get('id')!, this.form.value);
           this.toastr.success('Paciente atualizado com sucesso!', 'Sucesso');
         } else {
@@ -125,12 +132,19 @@ export class NewpacienteComponent implements OnInit {
   }
 
   cancelar(): void {
-    if (this.form.dirty) {
-      if (confirm('Tem certeza que deseja cancelar? As alterações serão perdidas.')) {
-        this.router.navigate(['/pacientes']);
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: 'As alterações serão perdidas!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, cancelar!',
+      cancelButtonText: 'Não, continuar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/listpacientes']);
       }
-    } else {
-      this.router.navigate(['/pacientes']);
-    }
+    });
   }
 }
