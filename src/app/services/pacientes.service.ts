@@ -73,6 +73,8 @@ export class PacientesService {
   deletePaciente(PacienteId: string){
     return this.dataBaseStore.collection('pacientes').doc(PacienteId).delete();
   }
-
+  getPacienteById(pacienteId: string): Observable<any> {
+    return this.dataBaseStore.collection(this.collectionName).doc(pacienteId).valueChanges();
+  }
   
 }

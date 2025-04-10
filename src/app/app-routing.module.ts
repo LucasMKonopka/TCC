@@ -17,7 +17,8 @@ const routes: Routes = [
   //{path: 'esqueceu-senha', component: EsqueceuSenha},
   {path: 'calendario', component: CalendarioComponent},
   {path: 'newpacientes', component: NewpacienteComponent},
-  {path: 'listpacientes', component: ListpacientesComponent}
+  {path: 'listpacientes', component: ListpacientesComponent},
+  { path: 'editar-paciente/:id', component: NewpacienteComponent },
 ];
 
 @NgModule({
