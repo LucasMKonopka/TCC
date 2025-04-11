@@ -15,6 +15,7 @@ export class NewpacienteComponent implements OnInit {
   form!: FormGroup;
   loading = false; 
   isEdit = false;
+  originalCpf: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -28,6 +29,14 @@ export class NewpacienteComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.checkEditMode();
+
+    if (this.isEdit) {
+      const pacienteId = this.route.snapshot.paramMap.get('id');
+      this.pacientesService.getPacienteById(pacienteId!).subscribe(paciente => {
+        this.form.patchValue(paciente);
+        this.originalCpf = paciente.cpf;
+      });
+    }
   }
 
   initForm(): void {
@@ -56,19 +65,19 @@ export class NewpacienteComponent implements OnInit {
   }
 
   checkEditMode(): void {
-    const pacienteId = this.route.snapshot.paramMap.get('id'); // Obter o ID do paciente da rota
+    const pacienteId = this.route.snapshot.paramMap.get('id');
     if (pacienteId) {
-      this.isEdit = true; // Mudar para modo de edição
-      this.carregarPaciente(pacienteId); // Carregar os dados do paciente
+      this.isEdit = true; 
+      this.carregarPaciente(pacienteId);
     }
   }
   async carregarPaciente(pacienteId: string): Promise<void> {
     this.pacientesService.getPacienteById(pacienteId).subscribe(paciente => {
       if (paciente) {
-        this.form.patchValue(paciente); // Preencher o formulário com os dados do paciente
+        this.form.patchValue(paciente); 
       } else {
         this.toastr.error('Paciente não encontrado', 'Erro');
-        this.router.navigate(['/home']); // Redirecionar se o paciente não for encontrado
+        this.router.navigate(['/home']); 
       }
     });
   }
@@ -77,17 +86,21 @@ export class NewpacienteComponent implements OnInit {
     if (this.form.valid) {
       this.loading = true;
       try {
+        const cpfFormatado = this.form.value.cpf.replace(/\D/g, ''); 
+  
         if (this.isEdit) {
-          const cpfExistente = await this.pacientesService.verificarCpfExistente(this.form.value.cpf);
-          if (cpfExistente) {
-            this.toastr.error('Este CPF já está cadastrado no sistema', 'Erro');
-            this.form.get('cpf')?.setErrors({ cpfExistente: true });
-            return;
+          if (this.originalCpf !== cpfFormatado) {
+            const cpfExistente = await this.pacientesService.verificarCpfExistente(cpfFormatado);
+            if (cpfExistente) {
+              this.toastr.error('Este CPF já está cadastrado no sistema', 'Erro');
+              this.form.get('cpf')?.setErrors({ cpfExistente: true });
+              return;
+            }
           }
           await this.pacientesService.update(this.route.snapshot.paramMap.get('id')!, this.form.value);
           this.toastr.success('Paciente atualizado com sucesso!', 'Sucesso');
         } else {
-          const cpfExistente = await this.pacientesService.verificarCpfExistente(this.form.value.cpf);
+          const cpfExistente = await this.pacientesService.verificarCpfExistente(cpfFormatado);
           if (cpfExistente) {
             this.toastr.error('Este CPF já está cadastrado no sistema', 'Erro');
             this.form.get('cpf')?.setErrors({ cpfExistente: true });
@@ -100,7 +113,6 @@ export class NewpacienteComponent implements OnInit {
         this.initForm();
         this.router.navigate(['/home']); 
       } catch (erro: unknown) {
-        // Lidar com erros
       } finally {
         this.loading = false;
       }
