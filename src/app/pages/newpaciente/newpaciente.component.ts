@@ -99,6 +99,7 @@ export class NewpacienteComponent implements OnInit {
           }
           await this.pacientesService.update(this.route.snapshot.paramMap.get('id')!, this.form.value);
           this.toastr.success('Paciente atualizado com sucesso!', 'Sucesso');
+          this.router.navigate(['/listpacientes']); 
         } else {
           const cpfExistente = await this.pacientesService.verificarCpfExistente(cpfFormatado);
           if (cpfExistente) {
@@ -108,10 +109,11 @@ export class NewpacienteComponent implements OnInit {
           }
           await this.pacientesService.addPaciente(this.form.value);
           this.toastr.success('Paciente cadastrado com sucesso!', 'Sucesso');
+          this.router.navigate(['/home']); 
         }
         this.form.reset(); 
         this.initForm();
-        this.router.navigate(['/home']); 
+        
       } catch (erro: unknown) {
       } finally {
         this.loading = false;
@@ -144,19 +146,36 @@ export class NewpacienteComponent implements OnInit {
   }
 
   cancelar(): void {
-    Swal.fire({
-      title: 'Tem certeza?',
-      text: 'As alterações serão perdidas!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sim, cancelar!',
-      cancelButtonText: 'Não, continuar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.router.navigate(['/listpacientes']);
-      }
-    });
+    if (this.isEdit){
+      Swal.fire({
+        title: 'Tem certeza?',
+        text: 'As alterações serão perdidas!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, cancelar!',
+        cancelButtonText: 'Não, continuar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.router.navigate(['/listpacientes']);
+        }
+      });
+    }else{
+      Swal.fire({
+        title: 'Tem certeza?',
+        text: 'As alterações serão perdidas!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, cancelar!',
+        cancelButtonText: 'Não, continuar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.router.navigate(['/home']);
+        }
+      });
+    } 
   }
 }
