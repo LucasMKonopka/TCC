@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NewatendimentoComponent } from '../newatendimento/newatendimento.component';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-listatendimentos',
@@ -16,7 +17,7 @@ import Swal from 'sweetalert2';
 export class ListatendimentosComponent implements OnInit{
   paciente: any = null;
   atendimentos = new MatTableDataSource<any>();
-  displayedColumns: string[] = ['data', 'tipo', 'peso', 'imc', 'acoes'];
+  displayedColumns: string[] = ['data', 'acoes'];
   loading = true;
 
   constructor(
@@ -37,15 +38,16 @@ export class ListatendimentosComponent implements OnInit{
 
   async carregarDados(pacienteId: string) {
     try {
-      this.paciente = await this.pacientesService.getPacienteById(pacienteId);
-      const atendimentos = await this.atendimentosService.getAtendimentosPorPaciente(pacienteId);
-      this.atendimentos.data = atendimentos;
+        this.paciente = await firstValueFrom(this.pacientesService.getPacienteById(pacienteId));
+        const atendimentos = await this.atendimentosService.getAtendimentosPorPaciente(pacienteId);
+        this.atendimentos.data = atendimentos;
     } catch (error) {
-      this.toastr.error('Erro ao carregar dados', 'Erro');
+        this.toastr.error('Erro ao carregar dados', 'Erro');
     } finally {
-      this.loading = false;
+        this.loading = false;
     }
   }
+
   formatarCPF(cpf: string): string {
     if (!cpf) return '';
     return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
@@ -75,10 +77,6 @@ export class ListatendimentosComponent implements OnInit{
     return idade;
   }
   
-  getTipoAtendimento(tipo: string): string {
-    return tipo === 'PRIMEIRA' ? 'Primeira Consulta' : 'Consulta de Retorno';
-  }
-
   voltarParaLista() {
     this.router.navigate(['/listpacientes']);
   }
