@@ -92,7 +92,7 @@ export class ListpacientesComponent implements OnInit {
   }
 
   verAtendimentos(pacienteId: string) {
-    this.router.navigate(['/atendimentos', pacienteId]);
+    this.router.navigate(['/listatendimentos', pacienteId]);
   }
 
   editarPaciente(pacienteId: string) {

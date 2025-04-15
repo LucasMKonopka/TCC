@@ -7,6 +7,8 @@ import { EditUserComponent } from './pages/edit-user/edit-user.component';
 import { CalendarioComponent } from './pages/calendario/calendario.component';
 import { NewpacienteComponent } from './pages/newpaciente/newpaciente.component';
 import { ListpacientesComponent } from './pages/listpacientes/listpacientes.component';
+import { ListatendimentosComponent } from './pages/listatendimentos/listatendimentos.component';
+import { NewatendimentoComponent } from './pages/newatendimento/newatendimento.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -14,11 +16,12 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'signup', component: SignupComponent},
   {path: 'editUser', component: EditUserComponent},
-  //{path: 'esqueceu-senha', component: EsqueceuSenha},
   {path: 'calendario', component: CalendarioComponent},
   {path: 'newpacientes', component: NewpacienteComponent},
   {path: 'listpacientes', component: ListpacientesComponent},
   { path: 'editar-paciente/:id', component: NewpacienteComponent },
+  { path: 'listatendimentos/:id', component: ListatendimentosComponent},
+  {path: 'newatendimento', component: NewatendimentoComponent},
 ];
 
 @NgModule({

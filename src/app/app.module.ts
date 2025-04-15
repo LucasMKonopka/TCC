@@ -34,6 +34,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ListpacientesComponent } from './pages/listpacientes/listpacientes.component';
 import { MatTableModule } from '@angular/material/table';
+import { ListatendimentosComponent } from './pages/listatendimentos/listatendimentos.component';
+import { NewatendimentoComponent } from './pages/newatendimento/newatendimento.component';
 
 
 @NgModule({
@@ -48,7 +50,9 @@ import { MatTableModule } from '@angular/material/table';
     EditUserComponent,
     CalendarioComponent,
     NewpacienteComponent,
-    ListpacientesComponent
+    ListpacientesComponent,
+    ListatendimentosComponent,
+    NewatendimentoComponent
     
   ],
   imports: [
