@@ -36,6 +36,10 @@ import { ListpacientesComponent } from './pages/listpacientes/listpacientes.comp
 import { MatTableModule } from '@angular/material/table';
 import { ListatendimentosComponent } from './pages/listatendimentos/listatendimentos.component';
 import { NewatendimentoComponent } from './pages/newatendimento/newatendimento.component';
+import { AtendimentosregularesComponent } from './pages/atendimentosregulares/atendimentosregulares.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 
 
 @NgModule({
@@ -52,7 +56,8 @@ import { NewatendimentoComponent } from './pages/newatendimento/newatendimento.c
     NewpacienteComponent,
     ListpacientesComponent,
     ListatendimentosComponent,
-    NewatendimentoComponent
+    NewatendimentoComponent,
+    AtendimentosregularesComponent
     
   ],
   imports: [
@@ -75,7 +80,9 @@ import { NewatendimentoComponent } from './pages/newatendimento/newatendimento.c
     MatFormFieldModule,
     MatInputModule,
     MatOptionModule,
-    MatTableModule
+    MatTableModule,
+    MatExpansionModule,
+    MatSlideToggleModule
   ],
   providers: [
     provideAnimationsAsync(),

@@ -9,6 +9,7 @@ import { NewpacienteComponent } from './pages/newpaciente/newpaciente.component'
 import { ListpacientesComponent } from './pages/listpacientes/listpacientes.component';
 import { ListatendimentosComponent } from './pages/listatendimentos/listatendimentos.component';
 import { NewatendimentoComponent } from './pages/newatendimento/newatendimento.component';
+import { AtendimentosregularesComponent } from './pages/atendimentosregulares/atendimentosregulares.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -19,9 +20,10 @@ const routes: Routes = [
   {path: 'calendario', component: CalendarioComponent},
   {path: 'newpacientes', component: NewpacienteComponent},
   {path: 'listpacientes', component: ListpacientesComponent},
-  { path: 'editar-paciente/:id', component: NewpacienteComponent },
-  { path: 'listatendimentos/:id', component: ListatendimentosComponent},
+  {path: 'editar-paciente/:id', component: NewpacienteComponent },
+  {path: 'listatendimentos/:id', component: ListatendimentosComponent},
   {path: 'newatendimento/:id', component: NewatendimentoComponent},
+  {path: 'atendimentosregulares/:id', component: AtendimentosregularesComponent},
 ];
 
 @NgModule({

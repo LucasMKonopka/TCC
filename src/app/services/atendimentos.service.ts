@@ -25,4 +25,30 @@ export class AtendimentosService {
   excluirAtendimento(id: string): Promise<void> {
     return this.firestore.collection('atendimentos').doc(id).delete();
   }
+
+  async criarPrimeiraConsulta(pacienteId: string, dados: any) {
+    const consulta = {
+      pacienteId,
+      tipo: 'primeira',
+      data: new Date().toISOString(),
+      dados,
+      createdAt: new Date()
+    };
+    
+    return this.firestore.collection('consultas').add(consulta);
+  }
+
+  async criarConsultaRegular(pacienteId: string, dados: any) {
+    const consulta = {
+      pacienteId,
+      tipo: 'regular',
+      data: new Date().toISOString(),
+      dados,
+      createdAt: new Date()
+    };
+    
+    return this.firestore.collection('consultas').add(consulta);
+  }
+
+  
 }

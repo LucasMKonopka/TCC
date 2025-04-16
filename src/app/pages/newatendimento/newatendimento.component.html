@@ -1,1 +1,284 @@
-<p>newatendimento works!</p>
+<app-menu></app-menu>
+
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Primeira Consulta</mat-card-title>
+      <mat-card-subtitle>Dados completos do paciente</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="consultaForm" (ngSubmit)="onSubmit()">
+        <!-- Seção 1: Dados Antropométricos -->
+        <mat-card class="section-card">
+          <mat-card-header>
+            <mat-card-title>1. Dados Antropométricos e Percepção do Peso</mat-card-title>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <div class="row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Peso Atual (kg)</mat-label>
+                <input matInput type="number" step="0.1" formControlName="pesoAtual" required>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Peso Habitual (kg)</mat-label>
+                <input matInput type="number" step="0.1" formControlName="pesoHabitual">
+              </mat-form-field>
+            </div>
+
+            <!--perda de peso-->
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>Teve perda de peso recente?</mat-panel-title>
+              </mat-expansion-panel-header>
+              
+              <div formGroupName="perdaPeso">
+                <mat-slide-toggle formControlName="teve">Sim</mat-slide-toggle>
+                
+                <div *ngIf="consultaForm.get('perdaPeso.teve')?.value" class="expansion-content">
+                  <div class="row">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Em quanto tempo?</mat-label>
+                      <input matInput formControlName="tempo">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Quantos quilos perdeu?</mat-label>
+                      <input matInput type="number" step="0.1" formControlName="quantidade">
+                    </mat-form-field>
+                  </div>
+
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Motivo da perda</mat-label>
+                    <textarea matInput formControlName="motivo" rows="2"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-expansion-panel>
+
+            <!--Ganho de peso-->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Teve ganho de peso recente?</mat-panel-title>
+                </mat-expansion-panel-header>
+                
+                <div formGroupName="ganhoPeso">
+                  <mat-slide-toggle formControlName="teve">Sim</mat-slide-toggle>
+                  
+                  <div *ngIf="consultaForm.get('ganhoPeso.teve')?.value" class="expansion-content">
+                    <div class="row">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Em quanto tempo?</mat-label>
+                        <input matInput formControlName="tempo">
+                      </mat-form-field>
+  
+                      <mat-form-field appearance="outline">
+                        <mat-label>Quantos quilos ganhou?</mat-label>
+                        <input matInput type="number" step="0.1" formControlName="quantidade">
+                      </mat-form-field>
+                    </div>
+  
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Motivo do ganho</mat-label>
+                      <textarea matInput formControlName="motivo" rows="2"></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Seção 2: Padrão Alimentar -->
+        <mat-card class="section-card">
+            <mat-card-header>
+              <mat-card-title>2. Padrão Alimentar</mat-card-title>
+            </mat-card-header>
+          
+            <mat-card-content>
+              <div class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Quantas refeições por dia?</mat-label>
+                  <input matInput type="number" formControlName="refeicoesPorDia">
+                </mat-form-field>
+          
+                <mat-form-field appearance="outline">
+                  <mat-label>Onde costuma se alimentar?</mat-label>
+                  <input matInput formControlName="localAlimentacao">
+                </mat-form-field>
+              </div>
+          
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Em que horários?</mat-label>
+                <textarea matInput formControlName="horariosAlimentacao" rows="2"></textarea>
+              </mat-form-field>
+          
+              <div class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Costuma comer sozinho(a) ou acompanhado(a)?</mat-label>
+                  <input matInput formControlName="companhiaRefeicoes">
+                </mat-form-field>
+          
+                <mat-form-field appearance="outline">
+                  <mat-label>Duração de cada refeição?</mat-label>
+                  <input matInput formControlName="duracaoRefeicoes">
+                </mat-form-field>
+              </div>
+          
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Como você percebe sua saciedade nas refeições? Sente-se satisfeito(a)?</mat-label>
+                <textarea matInput formControlName="percepcaoSaciedade" rows="2"></textarea>
+              </mat-form-field>
+          
+              <div class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Quem prepara suas refeições?</mat-label>
+                  <input matInput formControlName="preparadorRefeicoes">
+                </mat-form-field>
+          
+                <mat-form-field appearance="outline">
+                  <mat-label>Forma de preparo mais comum</mat-label>
+                  <input matInput formControlName="formaPreparoComum">
+                </mat-form-field>
+              </div>
+          
+              <div class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Quem faz as compras da casa?</mat-label>
+                  <input matInput formControlName="responsavelCompras">
+                </mat-form-field>
+          
+                <mat-form-field appearance="outline">
+                  <mat-label>Frequência de compras</mat-label>
+                  <input matInput formControlName="frequenciaCompras">
+                </mat-form-field>
+              </div>
+          
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Como está seu apetite atualmente?</mat-label>
+                <textarea matInput formControlName="apetiteAtual" rows="2"></textarea>
+              </mat-form-field>
+          
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Preferências alimentares</mat-label>
+                <textarea matInput formControlName="preferenciasAlimentares" rows="2"></textarea>
+              </mat-form-field>
+          
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Alimentos rejeitados ou evitados</mat-label>
+                <textarea matInput formControlName="alimentosRejeitados" rows="2"></textarea>
+              </mat-form-field>
+          
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Intolerâncias ou alergias alimentares</mat-label>
+                <textarea matInput formControlName="alergiasIntolerancias" rows="2"></textarea>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+
+        <!-- Seção 3: Comportamento Alimentar -->
+        <mat-card class="section-card">
+          <mat-card-header>
+            <mat-card-title>3. Comportamento Alimentar e Rotina</mat-card-title>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <!-- Campos da seção 3 -->
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Em quais situações você percebe que há mudança no seu hábito alimentar?</mat-label>
+                <textarea matInput formControlName="mudancasHabitoAlimentar" rows="2"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>O que costuma mudar nos fins de semana, feriados ou nas férias?</mat-label>
+                <textarea matInput formControlName="mudancasFinaisSemana" rows="2"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Como é sua ingestão de líquidos? Quais líquidos costuma consumir? Em que quantidade e com qual frequência (horário)?</mat-label>
+                <textarea matInput formControlName="ingestaoLiquidos" rows="2"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Você prefere alimentos doces ou salgados?</mat-label>
+                <textarea matInput formControlName="preferenciaSabor" rows="2"></textarea>
+            </mat-form-field>
+          
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Costuma consumir alimentos light ou diet?</mat-label>
+                <textarea matInput formControlName="alimentosLightDiet" rows="2"></textarea>
+            </mat-form-field>
+
+            
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Usa algum tipo de suplemento?</mat-panel-title>
+                </mat-expansion-panel-header>
+          
+                <div formGroupName="usoSuplementos">
+                  <mat-slide-toggle formControlName="usa">Sim</mat-slide-toggle>
+          
+                  <div *ngIf="consultaForm.get('usoSuplementos.usa')?.value" class="expansion-content">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Qual?</mat-label>
+                      <input matInput formControlName="quais">
+                    </mat-form-field>
+          
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Quem indicou o uso?</mat-label>
+                      <input matInput formControlName="indicacao">
+                    </mat-form-field>
+                  </div>
+                </div>
+            </mat-expansion-panel>
+        </mat-card-content>
+        </mat-card>
+
+        <!-- Seção 4: Motivações e Estilo de Vida -->
+        <mat-card class="section-card">
+          <mat-card-header>
+            <mat-card-title>4. Motivações e Estilo de Vida</mat-card-title>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <!-- Campos da seção 4 -->
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Seção 5: Aspectos Clínicos -->
+        <mat-card class="section-card">
+          <mat-card-header>
+            <mat-card-title>5. Aspectos Clínicos e Comportamentais</mat-card-title>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <!-- Campos da seção 5 -->
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Seção 6: Avaliação por Sistemas -->
+        <mat-card class="section-card">
+          <mat-card-header>
+            <mat-card-title>6. Avaliação por Sistemas</mat-card-title>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <!-- Campos da seção 6 -->
+          </mat-card-content>
+        </mat-card>
+
+        <div class="button-container">
+          <button mat-raised-button color="warn" type="button" (click)="cancelar()">
+            Cancelar
+          </button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+            <span *ngIf="!loading">Salvar Consulta</span>
+            <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

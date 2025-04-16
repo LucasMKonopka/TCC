@@ -56,13 +56,17 @@ export class ListatendimentosComponent implements OnInit{
   async novoAtendimento() {
     const isPrimeiroAtendimento = this.atendimentos.data.length === 0;
     
-    this.router.navigate(['/newatendimento', this.paciente.id], {
-      state: {
-        paciente: this.paciente,
-        isPrimeiroAtendimento: isPrimeiroAtendimento
-      }
-    });
+    if (isPrimeiroAtendimento) {
+      this.router.navigate(['/newatendimento', this.paciente.id], {
+        state: { pacienteNome: this.paciente.nome }
+      });
+    } else {
+      this.router.navigate(['/atendimentosregulares', this.paciente.id], {
+        state: { pacienteNome: this.paciente.nome }
+      });
+    }
   }
+
   calcularIdade(dataNascimento: string): number {
     if (!dataNascimento) return 0;
     const nasc = new Date(dataNascimento);
