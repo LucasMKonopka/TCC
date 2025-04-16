@@ -17,7 +17,7 @@ export class AtendimentosService {
         if (!snapshot) return [];
         return snapshot.docs.map(doc => ({
           id: doc.id,
-          ...(doc.data() as object) // Type assertion aqui
+          ...(doc.data() as object)
         }));
       });
   }

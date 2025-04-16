@@ -21,7 +21,7 @@ const routes: Routes = [
   {path: 'listpacientes', component: ListpacientesComponent},
   { path: 'editar-paciente/:id', component: NewpacienteComponent },
   { path: 'listatendimentos/:id', component: ListatendimentosComponent},
-  {path: 'newatendimento', component: NewatendimentoComponent},
+  {path: 'newatendimento/:id', component: NewatendimentoComponent},
 ];
 
 @NgModule({

@@ -1,8 +1,6 @@
 <app-menu></app-menu>
 
-<!-- atendimentos.component.html -->
 <div class="container">
-    <!-- Cabeçalho do Paciente -->
     <mat-card class="patient-header">
         <mat-card-header>
             <mat-card-title>Atendimentos de {{ paciente?.nome || 'Carregando...' }}</mat-card-title>
@@ -22,7 +20,6 @@
         </mat-card-actions>
     </mat-card>
   
-    <!-- Lista de Atendimentos -->
     <mat-card class="atendimentos-list">
         <mat-card-header>
             <mat-card-title>Histórico de Atendimentos</mat-card-title>
@@ -30,13 +27,11 @@
         
         <mat-card-content>
             <table mat-table [dataSource]="atendimentos" class="full-width">
-                <!-- Coluna Data -->
                 <ng-container matColumnDef="data">
                     <th mat-header-cell *matHeaderCellDef>Data</th>
                     <td mat-cell *matCellDef="let item">{{ item.data | date:'dd/MM/yyyy' }}</td>
                 </ng-container>
 
-                <!-- Coluna Ações -->
                 <ng-container matColumnDef="acoes">
                     <th mat-header-cell *matHeaderCellDef>Ações</th>
                     <td mat-cell *matCellDef="let item">

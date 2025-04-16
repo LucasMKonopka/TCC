@@ -53,15 +53,13 @@ export class ListatendimentosComponent implements OnInit{
     return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
   }
 
-  novoAtendimento() {
-    const dialogRef = this.dialog.open(NewatendimentoComponent, {
-      width: '800px',
-      data: { pacienteId: this.paciente.id }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.carregarDados(this.paciente.id);
+  async novoAtendimento() {
+    const isPrimeiroAtendimento = this.atendimentos.data.length === 0;
+    
+    this.router.navigate(['/newatendimento', this.paciente.id], {
+      state: {
+        paciente: this.paciente,
+        isPrimeiroAtendimento: isPrimeiroAtendimento
       }
     });
   }
@@ -83,7 +81,6 @@ export class ListatendimentosComponent implements OnInit{
 
   
   editarAtendimento(atendimentoId: string) {
-    // Implemente a edição (pode abrir o mesmo dialog de novo atendimento)
     console.log('Editar atendimento:', atendimentoId);
   }
   

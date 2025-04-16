@@ -1,21 +1,18 @@
-/* Adicione no topo do arquivo */
 :host {
     display: block;
-    margin-left: 250px; /* Largura do seu menu */
+    margin-left: 250px; 
     padding: 20px;
     min-height: 100vh;
     box-sizing: border-box;
   }
   
-  /* Ajuste para telas menores */
   @media (max-width: 768px) {
     :host {
       margin-left: 0;
-      padding-top: 80px; /* Altura do menu quando recolhido */
+      padding-top: 80px; 
     }
   }
   
-  /* Mantenha seus estilos existentes abaixo */
   .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -52,7 +49,6 @@
     }
   }
   
-  /* Ajuste para o botão flutuante */
   .add-button-container {
     position: fixed;
     right: 30px;
