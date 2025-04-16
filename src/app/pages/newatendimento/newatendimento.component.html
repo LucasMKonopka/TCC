@@ -236,25 +236,226 @@
         </mat-card-content>
         </mat-card>
 
-        <!-- Seção 4: Motivações e Estilo de Vida -->
+        <!--Seção 4-->
         <mat-card class="section-card">
           <mat-card-header>
             <mat-card-title>4. Motivações e Estilo de Vida</mat-card-title>
           </mat-card-header>
-          
+        
           <mat-card-content>
-            <!-- Campos da seção 4 -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Qual o motivo da sua consulta hoje?</mat-label>
+              <input matInput formControlName="motivoConsulta">
+            </mat-form-field>
+        
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Qual é a sua profissão ou ocupação?</mat-label>
+              <input matInput formControlName="profissao">
+            </mat-form-field>
+        
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Onde você trabalha?</mat-label>
+              <input matInput formControlName="localTrabalho">
+            </mat-form-field>
+        
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Carga horária semanal</mat-label>
+              <input matInput formControlName="cargaHoraria">
+            </mat-form-field>
+        
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Meio de locomoção utilizado</mat-label>
+              <input matInput formControlName="meioLocomocao">
+            </mat-form-field>
+        
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Escolaridade</mat-label>
+              <input matInput formControlName="escolaridade">
+            </mat-form-field>
+        
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Estado civil</mat-label>
+              <input matInput formControlName="estadoCivil">
+            </mat-form-field>
+        
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Composição do domicílio</mat-label>
+              <input matInput formControlName="composicaoDomicilio">
+            </mat-form-field>
+        
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Horas de sono por noite</mat-label>
+              <input matInput formControlName="horasSono">
+            </mat-form-field>
+        
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Qualidade do sono</mat-label>
+              <input matInput formControlName="qualidadeSono">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Você tem algum lazer?</mat-label>
+              <input matInput formControlName="lazer">
+            </mat-form-field>
+        
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>Pratica atividade física?</mat-panel-title>
+              </mat-expansion-panel-header>
+        
+              <div formGroupName="atividadeFisica">
+                <mat-slide-toggle formControlName="pratica">Sim</mat-slide-toggle>
+        
+                <div *ngIf="consultaForm.get('atividadeFisica.pratica')?.value">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Frequência</mat-label>
+                    <input matInput formControlName="frequencia">
+                  </mat-form-field>
+        
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Intensidade</mat-label>
+                    <input matInput formControlName="intensidade">
+                  </mat-form-field>
+        
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Duração</mat-label>
+                    <input matInput formControlName="duracao">
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-expansion-panel>
+        
+            
           </mat-card-content>
         </mat-card>
 
         <!-- Seção 5: Aspectos Clínicos -->
         <mat-card class="section-card">
           <mat-card-header>
-            <mat-card-title>5. Aspectos Clínicos e Comportamentais</mat-card-title>
+            <mat-card-title>5. Aspectos Clínicos</mat-card-title>
           </mat-card-header>
-          
+        
           <mat-card-content>
-            <!-- Campos da seção 5 -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Possui alguma religião que exige restrições alimentares?</mat-label>
+              <input matInput formControlName="restricoesReligiosas">
+            </mat-form-field>
+        
+            <!-- Medicamentos -->
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>Uso de medicamentos</mat-panel-title>
+              </mat-expansion-panel-header>
+        
+              <div formGroupName="medicamentos">
+                <mat-slide-toggle formControlName="usa">Faz uso?</mat-slide-toggle>
+        
+                <div *ngIf="consultaForm.get('medicamentos.usa')?.value">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Quais?</mat-label>
+                    <input matInput formControlName="quais">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Frequência</mat-label>
+                    <input matInput formControlName="frequencia">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Horários</mat-label>
+                    <input matInput formControlName="horarios">
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-expansion-panel>
+        
+            <!-- Álcool -->
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>Consumo de álcool</mat-panel-title>
+              </mat-expansion-panel-header>
+        
+              <div formGroupName="alcool">
+                <mat-slide-toggle formControlName="usa">Consome?</mat-slide-toggle>
+        
+                <div *ngIf="consultaForm.get('alcool.usa')?.value">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tempo</mat-label>
+                    <input matInput formControlName="tempo">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Frequência</mat-label>
+                    <input matInput formControlName="frequencia">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tipo</mat-label>
+                    <input matInput formControlName="tipo">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Quantidade</mat-label>
+                    <input matInput formControlName="quantidade">
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-expansion-panel>
+        
+            <!-- Fumo -->
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>Fuma?</mat-panel-title>
+              </mat-expansion-panel-header>
+        
+              <div formGroupName="fumo">
+                <mat-slide-toggle formControlName="fuma">Sim</mat-slide-toggle>
+        
+                <div *ngIf="consultaForm.get('fumo.fuma')?.value">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tempo</mat-label>
+                    <input matInput formControlName="tempo">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Frequência</mat-label>
+                    <input matInput formControlName="frequencia">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tipo</mat-label>
+                    <input matInput formControlName="tipo">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Quantidade</mat-label>
+                    <input matInput formControlName="quantidade">
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-expansion-panel>
+        
+            <!-- Drogas -->
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>Uso de drogas ilícitas</mat-panel-title>
+              </mat-expansion-panel-header>
+        
+              <div formGroupName="drogas">
+                <mat-slide-toggle formControlName="usa">Usa?</mat-slide-toggle>
+        
+                <div *ngIf="consultaForm.get('drogas.usa')?.value">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tempo</mat-label>
+                    <input matInput formControlName="tempo">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Frequência</mat-label>
+                    <input matInput formControlName="frequencia">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tipo</mat-label>
+                    <input matInput formControlName="tipo">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Quantidade</mat-label>
+                    <input matInput formControlName="quantidade">
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-expansion-panel>
           </mat-card-content>
         </mat-card>
 
@@ -263,9 +464,92 @@
           <mat-card-header>
             <mat-card-title>6. Avaliação por Sistemas</mat-card-title>
           </mat-card-header>
-          
+        
           <mat-card-content>
-            <!-- Campos da seção 6 -->
+            <!-- Sistema Neurológico -->
+            <div formGroupName="sistemaNeurologico">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Cognição</mat-label>
+                <input matInput formControlName="cognicao">
+              </mat-form-field>
+        
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Estado emocional</mat-label>
+                <input matInput formControlName="emocional">
+              </mat-form-field>
+        
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Autonomia</mat-label>
+                <input matInput formControlName="autonomia">
+              </mat-form-field>
+        
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Comunicação</mat-label>
+                <input matInput formControlName="comunicacao">
+              </mat-form-field>
+            </div>
+        
+            <!-- Sistema Digestório -->
+            <div formGroupName="sistemaDigestorio">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Dentição</mat-label>
+                <input matInput formControlName="dentição">
+              </mat-form-field>
+        
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Deglutição</mat-label>
+                <input matInput formControlName="degluticao">
+              </mat-form-field>
+        
+              <mat-slide-toggle formControlName="dorEngolir">Sente dor ao engolir?</mat-slide-toggle>
+        
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Digestão</mat-label>
+                <input matInput formControlName="digestao">
+              </mat-form-field>
+        
+              <div formGroupName="evacuacao">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Frequência da evacuação</mat-label>
+                  <input matInput formControlName="frequencia">
+                </mat-form-field>
+        
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Consistência</mat-label>
+                  <input matInput formControlName="consistencia">
+                </mat-form-field>
+              </div>
+            </div>
+        
+            <!-- Sistema Urinário -->
+            <div formGroupName="sistemaUrinario">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Frequência urinária</mat-label>
+                <input matInput formControlName="frequencia">
+              </mat-form-field>
+        
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Coloração</mat-label>
+                <input matInput formControlName="coloracao">
+              </mat-form-field>
+        
+              <mat-slide-toggle formControlName="sangue">Presença de sangue</mat-slide-toggle>
+              <mat-slide-toggle formControlName="incontinencia">Incontinência</mat-slide-toggle>
+              <mat-slide-toggle formControlName="edema">Edema</mat-slide-toggle>
+            </div>
+        
+            <!-- Sistema Reprodutor -->
+            <div formGroupName="sistemaReprodutor">
+              <mat-slide-toggle formControlName="menstruacaoRegular">Menstruação regular</mat-slide-toggle>
+              <mat-slide-toggle formControlName="tpm">Sinais de TPM</mat-slide-toggle>
+              <mat-slide-toggle formControlName="amenorreia">Amenorreia</mat-slide-toggle>
+              <mat-slide-toggle formControlName="menopausa">Menopausa</mat-slide-toggle>
+        
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Partos</mat-label>
+                <input matInput formControlName="partos">
+              </mat-form-field>
+            </div>
           </mat-card-content>
         </mat-card>
 
