@@ -16,7 +16,7 @@ export class NewatendimentoComponent implements OnInit{
   consultaForm: FormGroup;
   pacienteId: string;
   loading = false;
-  genero: string = ''; // Para controlar perguntas específicas por gênero
+  genero: string = '';
   pacienteNome: string = '';
   paciente: any = null;
   
@@ -102,7 +102,8 @@ export class NewatendimentoComponent implements OnInit{
       mudancasHabitoAlimentar: [''],
       mudancasFinaisSemana: [''],
       ingestaoLiquidos: [''],
-      preferenciaGosto: [''],
+      alimentosLightDiet: [''], 
+    preferenciaSabor: [''],
       consumoLightDiet: [false],
       usoSuplementos: this.fb.group({
         usa: [false],
@@ -185,10 +186,10 @@ export class NewatendimentoComponent implements OnInit{
       sistemaReprodutor: this.fb.group({
         menstruacaoRegular: [false],
         tpm: [false],
-        observacaoTpm: [''],
+        observacaoTpm: [''], 
         amenorreia: [false],
         menopausa: [false],
-        idadeInicioMenopausa: [''], 
+        idadeInicioMenopausa: [''],
         partos: ['']
       })
     });
@@ -203,7 +204,7 @@ export class NewatendimentoComponent implements OnInit{
   
     this.loading = true;
     try {
-      const formData = await this.prepareFormData(); // <-- aqui
+      const formData = await this.prepareFormData(); 
       await this.atendimentosService.criarPrimeiraConsulta(this.pacienteId, formData);
       this.toastr.success('Primeira consulta registrada com sucesso!');
       this.router.navigate(['/listatendimentos', this.pacienteId]);

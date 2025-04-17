@@ -39,10 +39,10 @@ export class ListatendimentosComponent implements OnInit{
   async carregarDados(pacienteId: string) {
     try {
       this.paciente = await firstValueFrom(this.pacientesService.getPacienteById(pacienteId));
-      console.log('Paciente encontrado:', this.paciente); // Verifique se o paciente foi encontrado
+      console.log('Paciente encontrado:', this.paciente); 
       const consultas = await this.atendimentosService.getConsultasPorPaciente(pacienteId);
-      console.log('Consultas encontradas:', consultas); // Verifique os dados retornados
-      this.atendimentos.data = consultas; // Atualize a fonte de dados
+      console.log('Consultas encontradas:', consultas);
+      this.atendimentos.data = consultas; 
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
       this.toastr.error('Erro ao carregar dados', 'Erro');
@@ -88,7 +88,13 @@ export class ListatendimentosComponent implements OnInit{
 
   
   editarAtendimento(atendimentoId: string) {
-    console.log('Editar atendimento:', atendimentoId);
+    this.router.navigate(['/newatendimento', this.paciente.id], {
+      state: {
+        pacienteNome: this.paciente.nome,
+        atendimentoId: atendimentoId,
+        modoEdicao: true
+      }
+    });
   }
   
   async excluirAtendimento(atendimentoId: string) {

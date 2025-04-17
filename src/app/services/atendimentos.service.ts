@@ -24,14 +24,34 @@ export class AtendimentosService {
       });
   }
 
-  excluirAtendimento(id: string): Promise<void> {
-    return this.firestore.collection('atendimentos').doc(id).delete();
+  getAtendimentoById(atendimentoId: string): Promise<any> {
+    return this.firestore.collection('consultas').doc(atendimentoId).get().toPromise()
+      .then(snapshot => {
+        if (!snapshot || !snapshot.exists) {
+          throw new Error('Atendimento não encontrado');
+        }
+        const data = snapshot.data();
+        if (!data) {
+          throw new Error('Dados do atendimento não encontrados');
+        }
+        return { id: snapshot.id, ...data };
+      });
+  }
+  atualizarAtendimento(atendimentoId: string, dados: any): Promise<void> {
+    return this.firestore.collection('consultas').doc(atendimentoId).update({
+      ...dados,
+      updatedAt: new Date()
+    });
+  }
+
+  excluirAtendimento(atendimentoId: string): Promise<void> {
+    return this.firestore.collection('consultas').doc(atendimentoId).delete();
   }
 
   criarPrimeiraConsulta(pacienteId: string, dados: any) {
     const payload = {
       ...dados,
-      pacienteId, // <-- aqui você garante que está incluindo o ID certo
+      pacienteId, 
       createdAt: new Date()
     };
   
