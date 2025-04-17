@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AtendimentosService } from '../../services/atendimentos.service';
 import { ToastrService } from 'ngx-toastr';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-newatendimento',
   templateUrl: './newatendimento.component.html',
-  styleUrl: './newatendimento.component.scss'
+  styleUrl: './newatendimento.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewatendimentoComponent implements OnInit{
   consultaForm: FormGroup;
@@ -15,22 +17,23 @@ export class NewatendimentoComponent implements OnInit{
   loading = false;
   genero: string = ''; // Para controlar perguntas específicas por gênero
   pacienteNome: string = '';
+  
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private atendimentosService: AtendimentosService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private afAuth: AngularFireAuth
   ) {
     this.consultaForm = this.createForm();
   }
 
   ngOnInit(): void {
-    this.pacienteId = this.route.snapshot.paramMap.get('pacienteId') || '';
-    
-    // Adicione esta parte para pegar o nome do paciente
     this.route.paramMap.subscribe(params => {
+      this.pacienteId = params.get('pacienteId') || '';
+      
       const navigation = this.router.getCurrentNavigation();
       if (navigation?.extras.state) {
         this.pacienteNome = navigation.extras.state['pacienteNome'] || '';
@@ -178,10 +181,10 @@ export class NewatendimentoComponent implements OnInit{
       this.toastr.warning('Preencha todos os campos obrigatórios');
       return;
     }
-
+  
     this.loading = true;
     try {
-      const formData = this.prepareFormData();
+      const formData = await this.prepareFormData(); // <-- aqui
       await this.atendimentosService.criarPrimeiraConsulta(this.pacienteId, formData);
       this.toastr.success('Primeira consulta registrada com sucesso!');
       this.router.navigate(['/listatendimentos', this.pacienteId]);
@@ -193,12 +196,15 @@ export class NewatendimentoComponent implements OnInit{
     }
   }
 
-  prepareFormData(): any {
+  async prepareFormData(): Promise<any> {
     const formValue = this.consultaForm.value;
-    // Aqui você pode fazer ajustes nos dados antes de enviar
+    const user = await this.afAuth.currentUser;
+  
     return {
       ...formValue,
-      data: new Date().toISOString()
+      nutricionistaId: user?.uid || '',
+      data: new Date().toISOString(),
+      tipo: 'primeira'
     };
   }
 

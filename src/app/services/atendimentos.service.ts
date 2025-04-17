@@ -26,16 +26,14 @@ export class AtendimentosService {
     return this.firestore.collection('atendimentos').doc(id).delete();
   }
 
-  async criarPrimeiraConsulta(pacienteId: string, dados: any) {
-    const consulta = {
-      pacienteId,
-      tipo: 'primeira',
-      data: new Date().toISOString(),
-      dados,
+  criarPrimeiraConsulta(pacienteId: string, dados: any) {
+    const payload = {
+      ...dados,
+      pacienteId, // <-- aqui você garante que está incluindo o ID certo
       createdAt: new Date()
     };
-    
-    return this.firestore.collection('consultas').add(consulta);
+  
+    return this.firestore.collection('consultas').add(payload);
   }
 
   async criarConsultaRegular(pacienteId: string, dados: any) {

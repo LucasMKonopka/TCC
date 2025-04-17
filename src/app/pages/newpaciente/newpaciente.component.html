@@ -99,42 +99,86 @@
         </section>
 
         <!-- Seção 3: Saúde -->
+    <!-- Seção 3: Saúde -->
 <section class="form-section saude-section">
-    <h3 class="section-title">Informações de Saúde</h3>
-    
-    <div class="form-row">
-      <mat-form-field appearance="outline" class="form-field-full">
-        <mat-label>Alergias</mat-label>
-        <textarea matInput formControlName="alergias" rows="3"></textarea>
-      </mat-form-field>
-    </div>
-  
-    <div class="form-row">
-      <mat-form-field appearance="outline" class="form-field-full">
-        <mat-label>Doenças Crônicas</mat-label>
-        <textarea matInput formControlName="doencasCronicas" rows="3"></textarea>
-      </mat-form-field>
-    </div>
-  
-    <div class="form-row">
-      <mat-form-field appearance="outline" class="form-field-full">
-        <mat-label>Medicamentos</mat-label>
-        <textarea matInput formControlName="medicamentosContinuos" rows="3"></textarea>
-      </mat-form-field>
-    </div>
-  </section>
+  <h3 class="section-title">Informações de Saúde</h3>
 
-        <!-- Botões de Ação -->
-        <div class="action-buttons">
-            <button mat-raised-button type="button" (click)="cancelar()" class="cancel-button">
-                <mat-icon>cancel</mat-icon> Cancelar
-              </button>
-          <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
-            <mat-icon>save</mat-icon> Salvar
-          </button>
-          
-        </div>
-      </form>
+  <!-- Alergias -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Alergias</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div formGroupName="alergias">
+      <mat-slide-toggle formControlName="usa">Tem?</mat-slide-toggle>
+
+      <div *ngIf="form.get('alergias.usa')?.value">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Quais?</mat-label>
+          <input matInput formControlName="quaisAlergias">
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-expansion-panel>
+
+  <!-- Doenças Crônicas -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Doenças Crônicas</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div formGroupName="doencasCronicas">
+      <mat-slide-toggle formControlName="usa">Possui?</mat-slide-toggle>
+
+      <div *ngIf="form.get('doencasCronicas.usa')?.value">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Quais?</mat-label>
+          <input matInput formControlName="quaisDoencas">
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-expansion-panel>
+
+  <!-- Medicamentos -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Uso de medicamentos</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div formGroupName="medicamentos">
+      <mat-slide-toggle formControlName="usa">Faz uso?</mat-slide-toggle>
+
+      <div *ngIf="form.get('medicamentos.usa')?.value">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Quais?</mat-label>
+          <input matInput formControlName="quaisMedicamentos">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Frequência</mat-label>
+          <input matInput formControlName="frequencia">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Horários</mat-label>
+          <input matInput formControlName="horarios">
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</section>
+
+<!-- Botões de Ação -->
+<div class="action-buttons">
+  <button mat-raised-button type="button" (click)="cancelar()" class="cancel-button">
+    <mat-icon>cancel</mat-icon> Cancelar
+  </button>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+    <mat-icon>save</mat-icon> Salvar
+  </button>
+</div>
+</form>
     </mat-card-content>
   </mat-card>
 </div>

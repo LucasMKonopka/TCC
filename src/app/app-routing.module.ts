@@ -22,7 +22,7 @@ const routes: Routes = [
   {path: 'listpacientes', component: ListpacientesComponent},
   {path: 'editar-paciente/:id', component: NewpacienteComponent },
   {path: 'listatendimentos/:id', component: ListatendimentosComponent},
-  {path: 'newatendimento/:id', component: NewatendimentoComponent},
+  {path: 'newatendimento/:pacienteId', component: NewatendimentoComponent},
   {path: 'atendimentosregulares/:id', component: AtendimentosregularesComponent},
 ];
 

@@ -55,12 +55,23 @@ export class NewpacienteComponent implements OnInit {
       bairro: ['', Validators.required],
       cidade: ['', Validators.required],
       estado: ['', Validators.required],
-      alergias: [''],
-      doencasCronicas: [''],
-      medicamentosContinuos: [''],
-      historicoDiabetes: [false],
-      historicoHipertensao: [false],
-      historicoOutros: ['']
+      
+      alergias: this.fb.group({
+        usa: [false],
+        quaisAlergias: ['']
+      }),
+      
+      doencasCronicas: this.fb.group({
+        usa: [false],
+        quaisDoencas: ['']
+      }),
+  
+      medicamentos: this.fb.group({
+        usa: [false],
+        quaisMedicamentos: [''],
+        frequencia: [''],
+        horarios: ['']
+      }),
     });
   }
 
