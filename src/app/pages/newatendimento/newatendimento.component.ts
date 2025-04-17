@@ -19,6 +19,9 @@ export class NewatendimentoComponent implements OnInit{
   genero: string = '';
   pacienteNome: string = '';
   paciente: any = null;
+  isEdicao = false;
+  atendimentoId: string | null = null;
+  atendimentoOriginal: any = null;
   
 
   constructor(
@@ -37,22 +40,67 @@ export class NewatendimentoComponent implements OnInit{
     this.route.paramMap.subscribe(params => {
       this.pacienteId = params.get('pacienteId') || '';
       
-      const navigation = this.router.getCurrentNavigation();
-      if (navigation?.extras.state) {
-        this.pacienteNome = navigation.extras.state['pacienteNome'] || '';
+      const state = window.history.state;
+      if (state) {
+        this.pacienteNome = state.pacienteNome || '';
+        this.atendimentoId = state.atendimentoId || null;
+        this.isEdicao = state.modoEdicao || false;
       }
+
       if (this.pacienteId) {
-        this.pacientesService.getPacienteById(this.pacienteId).subscribe({
-          next: (dados) => {
-            this.paciente = dados;
-          },
-          error: (err) => {
-            console.error('Erro ao buscar paciente:', err);
-          }
-        });
+        this.carregarDadosPaciente();
+        
+        if (this.isEdicao && this.atendimentoId) {
+          this.carregarDadosAtendimento();
+        }
       }
     });
   }
+
+  private carregarDadosPaciente(): void {
+    this.pacientesService.getPacienteById(this.pacienteId).subscribe({
+      next: (dados) => {
+        this.paciente = dados;
+      },
+      error: (err) => {
+        console.error('Erro ao buscar paciente:', err);
+      }
+    });
+  }
+
+  private carregarDadosAtendimento(): void {
+    if (!this.atendimentoId) return;
+    
+    this.atendimentosService.getAtendimentoById(this.atendimentoId)
+      .then(atendimento => {
+        this.preencherFormulario(atendimento);
+      })
+      .catch(error => {
+        console.error('Erro ao carregar atendimento:', error);
+        this.toastr.error('Erro ao carregar dados do atendimento');
+      });
+  }
+
+  private preencherFormulario(atendimento: any): void {
+    if (!this.consultaForm) {
+      setTimeout(() => this.preencherFormulario(atendimento), 100);
+      return;
+    }
+
+    const dados = { ...atendimento };
+    delete dados.id;
+    delete dados.pacienteId;
+    delete dados.nutricionistaId;
+    delete dados.data;
+    delete dados.createdAt;
+    delete dados.updatedAt;
+    delete dados.tipo;
+
+    this.consultaForm.patchValue(dados);
+    
+    this.consultaForm.markAsPristine();
+  }
+
   calcularIdade(dataNascimento: string): number {
   if (!dataNascimento) return 0;
   const nasc = new Date(dataNascimento);
@@ -204,12 +252,20 @@ export class NewatendimentoComponent implements OnInit{
   
     this.loading = true;
     try {
-      const formData = await this.prepareFormData(); 
-      await this.atendimentosService.criarPrimeiraConsulta(this.pacienteId, formData);
-      this.toastr.success('Primeira consulta registrada com sucesso!');
+      const formData = await this.prepareFormData();
+      
+      if (this.isEdicao && this.atendimentoId) {
+        await this.atendimentosService.atualizarAtendimento(this.atendimentoId, formData);
+        this.toastr.success('Atendimento atualizado com sucesso!');
+      } else {
+        await this.atendimentosService.criarPrimeiraConsulta(this.pacienteId, formData);
+        this.toastr.success('Primeira consulta registrada com sucesso!');
+      }
+      
       this.router.navigate(['/listatendimentos', this.pacienteId]);
     } catch (error) {
-      this.toastr.error('Erro ao registrar consulta');
+      const mensagem = this.isEdicao ? 'Erro ao atualizar consulta' : 'Erro ao registrar consulta';
+      this.toastr.error(mensagem);
       console.error(error);
     } finally {
       this.loading = false;
