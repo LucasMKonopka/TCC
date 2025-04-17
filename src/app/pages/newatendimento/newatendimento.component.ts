@@ -161,6 +161,17 @@ export class NewatendimentoComponent implements OnInit{
       apetiteAtual: [''],
       preferenciasAlimentares: [''],
       alimentosRejeitados: [''],
+      ingestaoAgua: [''],
+      horarioFome: [[]],
+      frequenciaRestaurantes: [''],
+      consumoDoces: [''],
+      consumoFrituras: [''],
+      jaConsultouNutricionista: [''],
+  acordaNoite: [''],
+  cirurgias: [''],
+  historicoDieteticoFamiliar: [''],
+  historicoDieteticoCrianca: [''],
+
   
       // Seção 3: Comportamento Alimentar
       mudancasHabitoAlimentar: [''],
@@ -259,7 +270,6 @@ export class NewatendimentoComponent implements OnInit{
       //infantil
       pacienteInfantil: this.fb.group({
         objetivo: [''],
-        jaConsultouNutricionista: [''],
         pediatra: [''],
         tipoParto: [''],
         semanasGestacionais: [''],
@@ -272,20 +282,11 @@ export class NewatendimentoComponent implements OnInit{
         alimentosIntroducao: [''],
         atividadeFisica: [''],
         horasSono: [''],
-        acordaNoite: [''],
         rotinaEstudos: [''],
-        cirurgias: [''],
         alergiasIntolerancias: [''],
-        ingestaoAgua: [''],
-        horarioFome: [[]],
         mastigacao: [''],
         alimentoFavorito: [''],
-        frequenciaRestaurantes: [''],
-        consumoDoces: [''],
-        consumoFrituras: [''],
         historicoDietetico: [''],
-        historicoDieteticoFamiliar: [''],
-        historicoDieteticoCrianca: [''],
         refeicoesEscola: [''],
       })
     });
@@ -293,6 +294,15 @@ export class NewatendimentoComponent implements OnInit{
 
   get pacienteInfantilForm(): FormGroup {
     return this.consultaForm.get('pacienteInfantil') as FormGroup;
+  }
+  get pacienteAdolescenteForm(): FormGroup {
+    return this.consultaForm.get('pacienteAdolescente') as FormGroup;
+  }
+  get pacienteAdultoForm(): FormGroup {
+    return this.consultaForm.get('pacienteAdulto') as FormGroup;
+  }
+  get pacienteIdosoForm(): FormGroup {
+    return this.consultaForm.get('pacienteIdoso') as FormGroup;
   }
 
   async onSubmit() {
