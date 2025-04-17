@@ -171,10 +171,6 @@
                 <textarea matInput formControlName="alimentosRejeitados" rows="2"></textarea>
               </mat-form-field>
           
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Intolerâncias ou alergias alimentares</mat-label>
-                <textarea matInput formControlName="alergiasIntolerancias" rows="2"></textarea>
-              </mat-form-field>
             </mat-card-content>
           </mat-card>
 
@@ -341,32 +337,6 @@
               <input matInput formControlName="restricoesReligiosas">
             </mat-form-field>
         
-            <!-- Medicamentos -->
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>Uso de medicamentos</mat-panel-title>
-              </mat-expansion-panel-header>
-        
-              <div formGroupName="medicamentos">
-                <mat-slide-toggle formControlName="usa">Faz uso?</mat-slide-toggle>
-        
-                <div *ngIf="consultaForm.get('medicamentos.usa')?.value">
-                  <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Quais?</mat-label>
-                    <input matInput formControlName="quais">
-                  </mat-form-field>
-                  <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Frequência</mat-label>
-                    <input matInput formControlName="frequencia">
-                  </mat-form-field>
-                  <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Horários</mat-label>
-                    <input matInput formControlName="horarios">
-                  </mat-form-field>
-                </div>
-              </div>
-            </mat-expansion-panel>
-        
             <!-- Álcool -->
             <mat-expansion-panel>
               <mat-expansion-panel-header>
@@ -460,109 +430,117 @@
         </mat-card>
 
         <!-- Seção 6: Avaliação por Sistemas -->
-        <mat-card class="section-card">
-          <mat-card-header>
-            <mat-card-title>6. Avaliação por Sistemas</mat-card-title>
-          </mat-card-header>
-        
-          <mat-card-content>
-            <!-- Sistema Neurológico -->
-            <div formGroupName="sistemaNeurologico">
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Cognição</mat-label>
-                <input matInput formControlName="cognicao">
-              </mat-form-field>
-        
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Estado emocional</mat-label>
-                <input matInput formControlName="emocional">
-              </mat-form-field>
-        
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Autonomia</mat-label>
-                <input matInput formControlName="autonomia">
-              </mat-form-field>
-        
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Comunicação</mat-label>
-                <input matInput formControlName="comunicacao">
-              </mat-form-field>
-            </div>
-        
-            <!-- Sistema Digestório -->
-            <div formGroupName="sistemaDigestorio">
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Dentição</mat-label>
-                <input matInput formControlName="dentição">
-              </mat-form-field>
-        
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Deglutição</mat-label>
-                <input matInput formControlName="degluticao">
-              </mat-form-field>
-        
-              <mat-slide-toggle formControlName="dorEngolir">Sente dor ao engolir?</mat-slide-toggle>
-        
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Digestão</mat-label>
-                <input matInput formControlName="digestao">
-              </mat-form-field>
-        
-              <div formGroupName="evacuacao">
-                <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>Frequência da evacuação</mat-label>
-                  <input matInput formControlName="frequencia">
-                </mat-form-field>
-        
-                <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>Consistência</mat-label>
-                  <input matInput formControlName="consistencia">
-                </mat-form-field>
-              </div>
-            </div>
-        
-            <!-- Sistema Urinário -->
-            <div formGroupName="sistemaUrinario">
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Frequência urinária</mat-label>
-                <input matInput formControlName="frequencia">
-              </mat-form-field>
-        
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Coloração</mat-label>
-                <input matInput formControlName="coloracao">
-              </mat-form-field>
-        
-              <mat-slide-toggle formControlName="sangue">Presença de sangue</mat-slide-toggle>
-              <mat-slide-toggle formControlName="incontinencia">Incontinência</mat-slide-toggle>
-              <mat-slide-toggle formControlName="edema">Edema</mat-slide-toggle>
-            </div>
-        
-            <!-- Sistema Reprodutor -->
-            <div formGroupName="sistemaReprodutor">
-              <mat-slide-toggle formControlName="menstruacaoRegular">Menstruação regular</mat-slide-toggle>
-              <mat-slide-toggle formControlName="tpm">Sinais de TPM</mat-slide-toggle>
-              <mat-slide-toggle formControlName="amenorreia">Amenorreia</mat-slide-toggle>
-              <mat-slide-toggle formControlName="menopausa">Menopausa</mat-slide-toggle>
-        
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Partos</mat-label>
-                <input matInput formControlName="partos">
-              </mat-form-field>
-            </div>
-          </mat-card-content>
-        </mat-card>
+<mat-card class="section-card">
+  <mat-card-header>
+    <mat-card-title>6. Avaliação por Sistemas</mat-card-title>
+  </mat-card-header>
 
-        <div class="button-container">
-          <button mat-raised-button color="warn" type="button" (click)="cancelar()">
-            Cancelar
-          </button>
-          <button mat-raised-button color="primary" type="submit" [disabled]="loading">
-            <span *ngIf="!loading">Salvar Consulta</span>
-            <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
-          </button>
-        </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
+  <mat-card-content>
+    <!-- Sistema Neurológico -->
+    <div formGroupName="sistemaNeurologico">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Cognição</mat-label>
+        <input matInput formControlName="cognicao">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Estado emocional</mat-label>
+        <input matInput formControlName="emocional">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Autonomia</mat-label>
+        <input matInput formControlName="autonomia">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Comunicação</mat-label>
+        <input matInput formControlName="comunicacao">
+      </mat-form-field>
+    </div>
+
+    <!-- Sistema Digestório -->
+    <div formGroupName="sistemaDigestorio">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Dentição</mat-label>
+        <input matInput formControlName="dentição">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Deglutição</mat-label>
+        <input matInput formControlName="degluticao">
+      </mat-form-field>
+
+      <mat-slide-toggle formControlName="dorEngolir">Sente dor ao engolir?</mat-slide-toggle>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Digestão</mat-label>
+        <input matInput formControlName="digestao">
+      </mat-form-field>
+
+      <div formGroupName="evacuacao">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Frequência da evacuação</mat-label>
+          <input matInput formControlName="frequencia">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Consistência</mat-label>
+          <input matInput formControlName="consistencia">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Sistema Urinário -->
+    <div formGroupName="sistemaUrinario">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Frequência urinária</mat-label>
+        <input matInput formControlName="frequencia">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Coloração</mat-label>
+        <input matInput formControlName="coloracao">
+      </mat-form-field>
+
+      <mat-slide-toggle formControlName="sangue">Presença de sangue</mat-slide-toggle>
+      <mat-slide-toggle formControlName="incontinencia">Incontinência</mat-slide-toggle>
+      <mat-slide-toggle formControlName="edema">Edema</mat-slide-toggle>
+    </div>
+
+    <!-- Sistema Reprodutor -->
+<div formGroupName="sistemaReprodutor">
+  <mat-slide-toggle formControlName="menstruacaoRegular">Menstruação regular</mat-slide-toggle>
+  <mat-slide-toggle formControlName="tpm">Sinais de TPM</mat-slide-toggle>
+  <mat-slide-toggle formControlName="amenorreia">Amenorreia</mat-slide-toggle>
+  <mat-slide-toggle formControlName="menopausa">Menopausa</mat-slide-toggle>
+
+  <!-- Observações TPM -->
+  <mat-form-field appearance="outline" class="full-width" *ngIf="consultaForm.get('sistemaReprodutor.tpm')?.value">
+    <mat-label>Observações sobre TPM (ex: sintomas, duração, etc)</mat-label>
+    <input matInput formControlName="observacaoTpm">
+  </mat-form-field>
+  
+  <!-- Idade de Início da Menopausa -->
+  <mat-form-field appearance="outline" class="full-width" *ngIf="consultaForm.get('sistemaReprodutor.menopausa')?.value">
+    <mat-label>Idade de início da menopausa</mat-label>
+    <input matInput type="number" formControlName="idadeInicioMenopausa">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Partos</mat-label>
+    <input matInput formControlName="partos">
+  </mat-form-field>
+</div>
+  </mat-card-content>
+</mat-card>
+
+<div class="button-container">
+  <button mat-raised-button color="warn" type="button" (click)="cancelar()">
+    Cancelar
+  </button>
+  <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+    <span *ngIf="!loading">Salvar Consulta</span>
+    <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+  </button>
 </div>

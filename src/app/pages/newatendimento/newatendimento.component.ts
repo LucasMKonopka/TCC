@@ -58,7 +58,7 @@ export class NewatendimentoComponent implements OnInit{
         quantidade: [''],
         motivo: ['']
       }),
-
+  
       // Seção 2: Padrão Alimentar
       refeicoesPorDia: [''],
       localAlimentacao: [''],
@@ -73,8 +73,8 @@ export class NewatendimentoComponent implements OnInit{
       apetiteAtual: [''],
       preferenciasAlimentares: [''],
       alimentosRejeitados: [''],
-      alergiasIntolerancias: [''],
-
+      // alergiasIntolerancias: [''], <- Removido
+  
       // Seção 3: Comportamento Alimentar
       mudancasHabitoAlimentar: [''],
       mudancasFinaisSemana: [''],
@@ -91,7 +91,7 @@ export class NewatendimentoComponent implements OnInit{
         orientacao: [''],
         resultados: ['']
       }),
-
+  
       // Seção 4: Motivações e Estilo de Vida
       motivoConsulta: ['', Validators.required],
       profissao: [''],
@@ -110,15 +110,10 @@ export class NewatendimentoComponent implements OnInit{
         duracao: ['']
       }),
       lazer: [''],
-
+  
       // Seção 5: Aspectos Clínicos
       restricoesReligiosas: [''],
-      medicamentos: this.fb.group({
-        usa: [false],
-        quais: [''],
-        frequencia: [''],
-        horarios: ['']
-      }),
+      // medicamentos: this.fb.group({ ... }) <- Removido
       alcool: this.fb.group({
         usa: [false],
         tempo: [''],
@@ -140,7 +135,7 @@ export class NewatendimentoComponent implements OnInit{
         tipo: [''],
         quantidade: ['']
       }),
-
+  
       // Seção 6: Avaliação por Sistemas
       sistemaNeurologico: this.fb.group({
         cognicao: [''],
@@ -168,8 +163,10 @@ export class NewatendimentoComponent implements OnInit{
       sistemaReprodutor: this.fb.group({
         menstruacaoRegular: [false],
         tpm: [false],
+        observacaoTpm: [''], // <-- novo campo
         amenorreia: [false],
         menopausa: [false],
+        idadeInicioMenopausa: [''], // <-- novo campo
         partos: ['']
       })
     });
