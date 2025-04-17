@@ -22,6 +22,13 @@ export class NewatendimentoComponent implements OnInit{
   isEdicao = false;
   atendimentoId: string | null = null;
   atendimentoOriginal: any = null;
+  isInfantil = false;
+  isAdolescente = false;
+  isAdulto = false;
+  isIdoso = false;
+  tipoPaciente: string = '';
+  exibirGestante: boolean = false;
+  isGestante: boolean = false;
   
 
   constructor(
@@ -46,10 +53,18 @@ export class NewatendimentoComponent implements OnInit{
         this.atendimentoId = state.atendimentoId || null;
         this.isEdicao = state.modoEdicao || false;
       }
-
+  
       if (this.pacienteId) {
-        this.carregarDadosPaciente();
-        
+        this.pacientesService.getPacienteById(this.pacienteId).subscribe({
+          next: (dados) => {
+            this.paciente = dados;
+            this.exibirGestante = dados.sexo?.toLowerCase() === 'feminino'; // <- adiciona essa lógica
+          },
+          error: (err) => {
+            console.error('Erro ao buscar paciente:', err);
+          }
+        });
+  
         if (this.isEdicao && this.atendimentoId) {
           this.carregarDadosAtendimento();
         }

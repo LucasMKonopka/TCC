@@ -39,6 +39,7 @@ import { NewatendimentoComponent } from './pages/newatendimento/newatendimento.c
 import { AtendimentosregularesComponent } from './pages/atendimentosregulares/atendimentosregulares.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 
@@ -82,7 +83,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatOptionModule,
     MatTableModule,
     MatExpansionModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatButtonToggleModule
   ],
   providers: [
     provideAnimationsAsync(),

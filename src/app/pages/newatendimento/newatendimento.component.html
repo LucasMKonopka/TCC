@@ -12,6 +12,35 @@
         <div *ngIf="paciente.medicamentos?.usa"><strong>Medicamentos:</strong> {{ paciente.medicamentos.quaisMedicamentos }}</div>
       </mat-card-subtitle>
     </mat-card-header>
+
+    
+    
+      <mat-card-header>
+        <mat-card-title>Tipo de Paciente</mat-card-title>
+        <mat-card-subtitle>Selecione uma opção</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-button-toggle-group
+          [(ngModel)]="tipoPaciente"
+          name="tipoPaciente"
+          appearance="legacy"
+          color="primary">
+          <mat-button-toggle value="infantil">Infantil</mat-button-toggle>
+          <mat-button-toggle value="adolescente">Adolescente</mat-button-toggle>
+          <mat-button-toggle value="adulto">Adulto</mat-button-toggle>
+          <mat-button-toggle value="idoso">Idoso</mat-button-toggle>
+        </mat-button-toggle-group>
+      </mat-card-content>
+    
+    <ng-container *ngIf="exibirGestante">
+        <mat-card-header>
+          <mat-card-title>Gestante</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-slide-toggle [(ngModel)]="isGestante">Gestante</mat-slide-toggle>
+        </mat-card-content>
+    </ng-container>
+  
   </mat-card>
 
 
