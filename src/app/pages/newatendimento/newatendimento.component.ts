@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AtendimentosService } from '../../services/atendimentos.service';
 import { ToastrService } from 'ngx-toastr';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { PacientesService } from '../../services/pacientes.service';
 
 @Component({
   selector: 'app-newatendimento',
@@ -17,6 +18,7 @@ export class NewatendimentoComponent implements OnInit{
   loading = false;
   genero: string = ''; // Para controlar perguntas específicas por gênero
   pacienteNome: string = '';
+  paciente: any = null;
   
 
   constructor(
@@ -25,7 +27,8 @@ export class NewatendimentoComponent implements OnInit{
     private router: Router,
     private atendimentosService: AtendimentosService,
     private toastr: ToastrService,
-    private afAuth: AngularFireAuth
+    private afAuth: AngularFireAuth,
+    private pacientesService: PacientesService
   ) {
     this.consultaForm = this.createForm();
   }
@@ -38,8 +41,29 @@ export class NewatendimentoComponent implements OnInit{
       if (navigation?.extras.state) {
         this.pacienteNome = navigation.extras.state['pacienteNome'] || '';
       }
+      if (this.pacienteId) {
+        this.pacientesService.getPacienteById(this.pacienteId).subscribe({
+          next: (dados) => {
+            this.paciente = dados;
+          },
+          error: (err) => {
+            console.error('Erro ao buscar paciente:', err);
+          }
+        });
+      }
     });
   }
+  calcularIdade(dataNascimento: string): number {
+  if (!dataNascimento) return 0;
+  const nasc = new Date(dataNascimento);
+  const hoje = new Date();
+  let idade = hoje.getFullYear() - nasc.getFullYear();
+  const m = hoje.getMonth() - nasc.getMonth();
+  if (m < 0 || (m === 0 && hoje.getDate() < nasc.getDate())) {
+    idade--;
+  }
+  return idade;
+}
   
   createForm(): FormGroup {
     return this.fb.group({
@@ -73,7 +97,6 @@ export class NewatendimentoComponent implements OnInit{
       apetiteAtual: [''],
       preferenciasAlimentares: [''],
       alimentosRejeitados: [''],
-      // alergiasIntolerancias: [''], <- Removido
   
       // Seção 3: Comportamento Alimentar
       mudancasHabitoAlimentar: [''],
@@ -113,7 +136,6 @@ export class NewatendimentoComponent implements OnInit{
   
       // Seção 5: Aspectos Clínicos
       restricoesReligiosas: [''],
-      // medicamentos: this.fb.group({ ... }) <- Removido
       alcool: this.fb.group({
         usa: [false],
         tempo: [''],
@@ -163,10 +185,10 @@ export class NewatendimentoComponent implements OnInit{
       sistemaReprodutor: this.fb.group({
         menstruacaoRegular: [false],
         tpm: [false],
-        observacaoTpm: [''], // <-- novo campo
+        observacaoTpm: [''],
         amenorreia: [false],
         menopausa: [false],
-        idadeInicioMenopausa: [''], // <-- novo campo
+        idadeInicioMenopausa: [''], 
         partos: ['']
       })
     });
