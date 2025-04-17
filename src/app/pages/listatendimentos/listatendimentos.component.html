@@ -5,11 +5,31 @@
         <mat-card-header>
             <mat-card-title>Atendimentos de {{ paciente?.nome || 'Carregando...' }}</mat-card-title>
             <mat-card-subtitle>
-                <span>Idade: {{ calcularIdade(paciente?.dataNascimento) }} anos</span> • 
-                <span>CPF: {{ formatarCPF(paciente?.cpf) }}</span>
+                <span>Idade: {{ calcularIdade(paciente?.dataNascimento) }} anos</span>
+                <br>
+                <span *ngIf="paciente?.doencasCronicas?.usa">
+                    Doenças: {{ paciente.doencasCronicas.quaisDoencas }}
+                </span>
+                <span *ngIf="!paciente?.doencasCronicas?.usa">
+                    Doenças: Nenhuma
+                </span>
+                <br>
+                <span *ngIf="paciente?.alergias?.usa">
+                    Alergias: {{ paciente.alergias.quaisAlergias }}
+                </span>
+                <span *ngIf="!paciente?.alergias?.usa">
+                    Alergias: Nenhuma
+                </span>
+                <br>
+                <span *ngIf="paciente?.medicamentos?.usa">
+                    Medicamentos: {{ paciente.medicamentos.quaisMedicamentos }}
+                </span>
+                <span *ngIf="!paciente?.medicamentos?.usa">
+                    Medicamentos: Nenhum
+                </span>
             </mat-card-subtitle>
         </mat-card-header>
-        
+
         <mat-card-actions>
             <button mat-raised-button color="primary" (click)="novoAtendimento()">
                 <mat-icon>add</mat-icon> Novo Atendimento
@@ -19,12 +39,12 @@
             </button>
         </mat-card-actions>
     </mat-card>
-  
+
     <mat-card class="atendimentos-list">
         <mat-card-header>
             <mat-card-title>Histórico de Atendimentos</mat-card-title>
         </mat-card-header>
-        
+
         <mat-card-content>
             <table mat-table [dataSource]="atendimentos" class="full-width">
                 <ng-container matColumnDef="data">
@@ -43,11 +63,11 @@
                         </button>
                     </td>
                 </ng-container>
-  
+
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-  
+
             <div *ngIf="atendimentos.data.length === 0" class="no-results">
                 Nenhum atendimento registrado ainda.
             </div>

@@ -38,13 +38,16 @@ export class ListatendimentosComponent implements OnInit{
 
   async carregarDados(pacienteId: string) {
     try {
-        this.paciente = await firstValueFrom(this.pacientesService.getPacienteById(pacienteId));
-        const atendimentos = await this.atendimentosService.getAtendimentosPorPaciente(pacienteId);
-        this.atendimentos.data = atendimentos;
+      this.paciente = await firstValueFrom(this.pacientesService.getPacienteById(pacienteId));
+      console.log('Paciente encontrado:', this.paciente); // Verifique se o paciente foi encontrado
+      const consultas = await this.atendimentosService.getConsultasPorPaciente(pacienteId);
+      console.log('Consultas encontradas:', consultas); // Verifique os dados retornados
+      this.atendimentos.data = consultas; // Atualize a fonte de dados
     } catch (error) {
-        this.toastr.error('Erro ao carregar dados', 'Erro');
+      console.error('Erro ao carregar dados:', error);
+      this.toastr.error('Erro ao carregar dados', 'Erro');
     } finally {
-        this.loading = false;
+      this.loading = false;
     }
   }
 

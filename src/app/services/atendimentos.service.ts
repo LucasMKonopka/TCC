@@ -8,13 +8,15 @@ export class AtendimentosService {
 
   constructor(private firestore: AngularFirestore) {}
 
-  getAtendimentosPorPaciente(pacienteId: string): Promise<any[]> {
-    return this.firestore.collection('atendimentos', 
+  getConsultasPorPaciente(pacienteId: string): Promise<any[]> {
+    console.log('Buscando consultas para o paciente:', pacienteId);
+    return this.firestore.collection('consultas', 
       ref => ref.where('pacienteId', '==', pacienteId)
                .orderBy('data', 'desc')
     ).get().toPromise()
       .then(snapshot => {
         if (!snapshot) return [];
+        console.log('Consultas encontradas:', snapshot.docs);
         return snapshot.docs.map(doc => ({
           id: doc.id,
           ...(doc.data() as object)
