@@ -133,6 +133,7 @@ export class NewatendimentoComponent implements OnInit{
       // Seção 1: Dados Antropométricos
       pesoAtual: ['', [Validators.required, Validators.min(30)]],
       pesoHabitual: [''],
+      alturaAtual: [''],
       perdaPeso: this.fb.group({
         teve: [false],
         tempo: [''],
@@ -254,8 +255,44 @@ export class NewatendimentoComponent implements OnInit{
         menopausa: [false],
         idadeInicioMenopausa: [''],
         partos: ['']
+      }),
+      //infantil
+      pacienteInfantil: this.fb.group({
+        objetivo: [''],
+        jaConsultouNutricionista: [''],
+        pediatra: [''],
+        tipoParto: [''],
+        semanasGestacionais: [''],
+        pesoNascimento: [''],
+        comprimentoNascimento: [''],
+        amamentado: [''],
+        tempoAmamentacao: [''],
+        usoFormula: [''],
+        idadeIntroducaoAlimentar: [''],
+        alimentosIntroducao: [''],
+        atividadeFisica: [''],
+        horasSono: [''],
+        acordaNoite: [''],
+        rotinaEstudos: [''],
+        cirurgias: [''],
+        alergiasIntolerancias: [''],
+        ingestaoAgua: [''],
+        horarioFome: [[]],
+        mastigacao: [''],
+        alimentoFavorito: [''],
+        frequenciaRestaurantes: [''],
+        consumoDoces: [''],
+        consumoFrituras: [''],
+        historicoDietetico: [''],
+        historicoDieteticoFamiliar: [''],
+        historicoDieteticoCrianca: [''],
+        refeicoesEscola: [''],
       })
     });
+  }
+
+  get pacienteInfantilForm(): FormGroup {
+    return this.consultaForm.get('pacienteInfantil') as FormGroup;
   }
 
   async onSubmit() {

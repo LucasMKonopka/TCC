@@ -69,6 +69,11 @@
                 <mat-label>Peso Habitual (kg)</mat-label>
                 <input matInput type="number" step="0.1" formControlName="pesoHabitual">
               </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Altura Atual (cm)</mat-label>
+                <input matInput type="number" step="0.1" formControlName="alturaAtual" required>
+              </mat-form-field>
             </div>
 
             <!--perda de peso-->
@@ -577,6 +582,227 @@
 </div>
   </mat-card-content>
 </mat-card>
+
+
+<!--INFANTIL-->
+<ng-container *ngIf="tipoPaciente === 'infantil'">
+  <mat-card class="section-card">
+    <mat-card-header>
+      <mat-card-title>Formulário de Pré-Consulta - Infantil</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content [formGroup]="pacienteInfantilForm">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Objetivo da consulta</mat-label>
+        <input matInput formControlName="objetivo" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="min-width: 300px;">
+        <mat-label>Já consultou nutricionista?</mat-label>
+        <mat-select formControlName="jaConsultouNutricionista">
+          <mat-option value="Sim">Sim</mat-option>
+          <mat-option value="Não">Não</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Realiza acompanhamento com pediatra? Qual profissional?</mat-label>
+        <input matInput formControlName="pediatra" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo de parto</mat-label>
+        <mat-select formControlName="tipoParto">
+          <mat-option value="Normal">Normal</mat-option>
+          <mat-option value="Cesárea">Cesárea</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Semanas gestacionais</mat-label>
+        <input matInput type="number" formControlName="semanasGestacionais" />
+      </mat-form-field>
+
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Peso ao nascer (kg)</mat-label>
+          <input matInput type="number" formControlName="pesoNascimento" />
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline">
+          <mat-label>Comprimento ao nascer (cm)</mat-label>
+          <input matInput type="number" formControlName="comprimentoNascimento" />
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Foi amamentado?</mat-label>
+        <mat-select formControlName="amamentado">
+          <mat-option value="Sim">Sim</mat-option>
+          <mat-option value="Não">Não</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="min-width: 300px;">
+        <mat-label>Tempo de amamentação (meses)</mat-label>
+        <input matInput type="number" formControlName="tempoAmamentacao" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Fórmula infantil? início? Há quanto tempo utiliza? Quantas mamadeiras por dia? Qual a fórmula?</mat-label>
+        <textarea matInput formControlName="usoFormula"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="min-width: 300px;">
+        <mat-label>Idade da introdução alimentar (meses)</mat-label>
+        <input matInput type="number" formControlName="idadeIntroducaoAlimentar" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Alimentos oferecidos na introdução alimentar</mat-label>
+        <textarea matInput formControlName="alimentosIntroducao"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Atividade física (qual, frequência, duração, horário)</mat-label>
+        <textarea matInput formControlName="atividadeFisica"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="min-width: 300px;">
+        <mat-label>Horas de sono por noite</mat-label>
+        <mat-select formControlName="horasSono">
+          <mat-option value="menos de 4h">Menos de 4h</mat-option>
+          <mat-option value="4 a 6h">4 a 6h</mat-option>
+          <mat-option value="6 a 8h">6 a 8h</mat-option>
+          <mat-option value="mais de 8h">Mais de 8h</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="min-width: 300px;">
+        <mat-label>Acorda durante a noite?</mat-label>
+        <mat-select formControlName="acordaNoite">
+          <mat-option value="Sim">Sim</mat-option>
+          <mat-option value="Não">Não</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Rotina de estudos</mat-label>
+        <textarea matInput formControlName="rotinaEstudos"></textarea>
+      </mat-form-field>
+<!--aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Histórico familiar - Câncer, diabetes, doença cardiovascular, doença autoimune, depressão, doença renal, outros</mat-label>
+        <textarea matInput formControlName="historicoDieteticoFamiliar" rows="3"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>A criança já possui alguma dessas condições? - Câncer, diabetes, doença cardiovascular, doença renal, outros</mat-label>
+        <textarea matInput formControlName="historicoDieteticoCrianca" rows="3"></textarea>
+      </mat-form-field>
+
+      <!-- Cirurgias -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Já realizou alguma cirurgia? Qual?</mat-label>
+        <textarea matInput formControlName="cirurgias"></textarea>
+      </mat-form-field>
+
+      <!-- Alergias -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Possui alergias ou intolerâncias alimentares? Quais?</mat-label>
+        <textarea matInput formControlName="alergiasIntolerancias"></textarea>
+      </mat-form-field>
+
+      
+
+      <!-- Ingestão de água -->
+      <mat-form-field appearance="outline" style="min-width: 300px;">
+        <mat-label>Ingestão média de água por dia</mat-label>
+        <mat-select formControlName="ingestaoAgua">
+          <mat-option value="0-3">0-3 garrafas</mat-option>
+          <mat-option value="4-6">4-6 garrafas</mat-option>
+          <mat-option value="7-9">7-9 garrafas</mat-option>
+          <mat-option value="10+">10 ou mais</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Fome -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Período do dia em que sente mais fome</mat-label>
+        <mat-select formControlName="horarioFome" multiple>
+          <mat-option value="Manhã">Manhã</mat-option>
+          <mat-option value="Tarde">Tarde</mat-option>
+          <mat-option value="Jantar">Jantar</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Mastigação -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Como você considera a mastigação da criança?</mat-label>
+        <mat-select formControlName="mastigacao">
+          <mat-option value="Lenta">Lenta - costuma terminar por último</mat-option>
+          <mat-option value="Normal">Normal - mastiga bem</mat-option>
+          <mat-option value="Rápida">Rápida - termina antes</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Alimento indispensável ou favorito</mat-label>
+        <input matInput formControlName="alimentoFavorito" />
+      </mat-form-field>
+
+
+      <!-- Frequência em restaurantes -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Frequência em restaurantes/lanchonetes/delivery</mat-label>
+        <mat-select formControlName="frequenciaRestaurantes">
+          <mat-option value="Não frequenta">Não frequenta</mat-option>
+          <mat-option value="1 a 2 vezes">1 a 2 vezes por semana</mat-option>
+          <mat-option value="3 a 4 vezes">3 a 4 vezes por semana</mat-option>
+          <mat-option value="Sempre">Sempre</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Consumo de doces -->
+      <mat-form-field appearance="outline" style="min-width: 300px;">
+        <mat-label>Frequência de consumo de doces</mat-label>
+        <mat-select formControlName="consumoDoces">
+          <mat-option value="0">0</mat-option>
+          <mat-option value="1 a 3">1 a 3 vezes</mat-option>
+          <mat-option value="4 a 6">4 a 6 vezes</mat-option>
+          <mat-option value="Diariamente">Diariamente</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Consumo de frituras -->
+      <mat-form-field appearance="outline" style="min-width: 300px;">
+        <mat-label>Frequência de consumo de frituras</mat-label>
+        <mat-select formControlName="consumoFrituras">
+          <mat-option value="0">0</mat-option>
+          <mat-option value="1 a 3">1 a 3 vezes</mat-option>
+          <mat-option value="4 a 6">4 a 6 vezes</mat-option>
+          <mat-option value="Diariamente">Diariamente</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Histórico dietético -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Histórico dietético - alimentação ao longo do dia</mat-label>
+        <textarea matInput formControlName="historicoDietetico" rows="3"></textarea>
+      </mat-form-field>
+
+      <!-- Refeições na escola -->
+      <mat-form-field appearance="outline" style="min-width: 300px;">
+        <mat-label>Realiza refeições na escola/creche?</mat-label>
+        <mat-select formControlName="refeicoesEscola">
+          <mat-option value="Sim">Sim</mat-option>
+          <mat-option value="Não">Não</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </mat-card-content>
+  </mat-card>
+</ng-container>
 
 <div class="button-container">
   <button mat-raised-button color="warn" type="button" (click)="cancelar()">
