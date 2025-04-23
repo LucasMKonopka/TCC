@@ -238,7 +238,7 @@ export class NewatendimentoComponent implements OnInit{
         incontinencia: [false],
         edema: [false]
       }),
-      sistemaReprodutor: this.fb.group({
+      sistemaReprodutorFeminino: this.fb.group({
         menstruacaoRegular: [false],
         tpm: [false],
         observacaoTpm: [''], 
@@ -318,6 +318,9 @@ export class NewatendimentoComponent implements OnInit{
   }
   get pacienteIdosoForm(): FormGroup {
     return this.consultaForm.get('pacienteIdoso') as FormGroup;
+  }
+  get sistemaReprodutorFemininoForm(): FormGroup {
+    return this.consultaForm.get('sistemaReprodutorFeminino') as FormGroup;
   }
 
   async onSubmit() {
