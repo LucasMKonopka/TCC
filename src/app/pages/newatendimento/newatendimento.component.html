@@ -994,7 +994,7 @@
         
               <!-- Pré-natal -->
               <mat-slide-toggle formControlName="fazAcompanhamento">Faz acompanhamento pré-natal?</mat-slide-toggle>
-              <mat-form-field appearance="outline" *ngIf="consultaForm.get('gestanteInfo.fazAcompanhamento')?.value">
+              <mat-form-field appearance="outline" class="full-width" *ngIf="consultaForm.get('gestanteInfo.fazAcompanhamento')?.value">
                 <mat-label>Frequência</mat-label>
                 <input matInput formControlName="preNatalFrequencia">
               </mat-form-field>
@@ -1008,17 +1008,17 @@
                 <mat-slide-toggle formControlName="temDesejos">Tem vontade de ingerir substâncias ou alimentos estranhos?</mat-slide-toggle>
                 
                 <div *ngIf="consultaForm.get('gestanteInfo.sintomasGestacao.temDesejos')?.value">
-                  <mat-form-field appearance="outline">
+                  <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Descrição</mat-label>
                     <input matInput formControlName="descricao">
                   </mat-form-field>
         
-                  <mat-form-field appearance="outline">
+                  <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Frequência</mat-label>
                     <input matInput formControlName="frequencia">
                   </mat-form-field>
         
-                  <mat-form-field appearance="outline">
+                  <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Tipo</mat-label>
                     <mat-select formControlName="tipo">
                       <mat-option value="desejo">Desejo</mat-option>
@@ -1028,12 +1028,12 @@
         
                   <mat-slide-toggle formControlName="consome">Você consome essas substâncias?</mat-slide-toggle>
                   
-                  <mat-form-field appearance="outline" *ngIf="consultaForm.get('gestanteInfo.sintomasGestacao.consome')?.value">
+                  <mat-form-field appearance="outline" class="full-width" *ngIf="consultaForm.get('gestanteInfo.sintomasGestacao.consome')?.value">
                     <mat-label>Detalhes do consumo</mat-label>
                     <textarea matInput formControlName="detalhesConsumo" rows="2"></textarea>
                   </mat-form-field>
         
-                  <mat-form-field appearance="outline">
+                  <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Histórico desse comportamento</mat-label>
                     <textarea matInput formControlName="historico" rows="2"></textarea>
                   </mat-form-field>
