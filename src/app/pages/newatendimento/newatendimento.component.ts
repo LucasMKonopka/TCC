@@ -130,7 +130,6 @@ export class NewatendimentoComponent implements OnInit{
   
   createForm(): FormGroup {
     return this.fb.group({
-      // Seção 1: Dados Antropométricos
       pesoAtual: ['', [Validators.required, Validators.min(30)]],
       pesoHabitual: [''],
       alturaAtual: [''],
@@ -146,8 +145,6 @@ export class NewatendimentoComponent implements OnInit{
         quantidade: [''],
         motivo: ['']
       }),
-  
-      // Seção 2: Padrão Alimentar
       refeicoesPorDia: [''],
       localAlimentacao: [''],
       horariosAlimentacao: [''],
@@ -161,37 +158,21 @@ export class NewatendimentoComponent implements OnInit{
       apetiteAtual: [''],
       preferenciasAlimentares: [''],
       alimentosRejeitados: [''],
-      ingestaoAgua: [''],
-      horarioFome: [[]],
-      frequenciaRestaurantes: [''],
-      consumoDoces: [''],
-      consumoFrituras: [''],
-      jaConsultouNutricionista: [''],
-  acordaNoite: [''],
-  cirurgias: [''],
-  historicoDieteticoFamiliar: [''],
-  historicoDieteticoCrianca: [''],
-
-  
-      // Seção 3: Comportamento Alimentar
       mudancasHabitoAlimentar: [''],
       mudancasFinaisSemana: [''],
       ingestaoLiquidos: [''],
-      alimentosLightDiet: [''], 
-    preferenciaSabor: [''],
-      consumoLightDiet: [false],
+      ingestaoAgua: [''],
+      horarioFome: [[]],
+      preferenciaSabor: [''],
+      alimentosLightDiet: [''],
+      frequenciaRestaurantes: [''],
+      consumoDoces: [''],
+      consumoFrituras: [''],
       usoSuplementos: this.fb.group({
         usa: [false],
         quais: [''],
         indicacao: ['']
       }),
-      historicoDietas: this.fb.group({
-        fez: [false],
-        orientacao: [''],
-        resultados: ['']
-      }),
-  
-      // Seção 4: Motivações e Estilo de Vida
       motivoConsulta: ['', Validators.required],
       profissao: [''],
       localTrabalho: [''],
@@ -202,16 +183,17 @@ export class NewatendimentoComponent implements OnInit{
       composicaoDomicilio: [''],
       horasSono: [''],
       qualidadeSono: [''],
+      lazer: [''],
       atividadeFisica: this.fb.group({
         pratica: [false],
         frequencia: [''],
         intensidade: [''],
         duracao: ['']
       }),
-      lazer: [''],
-  
-      // Seção 5: Aspectos Clínicos
       restricoesReligiosas: [''],
+      cirurgias: [''],
+      historicoDieteticoFamiliar: [''],
+      historicoDieteticoPaciente: [''],
       alcool: this.fb.group({
         usa: [false],
         tempo: [''],
@@ -233,8 +215,6 @@ export class NewatendimentoComponent implements OnInit{
         tipo: [''],
         quantidade: ['']
       }),
-  
-      // Seção 6: Avaliação por Sistemas
       sistemaNeurologico: this.fb.group({
         cognicao: [''],
         emocional: [''],
@@ -267,9 +247,22 @@ export class NewatendimentoComponent implements OnInit{
         idadeInicioMenopausa: [''],
         partos: ['']
       }),
+      
+      //sobrando
+      jaConsultouNutricionista: [''],
+      acordaNoite: [''],
+      consumoLightDiet: [false],
+      historicoDietas: this.fb.group({
+        fez: [false],
+        orientacao: [''],
+        resultados: ['']
+      }),
+      //
+      
+      
+      
       //infantil
       pacienteInfantil: this.fb.group({
-        objetivo: [''],
         pediatra: [''],
         tipoParto: [''],
         semanasGestacionais: [''],
@@ -280,15 +273,37 @@ export class NewatendimentoComponent implements OnInit{
         usoFormula: [''],
         idadeIntroducaoAlimentar: [''],
         alimentosIntroducao: [''],
-        atividadeFisica: [''],
-        horasSono: [''],
         rotinaEstudos: [''],
-        alergiasIntolerancias: [''],
         mastigacao: [''],
         alimentoFavorito: [''],
-        historicoDietetico: [''],
         refeicoesEscola: [''],
-      })
+      }),
+
+      //adolescente
+      pacienteAdolescente: this.fb.group({
+        vacinacao: [''],
+        refeicaoEscola: [''],
+        comeAssistindoTV: [''],
+        pressaoEstetica: [''],
+        pulaRefeicoes: [''],
+        compulsaoAlimentar: [''],
+        segueInfluenciadores: [''],
+        redesAfetamAlimentacao: [''],
+        rotinaEstudos: [''],
+        alteracoesHumorAlimentacao: ['']
+      }),
+
+      //idoso
+      pacienteIdoso: this.fb.group({
+        confusaoMental: [''],
+        fraquezaFadiga: [''],
+        apetiteDiminuido: [''],
+        sarcopenia: [''],
+        quedasRecentes: [''],
+        mobilidade: [''],
+        proteseDentaria: ['']
+      }),
+      
     });
   }
 

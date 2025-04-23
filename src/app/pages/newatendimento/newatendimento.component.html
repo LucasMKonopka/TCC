@@ -139,14 +139,12 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- Seção 2: Padrão Alimentar e Rotina -->
         <mat-card class="section-card">
           <mat-card-header>
             <mat-card-title>2. Padrão Alimentar e Rotina</mat-card-title>
           </mat-card-header>
         
           <mat-card-content>
-            <!-- Parte: Padrão Alimentar -->
             <div class="row">
               <mat-form-field appearance="outline">
                 <mat-label>Quantas refeições por dia?</mat-label>
@@ -236,7 +234,6 @@
               <textarea matInput formControlName="ingestaoLiquidos" rows="2"></textarea>
             </mat-form-field>
 
-                  <!-- Ingestão de água -->
             <mat-form-field appearance="outline" style="min-width: 300px;">
               <mat-label>Ingestão média de água por dia</mat-label>
               <mat-select formControlName="ingestaoAgua">
@@ -247,7 +244,6 @@
               </mat-select>
             </mat-form-field>
 
-            <!-- Fome -->
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Período do dia em que sente mais fome</mat-label>
               <mat-select formControlName="horarioFome" multiple>
@@ -268,7 +264,6 @@
               <textarea matInput formControlName="alimentosLightDiet" rows="2"></textarea>
             </mat-form-field>
 
-                  <!-- Frequência em restaurantes -->
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Frequência em restaurantes/lanchonetes/delivery</mat-label>
               <mat-select formControlName="frequenciaRestaurantes">
@@ -279,7 +274,6 @@
               </mat-select>
             </mat-form-field>
 
-            <!-- Consumo de doces -->
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Frequência de consumo de doces</mat-label>
               <mat-select formControlName="consumoDoces">
@@ -290,7 +284,6 @@
               </mat-select>
             </mat-form-field>
 
-            <!-- Consumo de frituras -->
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Frequência de consumo de frituras</mat-label>
               <mat-select formControlName="consumoFrituras">
@@ -301,9 +294,6 @@
               </mat-select>
             </mat-form-field>
 
-            
-
-        
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>Usa algum tipo de suplemento?</mat-panel-title>
@@ -328,7 +318,6 @@
           </mat-card-content>
         </mat-card>
 
-        <!--Seção 4-->
         <mat-card class="section-card">
           <mat-card-header>
             <mat-card-title>3. Motivações e Estilo de Vida</mat-card-title>
@@ -349,7 +338,7 @@
             </mat-form-field>
         
             <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Qual é a sua profissão ou ocupação?</mat-label>
+              <mat-label>Qual é a sua profissão atual ou anterior (se aposentado)?</mat-label>
               <input matInput formControlName="profissao">
             </mat-form-field>
         
@@ -442,7 +431,6 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- Seção 5: Aspectos Clínicos -->
         <mat-card class="section-card">
           <mat-card-header>
             <mat-card-title>4. Aspectos Clínicos</mat-card-title>
@@ -454,7 +442,6 @@
               <input matInput formControlName="restricoesReligiosas">
             </mat-form-field>
 
-                <!-- Cirurgias -->
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Já realizou alguma cirurgia? Qual?</mat-label>
             <textarea matInput formControlName="cirurgias"></textarea>
@@ -484,7 +471,7 @@
     
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Você possui alguma dessas doenças?</mat-label>
-            <mat-select formControlName="historicoDieteticoCrianca" multiple>
+            <mat-select formControlName="historicoDieteticoPaciente" multiple>
               <mat-option value="Cancer">Cancer</mat-option>
               <mat-option value="Diabetes">Diabetes</mat-option>
               <mat-option value="Doença cardiovascular">Doença cardiovascular</mat-option>
@@ -533,8 +520,7 @@
                 </div>
               </div>
             </mat-expansion-panel>
-        
-            <!-- Fumo -->
+
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>Fuma?</mat-panel-title>
@@ -563,8 +549,7 @@
                 </div>
               </div>
             </mat-expansion-panel>
-        
-            <!-- Drogas -->
+
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>Uso de drogas ilícitas</mat-panel-title>
@@ -596,239 +581,367 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- Seção 6: Avaliação por Sistemas -->
-<mat-card class="section-card">
-  <mat-card-header>
-    <mat-card-title>5. Avaliação por Sistemas</mat-card-title>
-  </mat-card-header>
+        <mat-card class="section-card">
+          <mat-card-header>
+            <mat-card-title>5. Avaliação por Sistemas</mat-card-title>
+          </mat-card-header>
 
-  <mat-card-content>
-    <!-- Sistema Neurológico -->
-    <div formGroupName="sistemaNeurologico">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Cognição</mat-label>
-        <input matInput formControlName="cognicao">
-      </mat-form-field>
+          <mat-card-content>
+            <!-- Sistema Neurológico -->
+            <div formGroupName="sistemaNeurologico">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Cognição</mat-label>
+                <input matInput formControlName="cognicao">
+              </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Estado emocional</mat-label>
-        <input matInput formControlName="emocional">
-      </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Estado emocional</mat-label>
+                <input matInput formControlName="emocional">
+              </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Autonomia</mat-label>
-        <input matInput formControlName="autonomia">
-      </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Autonomia</mat-label>
+                <input matInput formControlName="autonomia">
+              </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Comunicação</mat-label>
-        <input matInput formControlName="comunicacao">
-      </mat-form-field>
-    </div>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Comunicação</mat-label>
+                <input matInput formControlName="comunicacao">
+              </mat-form-field>
+            </div>
 
-    <!-- Sistema Digestório -->
-    <div formGroupName="sistemaDigestorio">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Dentição</mat-label>
-        <input matInput formControlName="dentição">
-      </mat-form-field>
+            <!-- Sistema Digestório -->
+            <div formGroupName="sistemaDigestorio">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Dentição</mat-label>
+                <input matInput formControlName="dentição">
+              </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Deglutição</mat-label>
-        <input matInput formControlName="degluticao">
-      </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Deglutição</mat-label>
+                <input matInput formControlName="degluticao">
+              </mat-form-field>
 
-      <mat-slide-toggle formControlName="dorEngolir">Sente dor ao engolir?</mat-slide-toggle>
+              <mat-slide-toggle formControlName="dorEngolir">Sente dor ao engolir?</mat-slide-toggle>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Digestão</mat-label>
-        <input matInput formControlName="digestao">
-      </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Digestão</mat-label>
+                <input matInput formControlName="digestao">
+              </mat-form-field>
 
-      <div formGroupName="evacuacao">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Frequência da evacuação</mat-label>
-          <input matInput formControlName="frequencia">
-        </mat-form-field>
+              <div formGroupName="evacuacao">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Frequência da evacuação</mat-label>
+                  <input matInput formControlName="frequencia">
+                </mat-form-field>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Consistência</mat-label>
-          <input matInput formControlName="consistencia">
-        </mat-form-field>
-      </div>
-    </div>
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Consistência</mat-label>
+                  <input matInput formControlName="consistencia">
+                </mat-form-field>
+              </div>
+            </div>
 
-    <!-- Sistema Urinário -->
-    <div formGroupName="sistemaUrinario">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Frequência urinária</mat-label>
-        <input matInput formControlName="frequencia">
-      </mat-form-field>
+            <!-- Sistema Urinário -->
+            <div formGroupName="sistemaUrinario">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Frequência urinária</mat-label>
+                <input matInput formControlName="frequencia">
+              </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Coloração</mat-label>
-        <input matInput formControlName="coloracao">
-      </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Coloração</mat-label>
+                <input matInput formControlName="coloracao">
+              </mat-form-field>
 
-      <mat-slide-toggle formControlName="sangue">Presença de sangue</mat-slide-toggle>
-      <mat-slide-toggle formControlName="incontinencia">Incontinência</mat-slide-toggle>
-      <mat-slide-toggle formControlName="edema">Edema</mat-slide-toggle>
-    </div>
+              <mat-slide-toggle formControlName="sangue">Presença de sangue</mat-slide-toggle>
+              <mat-slide-toggle formControlName="incontinencia">Incontinência</mat-slide-toggle>
+              <mat-slide-toggle formControlName="edema">Edema</mat-slide-toggle>
+            </div>
 
-    <!-- Sistema Reprodutor -->
-<div formGroupName="sistemaReprodutor">
-  <mat-slide-toggle formControlName="menstruacaoRegular">Menstruação regular</mat-slide-toggle>
-  <mat-slide-toggle formControlName="tpm">Sinais de TPM</mat-slide-toggle>
-  <mat-slide-toggle formControlName="amenorreia">Amenorreia</mat-slide-toggle>
-  <mat-slide-toggle formControlName="menopausa">Menopausa</mat-slide-toggle>
+            <!-- Sistema Reprodutor -->
+        <div formGroupName="sistemaReprodutor">
+          <mat-slide-toggle formControlName="menstruacaoRegular">Menstruação regular</mat-slide-toggle>
+          <mat-slide-toggle formControlName="tpm">Sinais de TPM</mat-slide-toggle>
+          <mat-slide-toggle formControlName="amenorreia">Amenorreia</mat-slide-toggle>
+          <mat-slide-toggle formControlName="menopausa">Menopausa</mat-slide-toggle>
 
-  <!-- Observações TPM -->
-  <mat-form-field appearance="outline" class="full-width" *ngIf="consultaForm.get('sistemaReprodutor.tpm')?.value">
-    <mat-label>Observações sobre TPM (ex: sintomas, duração, etc)</mat-label>
-    <input matInput formControlName="observacaoTpm">
-  </mat-form-field>
-  
-  <!-- Idade de Início da Menopausa -->
-  <mat-form-field appearance="outline" class="full-width" *ngIf="consultaForm.get('sistemaReprodutor.menopausa')?.value">
-    <mat-label>Idade de início da menopausa</mat-label>
-    <input matInput type="number" formControlName="idadeInicioMenopausa">
-  </mat-form-field>
+          <!-- Observações TPM -->
+          <mat-form-field appearance="outline" class="full-width" *ngIf="consultaForm.get('sistemaReprodutor.tpm')?.value">
+            <mat-label>Observações sobre TPM (ex: sintomas, duração, etc)</mat-label>
+            <input matInput formControlName="observacaoTpm">
+          </mat-form-field>
+          
+          <!-- Idade de Início da Menopausa -->
+          <mat-form-field appearance="outline" class="full-width" *ngIf="consultaForm.get('sistemaReprodutor.menopausa')?.value">
+            <mat-label>Idade de início da menopausa</mat-label>
+            <input matInput type="number" formControlName="idadeInicioMenopausa">
+          </mat-form-field>
 
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Partos</mat-label>
-    <input matInput formControlName="partos">
-  </mat-form-field>
-</div>
-  </mat-card-content>
-</mat-card>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Partos</mat-label>
+            <input matInput formControlName="partos">
+          </mat-form-field>
+        </div>
+          </mat-card-content>
+        </mat-card>
 
 
-<!--INFANTIL-->
-<ng-container *ngIf="tipoPaciente === 'infantil'">
-  <mat-card class="section-card">
-    <mat-card-header>
-      <mat-card-title>Formulário de Pré-Consulta - Infantil</mat-card-title>
-    </mat-card-header>
+        <!--INFANTIL-->
+        <ng-container *ngIf="tipoPaciente === 'infantil'">
+          <mat-card class="section-card">
+            <mat-card-header>
+              <mat-card-title>Formulário de Pré-Consulta - Infantil</mat-card-title>
+            </mat-card-header>
 
-    <mat-card-content [formGroup]="pacienteInfantilForm">
+            <mat-card-content [formGroup]="pacienteInfantilForm">
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Realiza acompanhamento com pediatra? Qual profissional?</mat-label>
-        <input matInput formControlName="pediatra" />
-      </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Realiza acompanhamento com pediatra? Qual profissional?</mat-label>
+                <input matInput formControlName="pediatra" />
+              </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Tipo de parto</mat-label>
-        <mat-select formControlName="tipoParto">
-          <mat-option value="Normal">Normal</mat-option>
-          <mat-option value="Cesárea">Cesárea</mat-option>
-        </mat-select>
-      </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Tipo de parto</mat-label>
+                <mat-select formControlName="tipoParto">
+                  <mat-option value="Normal">Normal</mat-option>
+                  <mat-option value="Cesárea">Cesárea</mat-option>
+                </mat-select>
+              </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Semanas gestacionais</mat-label>
-        <input matInput type="number" formControlName="semanasGestacionais" />
-      </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Semanas gestacionais</mat-label>
+                <input matInput type="number" formControlName="semanasGestacionais" />
+              </mat-form-field>
 
-      <div class="row">
-        <mat-form-field appearance="outline">
-          <mat-label>Peso ao nascer (kg)</mat-label>
-          <input matInput type="number" formControlName="pesoNascimento" />
-        </mat-form-field>
-      
-        <mat-form-field appearance="outline">
-          <mat-label>Comprimento ao nascer (cm)</mat-label>
-          <input matInput type="number" formControlName="comprimentoNascimento" />
-        </mat-form-field>
-      </div>
+              <div class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Peso ao nascer (kg)</mat-label>
+                  <input matInput type="number" formControlName="pesoNascimento" />
+                </mat-form-field>
+              
+                <mat-form-field appearance="outline">
+                  <mat-label>Comprimento ao nascer (cm)</mat-label>
+                  <input matInput type="number" formControlName="comprimentoNascimento" />
+                </mat-form-field>
+              </div>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Foi amamentado?</mat-label>
-        <mat-select formControlName="amamentado">
-          <mat-option value="Sim">Sim</mat-option>
-          <mat-option value="Não">Não</mat-option>
-        </mat-select>
-      </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Foi amamentado?</mat-label>
+                <mat-select formControlName="amamentado">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
 
-      <mat-form-field appearance="outline" style="min-width: 300px;">
-        <mat-label>Tempo de amamentação (meses)</mat-label>
-        <input matInput type="number" formControlName="tempoAmamentacao" />
-      </mat-form-field>
+              <mat-form-field appearance="outline" style="min-width: 300px;">
+                <mat-label>Tempo de amamentação (meses)</mat-label>
+                <input matInput type="number" formControlName="tempoAmamentacao" />
+              </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Fórmula infantil? início? Há quanto tempo utiliza? Quantas mamadeiras por dia? Qual a fórmula?</mat-label>
-        <textarea matInput formControlName="usoFormula"></textarea>
-      </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Fórmula infantil? início? Há quanto tempo utiliza? Quantas mamadeiras por dia? Qual a fórmula?</mat-label>
+                <textarea matInput formControlName="usoFormula"></textarea>
+              </mat-form-field>
 
-      <mat-form-field appearance="outline" style="min-width: 300px;">
-        <mat-label>Idade da introdução alimentar (meses)</mat-label>
-        <input matInput type="number" formControlName="idadeIntroducaoAlimentar" />
-      </mat-form-field>
+              <mat-form-field appearance="outline" style="min-width: 300px;">
+                <mat-label>Idade da introdução alimentar (meses)</mat-label>
+                <input matInput type="number" formControlName="idadeIntroducaoAlimentar" />
+              </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Alimentos oferecidos na introdução alimentar</mat-label>
-        <textarea matInput formControlName="alimentosIntroducao"></textarea>
-      </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Alimentos oferecidos na introdução alimentar</mat-label>
+                <textarea matInput formControlName="alimentosIntroducao"></textarea>
+              </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Rotina de estudos</mat-label>
-        <textarea matInput formControlName="rotinaEstudos"></textarea>
-      </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Rotina de estudos</mat-label>
+                <textarea matInput formControlName="rotinaEstudos"></textarea>
+              </mat-form-field>
 
-      <!-- Mastigação -->
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Como você considera a mastigação da criança?</mat-label>
-        <mat-select formControlName="mastigacao">
-          <mat-option value="Lenta">Lenta - costuma terminar por último</mat-option>
-          <mat-option value="Normal">Normal - mastiga bem</mat-option>
-          <mat-option value="Rápida">Rápida - termina antes</mat-option>
-        </mat-select>
-      </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Como você considera a mastigação da criança?</mat-label>
+                <mat-select formControlName="mastigacao">
+                  <mat-option value="Lenta">Lenta - costuma terminar por último</mat-option>
+                  <mat-option value="Normal">Normal - mastiga bem</mat-option>
+                  <mat-option value="Rápida">Rápida - termina antes</mat-option>
+                </mat-select>
+              </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Alimento indispensável ou favorito</mat-label>
-        <input matInput formControlName="alimentoFavorito" />
-      </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Alimento indispensável ou favorito</mat-label>
+                <input matInput formControlName="alimentoFavorito" />
+              </mat-form-field>
 
-      <!-- Refeições na escola -->
-      <mat-form-field appearance="outline" style="min-width: 300px;">
-        <mat-label>Realiza refeições na escola/creche?</mat-label>
-        <mat-select formControlName="refeicoesEscola">
-          <mat-option value="Sim">Sim</mat-option>
-          <mat-option value="Não">Não</mat-option>
-        </mat-select>
-      </mat-form-field>
+              <mat-form-field appearance="outline" style="min-width: 300px;">
+                <mat-label>Realiza refeições na escola/creche?</mat-label>
+                <mat-select formControlName="refeicoesEscola">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
 
-    </mat-card-content>
-  </mat-card>
-</ng-container>
+            </mat-card-content>
+          </mat-card>
+        </ng-container>
 
-<!--ADOLESCENTE-->
-<ng-container *ngIf="tipoPaciente === 'adolescente'">
-  <mat-card class="section-card">
-    <mat-card-header>
-      <mat-card-title>Formulário de Pré-Consulta - Adolescente</mat-card-title>
-    </mat-card-header>
-  </mat-card>
-</ng-container>
+        <!--ADOLESCENTE-->
+        <ng-container *ngIf="tipoPaciente === 'adolescente'">
+          <mat-card class="section-card">
+            <mat-card-header>
+              <mat-card-title>Formulário de Pré-Consulta - Adolescente</mat-card-title>
+            </mat-card-header>
 
-<!--ADULTO-->
-<ng-container *ngIf="tipoPaciente === 'adulto'">
-  <mat-card class="section-card">
-    <mat-card-header>
-      <mat-card-title>Formulário de Pré-Consulta - Adulto</mat-card-title>
-    </mat-card-header>
-  </mat-card>
-</ng-container>
+            <mat-card-content [formGroup]="pacienteAdolescenteForm">
 
-<!--IDOSO-->
-<ng-container *ngIf="tipoPaciente === 'idoso'">
-  <mat-card class="section-card">
-    <mat-card-header>
-      <mat-card-title>Formulário de Pré-Consulta - Idoso</mat-card-title>
-    </mat-card-header>
-  </mat-card>
-</ng-container>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Estado atual de vacinação</mat-label>
+                <mat-select formControlName="vacinacao">
+                  <mat-option value="completa">Vacinação completa e em dia</mat-option>
+                  <mat-option value="incompleta">Vacinação incompleta</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Realiza alguma refeição na escola?</mat-label>
+                <mat-select formControlName="refeicaoEscola">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Costuma comer assistindo TV?</mat-label>
+                <mat-select formControlName="comeAssistindoTV">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Sente pressão estética nas redes sociais ou entre amigos?</mat-label>
+                <mat-select formControlName="pressaoEstetica">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Costuma pular refeições? Quais?</mat-label>
+                <input matInput formControlName="pulaRefeicoes" />
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Já teve episódios de compulsão alimentar?</mat-label>
+                <mat-select formControlName="compulsaoAlimentar">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Acompanha influenciadores sobre alimentação/fitness?</mat-label>
+                <mat-select formControlName="segueInfluenciadores">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>O conteúdo nas redes afeta sua alimentação?</mat-label>
+                <mat-select formControlName="redesAfetamAlimentacao">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Como está sua rotina de estudos e atividades fora da escola?</mat-label>
+                <textarea matInput formControlName="rotinaEstudos" rows="3"></textarea>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Já teve alterações de humor associadas à alimentação?</mat-label>
+                <mat-select formControlName="alteracoesHumorAlimentacao">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            </mat-card-content>
+          </mat-card>
+        </ng-container>
+
+        <!--IDOSO-->
+        <ng-container *ngIf="tipoPaciente === 'idoso'">
+          <mat-card class="section-card">
+            <mat-card-header>
+              <mat-card-title>Formulário de Pré-Consulta - Idoso</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content [formGroup]="pacienteIdosoForm">
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Já teve episódios de confusão mental ou desorientação?</mat-label>
+                <mat-select formControlName="confusaoMental">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Sente-se fraco(a) ou com pouca energia no dia a dia?</mat-label>
+                <mat-select formControlName="fraquezaFadiga">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Notou diminuição do apetite recentemente?</mat-label>
+                <mat-select formControlName="apetiteDiminuido">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Já foi diagnosticado com sarcopenia?</mat-label>
+                <mat-select formControlName="sarcopenia">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Já sofreu quedas nos últimos meses?</mat-label>
+                <mat-select formControlName="quedasRecentes">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Sobre sua mobilidade</mat-label>
+                <mat-select formControlName="mobilidade">
+                  <mat-option value="Restrito">Restrito ao leito ou cadeira de rodas</mat-option>
+                  <mat-option value="Ajuda">Anda com ajuda, mas não sai de casa sozinho</mat-option>
+                  <mat-option value="Normal">Mobilidade normal</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Utiliza prótese dentária?</mat-label>
+                <mat-select formControlName="proteseDentaria">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            </mat-card-content>
+
+          </mat-card>
+        </ng-container>
 
 
 <div class="button-container">
