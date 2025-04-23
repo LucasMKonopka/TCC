@@ -304,6 +304,27 @@ export class NewatendimentoComponent implements OnInit{
         proteseDentaria: ['']
       }),
       
+      //gestante
+      gestanteInfo: this.fb.group({
+        situacaoMatrimonial: [''],
+        primeiraGestacao: [''],
+        semanasGestacionais: [''],
+        abortoAnterior: [''],
+        fazAcompanhamento: [false],
+        preNatalFrequencia: [''],
+        
+        sintomasGestacao: this.fb.group({
+          alteracaoApetite: [false],
+          enjoos: [false],
+          temDesejos: [false],
+          descricao: [''],
+          frequencia: [''],
+          tipo: ['desejo'],
+          consome: [false],
+          detalhesConsumo: [''],
+          historico: ['']
+        }),
+      })  
     });
   }
 
@@ -321,6 +342,9 @@ export class NewatendimentoComponent implements OnInit{
   }
   get sistemaReprodutorFemininoForm(): FormGroup {
     return this.consultaForm.get('sistemaReprodutorFeminino') as FormGroup;
+  }
+  get gestanteInfoForm(): FormGroup {
+    return this.consultaForm.get('gestanteInfo') as FormGroup;
   }
 
   async onSubmit() {

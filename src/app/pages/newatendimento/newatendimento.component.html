@@ -950,6 +950,99 @@
           </mat-card>
         </ng-container>
 
+        <!--GESTANTE-->
+        <ng-container *ngIf="isGestante">
+          <mat-card class="section-card">
+            <mat-card-header>
+              <mat-card-title>Informações da Gestação</mat-card-title>
+            </mat-card-header>
+        
+            <mat-card-content formGroupName="gestanteInfo">
+              <!-- Situação Matrimonial -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Situação matrimonial</mat-label>
+                <mat-select formControlName="situacaoMatrimonial">
+                  <mat-option value="Solteira">Solteira</mat-option>
+                  <mat-option value="Casada">Casada</mat-option>
+                  <mat-option value="Divorciada">Divorciada</mat-option>
+                </mat-select>
+              </mat-form-field>
+        
+              <!-- Primeira Gestação -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>É sua primeira gestação?</mat-label>
+                <mat-select formControlName="primeiraGestacao">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
+        
+              <!-- Semanas Gestacionais -->
+              <mat-form-field appearance="outline">
+                <mat-label>Semanas gestacionais</mat-label>
+                <input matInput type="number" formControlName="semanasGestacionais">
+              </mat-form-field>
+        
+              <!-- Aborto Anterior -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Já teve algum aborto anteriormente?</mat-label>
+                <mat-select formControlName="abortoAnterior">
+                  <mat-option value="Sim">Sim</mat-option>
+                  <mat-option value="Não">Não</mat-option>
+                </mat-select>
+              </mat-form-field>
+        
+              <!-- Pré-natal -->
+              <mat-slide-toggle formControlName="fazAcompanhamento">Faz acompanhamento pré-natal?</mat-slide-toggle>
+              <mat-form-field appearance="outline" *ngIf="consultaForm.get('gestanteInfo.fazAcompanhamento')?.value">
+                <mat-label>Frequência</mat-label>
+                <input matInput formControlName="preNatalFrequencia">
+              </mat-form-field>
+        
+              <!-- Sintomas -->
+              <div formGroupName="sintomasGestacao">
+                <mat-slide-toggle formControlName="alteracaoApetite">Houve alteração no apetite?</mat-slide-toggle>
+                <mat-slide-toggle formControlName="enjoos">Sente enjoos?</mat-slide-toggle>
+                
+                <!-- Desejos Alimentares -->
+                <mat-slide-toggle formControlName="temDesejos">Tem vontade de ingerir substâncias ou alimentos estranhos?</mat-slide-toggle>
+                
+                <div *ngIf="consultaForm.get('gestanteInfo.sintomasGestacao.temDesejos')?.value">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Descrição</mat-label>
+                    <input matInput formControlName="descricao">
+                  </mat-form-field>
+        
+                  <mat-form-field appearance="outline">
+                    <mat-label>Frequência</mat-label>
+                    <input matInput formControlName="frequencia">
+                  </mat-form-field>
+        
+                  <mat-form-field appearance="outline">
+                    <mat-label>Tipo</mat-label>
+                    <mat-select formControlName="tipo">
+                      <mat-option value="desejo">Desejo</mat-option>
+                      <mat-option value="necessidade">Necessidade</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+        
+                  <mat-slide-toggle formControlName="consome">Você consome essas substâncias?</mat-slide-toggle>
+                  
+                  <mat-form-field appearance="outline" *ngIf="consultaForm.get('gestanteInfo.sintomasGestacao.consome')?.value">
+                    <mat-label>Detalhes do consumo</mat-label>
+                    <textarea matInput formControlName="detalhesConsumo" rows="2"></textarea>
+                  </mat-form-field>
+        
+                  <mat-form-field appearance="outline">
+                    <mat-label>Histórico desse comportamento</mat-label>
+                    <textarea matInput formControlName="historico" rows="2"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </ng-container>
+
 
 <div class="button-container">
   <button mat-raised-button color="warn" type="button" (click)="cancelar()">
