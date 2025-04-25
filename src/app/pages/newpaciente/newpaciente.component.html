@@ -15,7 +15,7 @@
           <div class="form-row">
             <mat-form-field appearance="outline" class="form-field-full">
               <mat-label>Nome Completo</mat-label>
-              <input matInput formControlName="nome" required>
+              <input matInput formControlName="nome">
             </mat-form-field>
           </div>
 
@@ -27,7 +27,7 @@
 
             <mat-form-field appearance="outline" class="form-field-half">
               <mat-label>Sexo</mat-label>
-              <mat-select formControlName="sexo" required>
+              <mat-select formControlName="sexo">
                 <mat-option value="Masculino">Masculino</mat-option>
                 <mat-option value="Feminino">Feminino</mat-option>
                 <mat-option value="Outro">Outro</mat-option>
@@ -64,36 +64,36 @@
           <div class="form-row">
             <mat-form-field appearance="outline" class="form-field-small">
               <mat-label>CEP</mat-label>
-              <input matInput formControlName="cep" mask="00000-000" (blur)="buscarCEP()" required>
+              <input matInput formControlName="cep" mask="00000-000" (blur)="buscarCEP()">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-field-medium">
               <mat-label>Rua</mat-label>
-              <input matInput formControlName="rua" required>
+              <input matInput formControlName="rua">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-field-xsmall">
               <mat-label>Número</mat-label>
-              <input matInput formControlName="numero" required>
+              <input matInput formControlName="numero">
             </mat-form-field>
           </div>
 
           <div class="form-row">
             <mat-form-field appearance="outline" class="form-field-half">
               <mat-label>Bairro</mat-label>
-              <input matInput formControlName="bairro" required>
+              <input matInput formControlName="bairro">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-field-half">
               <mat-label>Cidade</mat-label>
-              <input matInput formControlName="cidade" required>
+              <input matInput formControlName="cidade">
             </mat-form-field>
           </div>
 
           <div class="form-row">
             <mat-form-field appearance="outline" class="form-field-full">
               <mat-label>Estado</mat-label>
-              <input matInput formControlName="estado" required>
+              <input matInput formControlName="estado">
             </mat-form-field>
           </div>
         </section>

@@ -42,19 +42,19 @@ export class NewpacienteComponent implements OnInit {
   initForm(): void {
     this.form = this.fb.group({
       nome: ['', Validators.required],
-      dataNascimento: ['', Validators.required],
-      sexo: ['', Validators.required],
+      dataNascimento: [''],
+      sexo: [''],
       cpf: ['', [
         Validators.required,
         Validators.pattern(/^\d{11}$/),
       ]],
       telefone: ['', Validators.required],
-      cep: ['', Validators.required],
-      rua: ['', Validators.required],
-      numero: ['', Validators.required],
-      bairro: ['', Validators.required],
-      cidade: ['', Validators.required],
-      estado: ['', Validators.required],
+      cep: [''],
+      rua: [''],
+      numero: [''],
+      bairro: [''],
+      cidade: [''],
+      estado: [''],
 
     });
   }
