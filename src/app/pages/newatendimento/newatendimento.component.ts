@@ -103,6 +103,9 @@ export class NewatendimentoComponent implements OnInit{
     }
 
     const dados = { ...atendimento };
+    this.tipoPaciente = dados.tipoPaciente || '';
+    this.isGestante = dados.isGestante || false;
+    
     delete dados.id;
     delete dados.pacienteId;
     delete dados.nutricionistaId;
@@ -348,6 +351,11 @@ export class NewatendimentoComponent implements OnInit{
   }
 
   async onSubmit() {
+    if (!this.tipoPaciente) {
+      this.toastr.warning('Selecione o tipo de paciente');
+      return;
+    }
+
     if (this.consultaForm.invalid) {
       this.markFormGroupTouched(this.consultaForm);
       this.toastr.warning('Preencha todos os campos obrigatórios');
@@ -382,6 +390,8 @@ export class NewatendimentoComponent implements OnInit{
   
     return {
       ...formValue,
+      isGestante: this.isGestante,
+      tipoPaciente: this.tipoPaciente,
       nutricionistaId: user?.uid || '',
       data: new Date().toISOString(),
       tipo: 'primeira'
