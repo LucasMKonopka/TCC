@@ -468,28 +468,70 @@
               <mat-option value="Transtornos alimentares">Transtornos alimentares (anorexia, bulimia, compulsão)</mat-option>
             </mat-select>
           </mat-form-field>
+
+          <!-- Doenças Crônicas -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Doenças Crônicas</mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div formGroupName="doencasCronicas">
+              <mat-slide-toggle formControlName="usa">Possui?</mat-slide-toggle>
+
+              <div *ngIf="consultaForm.get('doencasCronicas.usa')?.value">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Quais?</mat-label>
+                  <input matInput formControlName="quaisDoencas">
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <!-- Medicamentos -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Uso de medicamentos</mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div formGroupName="medicamentos">
+              <mat-slide-toggle formControlName="usa">Faz uso?</mat-slide-toggle>
+
+              <div *ngIf="consultaForm.get('medicamentos.usa')?.value">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Quais?</mat-label>
+                  <input matInput formControlName="quaisMedicamentos">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Frequência</mat-label>
+                  <input matInput formControlName="frequencia">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Horários</mat-label>
+                  <input matInput formControlName="horarios">
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-expansion-panel>
     
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Você possui alguma dessas doenças?</mat-label>
-            <mat-select formControlName="historicoDieteticoPaciente" multiple>
-              <mat-option value="Cancer">Cancer</mat-option>
-              <mat-option value="Diabetes">Diabetes</mat-option>
-              <mat-option value="Doença cardiovascular">Doença cardiovascular</mat-option>
-              <mat-option value="Doença autoimune">Doença autoimune</mat-option>
-              <mat-option value="Doença osteoarticular">Doença osteoarticular</mat-option>
-              <mat-option value="Doença hormonal">Doença hormonal</mat-option>
-              <mat-option value="Endometriose">Endometriose</mat-option>
-              <mat-option value="Hipertensão">Hipertensão</mat-option>
-              <mat-option value="Hipotireoidismo">Hipotireoidismo</mat-option>
-              <mat-option value="Hipertireoidismo">Hipertireoidismo</mat-option>
-              <mat-option value="Obesidade">Obesidade</mat-option>
-              <mat-option value="Doença renal">Doença renal</mat-option>
-              <mat-option value="Depressão">Depressão</mat-option>
-              <mat-option value="Síndrome do ovário policístico">Síndrome do ovário policístico</mat-option>
-              <mat-option value="Síndrome do pânico">Síndrome do pânico</mat-option>
-              <mat-option value="Transtornos alimentares">Transtornos alimentares (anorexia, bulimia, compulsão)</mat-option>
-            </mat-select>
-          </mat-form-field>
+                  <!-- Alergias -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Alergias</mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div formGroupName="alergias">
+              <mat-slide-toggle formControlName="usa">Tem?</mat-slide-toggle>
+
+              <div *ngIf="consultaForm.get('alergias.usa')?.value">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Quais?</mat-label>
+                  <input matInput formControlName="quaisAlergias">
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-expansion-panel>
         
             <!-- Álcool -->
             <mat-expansion-panel>

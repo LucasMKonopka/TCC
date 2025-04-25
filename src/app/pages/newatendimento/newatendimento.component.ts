@@ -105,7 +105,7 @@ export class NewatendimentoComponent implements OnInit{
     const dados = { ...atendimento };
     this.tipoPaciente = dados.tipoPaciente || '';
     this.isGestante = dados.isGestante || false;
-    
+
     delete dados.id;
     delete dados.pacienteId;
     delete dados.nutricionistaId;
@@ -249,6 +249,23 @@ export class NewatendimentoComponent implements OnInit{
         menopausa: [false],
         idadeInicioMenopausa: [''],
         partos: ['']
+      }),
+            
+      alergias: this.fb.group({
+        usa: [false],
+        quaisAlergias: ['']
+      }),
+      
+      doencasCronicas: this.fb.group({
+        usa: [false],
+        quaisDoencas: ['']
+      }),
+  
+      medicamentos: this.fb.group({
+        usa: [false],
+        quaisMedicamentos: [''],
+        frequencia: [''],
+        horarios: ['']
       }),
       
       //sobrando
