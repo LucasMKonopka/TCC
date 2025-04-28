@@ -17,7 +17,7 @@ import { firstValueFrom } from 'rxjs';
 export class ListatendimentosComponent implements OnInit{
   paciente: any = null;
   atendimentos = new MatTableDataSource<any>();
-  displayedColumns: string[] = ['data', 'acoes'];
+  displayedColumns: string[] = ['data', 'titulo', 'acoes'];
   loading = true;
   informacoesIniciais: any = null;
 

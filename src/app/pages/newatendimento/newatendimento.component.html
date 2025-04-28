@@ -47,6 +47,12 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>{{ isEdicao ? 'Editar Primeira Consulta' : 'Primeira Consulta' }}</mat-card-title>
+      
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Adicione um título para a consulta</mat-label>
+        <textarea matInput [(ngModel)]="tituloConsulta" [ngModelOptions]="{standalone: true}" rows="1"></textarea>
+      </mat-form-field> 
+
       <mat-card-subtitle>Dados completos do paciente</mat-card-subtitle>
     </mat-card-header>
 

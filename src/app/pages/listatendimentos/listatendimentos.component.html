@@ -56,6 +56,11 @@
                     <td mat-cell *matCellDef="let item">{{ item.data | date:'dd/MM/yyyy' }}</td>
                 </ng-container>
 
+                <ng-container matColumnDef="titulo">
+                    <th mat-header-cell *matHeaderCellDef>Título</th>
+                    <td mat-cell *matCellDef="let item">{{ item.titulo }}</td>
+                </ng-container>
+
                 <ng-container matColumnDef="acoes">
                     <th mat-header-cell *matHeaderCellDef>Ações</th>
                     <td mat-cell *matCellDef="let item">

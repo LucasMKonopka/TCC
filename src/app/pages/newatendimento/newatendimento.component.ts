@@ -29,6 +29,7 @@ export class NewatendimentoComponent implements OnInit{
   tipoPaciente: string = '';
   exibirGestante: boolean = false;
   isGestante: boolean = false;
+  tituloConsulta: string = '';
   
 
   constructor(
@@ -105,6 +106,7 @@ export class NewatendimentoComponent implements OnInit{
     const dados = { ...atendimento };
     this.tipoPaciente = dados.tipoPaciente || '';
     this.isGestante = dados.isGestante || false;
+    this.tituloConsulta = dados.titulo || '';
 
     delete dados.id;
     delete dados.pacienteId;
@@ -133,7 +135,8 @@ export class NewatendimentoComponent implements OnInit{
   
   createForm(): FormGroup {
     return this.fb.group({
-      pesoAtual: ['', [Validators.required, Validators.min(30)]],
+      titulo:[''],
+      pesoAtual: ['', [Validators.required, Validators.max(500)]],
       pesoHabitual: [''],
       alturaAtual: [''],
       perdaPeso: this.fb.group({
@@ -407,6 +410,7 @@ export class NewatendimentoComponent implements OnInit{
   
     return {
       ...formValue,
+      titulo: this.tituloConsulta, 
       isGestante: this.isGestante,
       tipoPaciente: this.tipoPaciente,
       nutricionistaId: user?.uid || '',
