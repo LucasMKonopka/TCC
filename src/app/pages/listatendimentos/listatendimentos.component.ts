@@ -19,6 +19,7 @@ export class ListatendimentosComponent implements OnInit{
   atendimentos = new MatTableDataSource<any>();
   displayedColumns: string[] = ['data', 'acoes'];
   loading = true;
+  informacoesIniciais: any = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,9 +41,16 @@ export class ListatendimentosComponent implements OnInit{
     try {
       this.paciente = await firstValueFrom(this.pacientesService.getPacienteById(pacienteId));
       console.log('Paciente encontrado:', this.paciente); 
+  
       const consultas = await this.atendimentosService.getConsultasPorPaciente(pacienteId);
       console.log('Consultas encontradas:', consultas);
-      this.atendimentos.data = consultas; 
+      this.atendimentos.data = consultas;
+  
+      const primeiraConsulta = consultas.find((consulta: any) => consulta.tipo === 'primeira');
+      if (primeiraConsulta) {
+        this.informacoesIniciais = primeiraConsulta;
+        console.log('Informações iniciais encontradas:', this.informacoesIniciais);
+      }
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
       this.toastr.error('Erro ao carregar dados', 'Erro');

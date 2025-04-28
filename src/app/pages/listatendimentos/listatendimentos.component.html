@@ -7,26 +7,30 @@
             <mat-card-subtitle>
                 <span>Idade: {{ calcularIdade(paciente?.dataNascimento) }} anos</span>
                 <br>
-                <span *ngIf="paciente?.doencasCronicas?.usa">
-                    Doenças: {{ paciente.doencasCronicas.quaisDoencas }}
-                </span>
-                <span *ngIf="!paciente?.doencasCronicas?.usa">
+                <span *ngIf="informacoesIniciais?.doencasCronicas?.usa">
+                    Doenças: {{ informacoesIniciais.doencasCronicas.quaisDoencas }}
+                  </span>
+                  <span *ngIf="informacoesIniciais && !informacoesIniciais.doencasCronicas?.usa">
                     Doenças: Nenhuma
-                </span>
-                <br>
-                <span *ngIf="paciente?.alergias?.usa">
-                    Alergias: {{ paciente.alergias.quaisAlergias }}
-                </span>
-                <span *ngIf="!paciente?.alergias?.usa">
+                  </span>
+                  
+                  <br>
+                  
+                  <span *ngIf="informacoesIniciais?.alergias?.usa">
+                    Alergias: {{ informacoesIniciais.alergias.quaisAlergias }}
+                  </span>
+                  <span *ngIf="informacoesIniciais && !informacoesIniciais.alergias?.usa">
                     Alergias: Nenhuma
-                </span>
-                <br>
-                <span *ngIf="paciente?.medicamentos?.usa">
-                    Medicamentos: {{ paciente.medicamentos.quaisMedicamentos }}
-                </span>
-                <span *ngIf="!paciente?.medicamentos?.usa">
+                  </span>
+                  
+                  <br>
+                  
+                  <span *ngIf="informacoesIniciais?.medicamentos?.usa">
+                    Medicamentos: {{ informacoesIniciais.medicamentos.quaisMedicamentos }}
+                  </span>
+                  <span *ngIf="informacoesIniciais && !informacoesIniciais.medicamentos?.usa">
                     Medicamentos: Nenhum
-                </span>
+                  </span>
             </mat-card-subtitle>
         </mat-card-header>
 
