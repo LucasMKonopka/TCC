@@ -80,6 +80,20 @@
                 <mat-label>Altura Atual (cm)</mat-label>
                 <input matInput type="number" step="0.1" formControlName="alturaAtual" required>
               </mat-form-field>
+
+              <div class="full-width" style="margin-top: 10px;">
+                <button mat-raised-button color="primary" type="button" (click)="calcularTMB_GET()">Calcular TMB e GET</button>
+              </div>
+              
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>TMB (kcal)</mat-label>
+                <input matInput formControlName="tmb" >
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>GET (kcal)</mat-label>
+                <input matInput formControlName="get" >
+              </mat-form-field>
             </div>
 
             <!--perda de peso-->
@@ -428,6 +442,15 @@
                   <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Duração</mat-label>
                     <input matInput formControlName="duracao">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Fator de Atividade Física</mat-label>
+                    <mat-select formControlName="fatorAtividadeFisica">
+                      <mat-option *ngFor="let fator of fatores" [value]="fator.valor">
+                        {{ fator.descricao }} ({{ fator.valor }})
+                      </mat-option>
+                    </mat-select>
                   </mat-form-field>
                 </div>
               </div>

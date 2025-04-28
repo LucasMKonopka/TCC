@@ -30,6 +30,13 @@ export class NewatendimentoComponent implements OnInit{
   exibirGestante: boolean = false;
   isGestante: boolean = false;
   tituloConsulta: string = '';
+  fatores = [
+    { descricao: 'Sedentário (pouco ou nenhum exercício)', valor: 1.2 },
+    { descricao: 'Levemente ativo (exercício leve 1-3 dias/semana)', valor: 1.375 },
+    { descricao: 'Moderadamente ativo (exercício moderado 3-5 dias/semana)', valor: 1.55 },
+    { descricao: 'Altamente ativo (exercício pesado 6-7 dias/semana)', valor: 1.725 },
+    { descricao: 'Extremamente ativo (treino pesado + trabalho físico)', valor: 1.9 }
+  ];
   
 
   constructor(
@@ -59,7 +66,7 @@ export class NewatendimentoComponent implements OnInit{
         this.pacientesService.getPacienteById(this.pacienteId).subscribe({
           next: (dados) => {
             this.paciente = dados;
-            this.exibirGestante = dados.sexo?.toLowerCase() === 'feminino'; // <- adiciona essa lógica
+            this.exibirGestante = dados.sexo?.toLowerCase() === 'feminino';
           },
           error: (err) => {
             console.error('Erro ao buscar paciente:', err);
@@ -138,7 +145,10 @@ export class NewatendimentoComponent implements OnInit{
       titulo:[''],
       pesoAtual: ['', [Validators.required, Validators.max(500)]],
       pesoHabitual: [''],
-      alturaAtual: [''],
+      alturaAtual: ['', [Validators.required]],
+      tmb: [{ value: '', disabled: true }],   // campo calculado
+      
+      get: [{ value: '', disabled: true }] ,
       perdaPeso: this.fb.group({
         teve: [false],
         tempo: [''],
@@ -194,7 +204,8 @@ export class NewatendimentoComponent implements OnInit{
         pratica: [false],
         frequencia: [''],
         intensidade: [''],
-        duracao: ['']
+        duracao: [''],
+        fatorAtividadeFisica: ['', Validators.required],
       }),
       restricoesReligiosas: [''],
       cirurgias: [''],
@@ -418,6 +429,43 @@ export class NewatendimentoComponent implements OnInit{
       tipo: 'primeira'
     };
   }
+
+  calcularTMB_GET() {
+    const peso = this.consultaForm.get('pesoAtual')?.value;
+    const altura = this.consultaForm.get('alturaAtual')?.value;
+    const fator = this.consultaForm.get('atividadeFisica.fatorAtividadeFisica')?.value; // corrigido aqui
+    
+    const sexo = this.paciente?.sexo;
+    const idade = this.calcularIdade(this.paciente?.dataNascimento);
+  
+    if (!peso || !altura || !fator) {
+      alert('Preencha o peso, altura e fator de atividade física.');
+      return;
+    }
+  
+    if (!sexo || idade == null) {
+      alert('Sexo ou data de nascimento não disponíveis.');
+      return;
+    }
+  
+    let tmb = 0;
+  
+    if (sexo.toLowerCase() === 'masculino') {
+      tmb = 66 + (13.8 * peso) + (5 * altura) - (6.8 * idade);
+    } else if (sexo.toLowerCase() === 'feminino') {
+      tmb = 655 + (9.6 * peso) + (1.8 * altura) - (4.7 * idade);
+    } else {
+      alert('Sexo não informado corretamente no cadastro do paciente.');
+      return;
+    }
+  
+    const get = tmb * fator;
+  
+    // como os campos estão 'disabled', você precisa usar o método 'get' para atualizar
+    this.consultaForm.get('tmb')?.setValue(tmb.toFixed(2));
+    this.consultaForm.get('get')?.setValue(get.toFixed(2));
+  }
+  
 
   markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
