@@ -69,15 +69,18 @@ export class CalendarioComponent implements OnInit {
     const hoje = new Date();
     hoje.setHours(0, 0, 0, 0);
 
-    if (novaData < hoje) {
-      this.toastr.warning('Não é possível marcar consultas em dias passados!'); 
-      this.dataSelecionada = this.ultimaDataValida; 
-      return;
-    }
-
     this.dataSelecionada = novaData;
     this.ultimaDataValida = novaData;
     this.atualizarConsultasDoDia();
+  }
+  ehDiaPassado(): boolean {
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+  
+    const dataSelecionadaSemHora = new Date(this.dataSelecionada);
+    dataSelecionadaSemHora.setHours(0, 0, 0, 0);
+  
+    return dataSelecionadaSemHora < hoje;
   }
 
   atualizarConsultasDoDia() {
