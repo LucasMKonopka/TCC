@@ -81,13 +81,18 @@ export class NewpacienteComponent implements OnInit {
     if (this.form.valid) {
       this.loading = true;
       try {
-        const cpfFormatado = this.form.value.cpf.replace(/\D/g, ''); 
+        const user = await this.afAuth.currentUser;
+        if (!user) {
+          throw new Error('Usuário não autenticado');
+        }
   
+        const cpfFormatado = this.form.value.cpf.replace(/\D/g, ''); 
+    
         if (this.isEdit) {
           if (this.originalCpf !== cpfFormatado) {
-            const cpfExistente = await this.pacientesService.verificarCpfExistente(cpfFormatado);
+            const cpfExistente = await this.pacientesService.verificarCpfExistente(cpfFormatado, user.uid);
             if (cpfExistente) {
-              this.toastr.error('Este CPF já está cadastrado no sistema', 'Erro');
+              this.toastr.error('Este CPF já está cadastrado para seu perfil', 'Erro');
               this.form.get('cpf')?.setErrors({ cpfExistente: true });
               return;
             }
@@ -96,9 +101,9 @@ export class NewpacienteComponent implements OnInit {
           this.toastr.success('Paciente atualizado com sucesso!', 'Sucesso');
           this.router.navigate(['/listpacientes']); 
         } else {
-          const cpfExistente = await this.pacientesService.verificarCpfExistente(cpfFormatado);
+          const cpfExistente = await this.pacientesService.verificarCpfExistente(cpfFormatado, user.uid);
           if (cpfExistente) {
-            this.toastr.error('Este CPF já está cadastrado no sistema', 'Erro');
+            this.toastr.error('Este CPF já está cadastrado para seu perfil', 'Erro');
             this.form.get('cpf')?.setErrors({ cpfExistente: true });
             return;
           }

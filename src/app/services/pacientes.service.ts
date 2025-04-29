@@ -23,13 +23,23 @@ export class PacientesService {
     ).valueChanges({ idField: 'id' });
   }
 
-  async verificarCpfExistente(cpf: string): Promise<boolean> {
+  async verificarCpfExistente(cpf: string, nutricionistaId?: string): Promise<boolean> {
     const cpfFormatado = cpf.replace(/\D/g, '');
     
-    const snapshot = await this.dataBaseStore.collection(this.collectionName, 
-      ref => ref.where('cpf', '==', cpfFormatado)
-    ).get().toPromise();
-
+    let queryRef;
+    
+    if (nutricionistaId) {
+      queryRef = this.dataBaseStore.collection(this.collectionName, 
+        ref => ref.where('cpf', '==', cpfFormatado)
+                  .where('nutricionistaId', '==', nutricionistaId)
+      );
+    } else {
+      queryRef = this.dataBaseStore.collection(this.collectionName, 
+        ref => ref.where('cpf', '==', cpfFormatado)
+      );
+    }
+  
+    const snapshot = await queryRef.get().toPromise();
     return !snapshot?.empty;
   }
 
@@ -39,9 +49,9 @@ export class PacientesService {
       throw new Error('Usuário não autenticado');
     }
   
-    const cpfExistente = await this.verificarCpfExistente(paciente.cpf);
+    const cpfExistente = await this.verificarCpfExistente(paciente.cpf, user.uid);
     if (cpfExistente) {
-      throw new Error('CPF já cadastrado no sistema');
+      throw new Error('CPF já cadastrado para este nutricionista');
     }
   
     try {
