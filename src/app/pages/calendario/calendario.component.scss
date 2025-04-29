@@ -42,7 +42,7 @@ $background-color: #f8f9fa;
   border-radius: 10px;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
-  max-height: 600px;
+  max-height: 590px;
   
   @media (min-width: 992px) {
     margin-bottom: 0;
@@ -57,6 +57,8 @@ $background-color: #f8f9fa;
   border-radius: 10px;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
   margin-bottom: 80px; 
+  max-height: calc(100vh - 100px); // ajuste conforme sua barra superior
+  overflow-y: auto;
   
   
   @media (max-width: 992px) {
@@ -93,6 +95,14 @@ $background-color: #f8f9fa;
     margin-top: 20px;
     max-height: 172px;
     overflow-y: auto;
+
+    &.consultas-restrita {
+      max-height: 250px; 
+    }
+  
+    &.consultas-expandida {
+      max-height: 400px; 
+    }
     
     @media (max-width: 768px) {
       max-height: 150px;

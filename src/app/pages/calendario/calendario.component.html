@@ -40,7 +40,7 @@
           <button class="agendar-btn" (click)="agendarConsulta()">Agendar</button>
         </div>
 
-        <div class="consultas-lista">
+        <div class="consultas-lista" [ngClass]="{ 'consultas-expandida': ehDiaPassado(), 'consultas-restrita': !ehDiaPassado() }">
           <ul>
             <li *ngFor="let consulta of consultasDoDia; let i = index">
               <span>{{ consulta.horario }} - {{ consulta.paciente }}</span>
