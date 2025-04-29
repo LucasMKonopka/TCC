@@ -433,7 +433,7 @@ export class NewatendimentoComponent implements OnInit{
   calcularTMB_GET() {
     const peso = this.consultaForm.get('pesoAtual')?.value;
     const altura = this.consultaForm.get('alturaAtual')?.value;
-    const fator = this.consultaForm.get('atividadeFisica.fatorAtividadeFisica')?.value; // corrigido aqui
+    const fator = this.consultaForm.get('atividadeFisica.fatorAtividadeFisica')?.value;
     
     const sexo = this.paciente?.sexo;
     const idade = this.calcularIdade(this.paciente?.dataNascimento);
@@ -461,7 +461,6 @@ export class NewatendimentoComponent implements OnInit{
   
     const get = tmb * fator;
   
-    // como os campos estão 'disabled', você precisa usar o método 'get' para atualizar
     this.consultaForm.get('tmb')?.setValue(tmb.toFixed(2));
     this.consultaForm.get('get')?.setValue(get.toFixed(2));
   }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarioService } from "../../services/calendario.service";
+import { PacientesService } from '../../services/pacientes.service';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 
@@ -18,12 +20,49 @@ export class CalendarioComponent implements OnInit {
   novoPaciente: string = '';
 
   isEditando: boolean = false;
-  consultaEditandoIndex: number | null = null; // Para armazenar o índice da consulta que está sendo editada
+  consultaEditandoIndex: number | null = null;
 
-  constructor(private calendarioService: CalendarioService, private toastr: ToastrService) {}
+  pacientes: any[] = [];
+  pacientesFiltrados: any[] = [];
+
+  constructor(private calendarioService: CalendarioService, private afAuth: AngularFireAuth, private pacientesService: PacientesService, private toastr: ToastrService) {}
 
   ngOnInit() {
-    this.carregarConsultas();  
+    this.carregarConsultas();
+    this.carregarPacientes(); 
+  }
+
+  carregarPacientes() {
+    this.afAuth.authState.subscribe(user => {
+      if (user) {
+        this.pacientesService.getAllPacientes(user.uid).subscribe(pacientes => {
+          this.pacientes = pacientes;
+          this.pacientesFiltrados = pacientes; // Inicialmente mostra todos
+        });
+      }
+    });
+  }
+  filtrarPacientes(event: Event) {
+    const input = event.target as HTMLInputElement | null;
+  
+    if (!input) {
+      return;
+    }
+  
+    const valor = input.value;
+  
+    if (!valor) {
+      this.pacientesFiltrados = this.pacientes;
+      return;
+    }
+  
+    const valorLower = valor.toLowerCase();
+    this.pacientesFiltrados = this.pacientes.filter(paciente =>
+      paciente.nome.toLowerCase().includes(valorLower)
+    );
+  }
+  selecionarPaciente(nomePaciente: string) {
+    this.novoPaciente = nomePaciente;
   }
 
   selecionarDia(novaData: Date) {
@@ -56,6 +95,12 @@ export class CalendarioComponent implements OnInit {
   
     if (/\d/.test(this.novoPaciente)) { 
       this.toastr.warning('O nome do paciente não pode conter números!'); 
+      return;
+    }
+
+    const pacienteValido = this.pacientes.some(p => p.nome.toLowerCase() === this.novoPaciente.toLowerCase());
+    if (!pacienteValido) {
+      this.toastr.error('Paciente não encontrado. Selecione um paciente cadastrado.');
       return;
     }
   

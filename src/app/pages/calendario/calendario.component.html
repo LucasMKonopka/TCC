@@ -22,7 +22,18 @@
 
         <div class="form-group">
           <label>Paciente:</label>
-          <input matInput type="text" [(ngModel)]="novoPaciente" (keypress)="bloquearNumeros($event)" class="form-control">
+          <input type="text"
+                 matInput
+                 [(ngModel)]="novoPaciente"
+                 [matAutocomplete]="auto"
+                 (input)="filtrarPacientes($event)"
+                 class="form-control">
+        
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selecionarPaciente($event.option.value)">
+            <mat-option *ngFor="let paciente of pacientesFiltrados" [value]="paciente.nome">
+              {{ paciente.nome }}
+            </mat-option>
+          </mat-autocomplete>
         </div>
 
         <button class="agendar-btn" (click)="agendarConsulta()">Agendar</button>

@@ -40,6 +40,8 @@ import { AtendimentosregularesComponent } from './pages/atendimentosregulares/at
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 
 
 
@@ -84,7 +86,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatTableModule,
     MatExpansionModule,
     MatSlideToggleModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatAutocompleteModule
   ],
   providers: [
     provideAnimationsAsync(),
