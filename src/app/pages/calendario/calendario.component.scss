@@ -57,6 +57,7 @@ $background-color: #f8f9fa;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
   margin-bottom: 80px; 
   
+  
   @media (max-width: 992px) {
     margin-bottom: 100px; 
   }
@@ -89,7 +90,7 @@ $background-color: #f8f9fa;
 
   .consultas-lista {
     margin-top: 20px;
-    max-height: 200px;
+    max-height: 172px;
     overflow-y: auto;
     
     @media (max-width: 768px) {
