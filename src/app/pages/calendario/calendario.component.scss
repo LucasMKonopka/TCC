@@ -1,4 +1,3 @@
-// Definição de cores personalizadas
 $primary-color: rgb(211, 211, 211);
 $secondary-color: orange;
 $text-color: #333;
@@ -10,27 +9,27 @@ $background-color: #f8f9fa;
 }
 
 .container-fluid {
-  padding-left: 226px; // 210px do menu + 16px de margem
+  padding-left: 226px; 
   min-height: 100vh;
   overflow-x: hidden;
   
   @media (max-width: 992px) {
     padding-left: 15px;
     padding-top: 60px;
-    height: 100vh; // Garante altura total da viewport
-    overflow-y: auto; // Habilita rolagem vertical
-    -webkit-overflow-scrolling: touch; // Melhora rolagem em iOS
+    height: 100vh; 
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; 
   }
 }
 
 .row {
   margin: 0;
-  min-height: calc(100vh - 60px); // Ajuste para altura
+  min-height: calc(100vh - 60px); 
   
   @media (max-width: 992px) {
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 120px); // Ajuste para mobile
+    min-height: calc(100vh - 120px); 
   }
 
 }
@@ -57,7 +56,7 @@ $background-color: #f8f9fa;
   border-radius: 10px;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
   margin-bottom: 80px; 
-  max-height: calc(100vh - 100px); // ajuste conforme sua barra superior
+  max-height: calc(100vh - 100px); 
   overflow-y: auto;
   
   
@@ -178,7 +177,6 @@ input.form-control {
   }
 }
 
-// Ajustes para o calendário em mobile
 @media (max-width: 768px) {
   ::ng-deep .mat-calendar {
     width: 100% !important;
