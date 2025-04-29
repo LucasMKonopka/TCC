@@ -71,7 +71,10 @@ export class HomeComponent {
   }
 
   private formatarData(data: Date): string {
-    return data.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+    const year = data.getFullYear();
+    const month = (data.getMonth() + 1).toString().padStart(2, '0');
+    const day = data.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   confirmarExclusao() {

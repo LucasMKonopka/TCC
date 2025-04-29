@@ -28,6 +28,11 @@ export class CalendarioComponent implements OnInit {
   constructor(private calendarioService: CalendarioService, private afAuth: AngularFireAuth, private pacientesService: PacientesService, private toastr: ToastrService) {}
 
   ngOnInit() {
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    this.dataSelecionada = hoje;
+    this.ultimaDataValida = new Date(hoje);
+
     this.carregarConsultas();
     this.carregarPacientes(); 
   }
@@ -66,11 +71,11 @@ export class CalendarioComponent implements OnInit {
   }
 
   selecionarDia(novaData: Date) {
-    const hoje = new Date();
-    hoje.setHours(0, 0, 0, 0);
-
-    this.dataSelecionada = novaData;
-    this.ultimaDataValida = novaData;
+    const dataSelecionada = new Date(novaData);
+    dataSelecionada.setHours(0, 0, 0, 0);
+    
+    this.dataSelecionada = dataSelecionada;
+    this.ultimaDataValida = new Date(dataSelecionada);
     this.atualizarConsultasDoDia();
   }
   ehDiaPassado(): boolean {
@@ -86,7 +91,14 @@ export class CalendarioComponent implements OnInit {
   atualizarConsultasDoDia() {
     const dataFormatada = this.formatarData(this.dataSelecionada);
     this.consultasDoDia = this.consultas
-      .filter(c => c.data === dataFormatada)
+      .filter(c => {
+        const consultaData = new Date(c.data);
+        const selectedData = new Date(dataFormatada);
+        
+        return consultaData.getFullYear() === selectedData.getFullYear() &&
+               consultaData.getMonth() === selectedData.getMonth() &&
+               consultaData.getDate() === selectedData.getDate();
+      })
       .sort((a, b) => a.horario.localeCompare(b.horario));
   }
 
@@ -150,7 +162,7 @@ export class CalendarioComponent implements OnInit {
         return;
       }
   
-      this.calendarioService.salvarConsulta(novaConsulta.horario, novaConsulta.paciente)
+      this.calendarioService.salvarConsulta(novaConsulta.horario, novaConsulta.paciente, novaConsulta.data)
         .then((docRef) => {
           this.consultas.push({
             id: docRef.id,
@@ -224,7 +236,10 @@ export class CalendarioComponent implements OnInit {
   }
 
   formatarData(data: Date): string {
-    return data.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+    const year = data.getFullYear();
+    const month = (data.getMonth() + 1).toString().padStart(2, '0');
+    const day = data.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   bloquearNumeros(event: KeyboardEvent) {
@@ -237,8 +252,9 @@ export class CalendarioComponent implements OnInit {
   carregarConsultas() {
     this.calendarioService.carregarConsultas()
       .then(consultas => {
-        this.consultas = consultas; 
-        this.atualizarConsultasDoDia();
+        this.consultas = consultas;
+        const dataAtual = new Date(this.dataSelecionada);
+        this.selecionarDia(dataAtual);
       })
       .catch((error) => {
         this.toastr.error('Erro ao carregar consultas: ' + error.message);

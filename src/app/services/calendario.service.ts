@@ -8,16 +8,16 @@ import { Auth } from '@angular/fire/auth';
 export class CalendarioService {
   constructor(private firestore: Firestore, private auth: Auth) {}
 
-  async salvarConsulta(horario: string, paciente: string) {
+  async salvarConsulta(horario: string, paciente: string, data: string) {
     const user = this.auth.currentUser;
     if (!user) throw new Error('Usuário não autenticado');
-
+  
     const consultasRef = collection(this.firestore, 'agendamento');
     return addDoc(consultasRef, {
       userId: user.uid,
       horario,
       paciente,
-      data: new Date().toISOString().split('T')[0] // Formato YYYY-MM-DD
+      data: data // Usa a data recebida como parâmetro
     });
   }
 
