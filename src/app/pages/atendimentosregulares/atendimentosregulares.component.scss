@@ -11,3 +11,26 @@
       padding-top: 80px;
     }
 }
+mat-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08) !important;
+  margin-bottom: 24px;
+  
+  mat-card-header {
+      padding: 16px 24px 0;
+      
+      mat-card-title {
+          font-size: 1.5rem;
+          font-weight: 500;
+          color: var(--primary-color);
+      }
+      
+      mat-card-subtitle {
+          color: #666;
+      }
+  }
+  
+  mat-card-content {
+      padding: 16px 24px;
+  }
+}
