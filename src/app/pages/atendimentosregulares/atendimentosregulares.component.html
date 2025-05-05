@@ -6,12 +6,30 @@
         <mat-card-header>
             <mat-card-title>Atendimento de {{ paciente?.nome || 'Carregando...' }}</mat-card-title>
             <mat-card-subtitle *ngIf="paciente">
-              <div><strong>Nome:</strong> {{ paciente.nome }}</div>
               <div><strong>Idade:</strong> {{ calcularIdade(paciente.dataNascimento) }} anos</div>
-              <div *ngIf="paciente.doencasCronicas?.usa"><strong>Doenças Crônicas:</strong> {{ paciente.doencasCronicas.quaisDoencas }}</div>
-              <div *ngIf="paciente.alergias?.usa"><strong>Alergias:</strong> {{ paciente.alergias.quaisAlergias }}</div>
-              <div *ngIf="paciente.medicamentos?.usa"><strong>Medicamentos:</strong> {{ paciente.medicamentos.quaisMedicamentos }}</div>
+            
+              <div *ngIf="informacoesIniciais?.doencasCronicas?.usa">
+                <strong>Doenças Crônicas:</strong> {{ informacoesIniciais.doencasCronicas.quaisDoencas }}
+              </div>
+              <div *ngIf="informacoesIniciais && !informacoesIniciais.doencasCronicas?.usa">
+                <strong>Doenças Crônicas:</strong> Nenhuma
+              </div>
+            
+              <div *ngIf="informacoesIniciais?.alergias?.usa">
+                <strong>Alergias:</strong> {{ informacoesIniciais.alergias.quaisAlergias }}
+              </div>
+              <div *ngIf="informacoesIniciais && !informacoesIniciais.alergias?.usa">
+                <strong>Alergias:</strong> Nenhuma
+              </div>
+            
+              <div *ngIf="informacoesIniciais?.medicamentos?.usa">
+                <strong>Medicamentos:</strong> {{ informacoesIniciais.medicamentos.quaisMedicamentos }}
+              </div>
+              <div *ngIf="informacoesIniciais && !informacoesIniciais.medicamentos?.usa">
+                <strong>Medicamentos:</strong> Nenhum
+              </div>
             </mat-card-subtitle>
+            
           </mat-card-header>
     </mat-card>
 
