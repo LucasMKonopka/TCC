@@ -18,6 +18,7 @@
     padding: 0 15px;
 }
 
+
 mat-card {
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08) !important;
@@ -68,6 +69,7 @@ mat-slide-toggle {
 
 .full-width {
     width: 100%;
+    display: block;
 }
 
 .row {

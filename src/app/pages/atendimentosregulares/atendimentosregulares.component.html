@@ -33,6 +33,130 @@
           </mat-card-header>
     </mat-card>
 
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ isEdicao ? 'Editar Consulta Regular' : 'Consulta Regular' }}</mat-card-title>
+      </mat-card-header>
+    
+      <mat-form-field appearance="outline" class="full-width" style="margin: 0 16px;">
+        <mat-label>Adicione um título para a consulta</mat-label>
+        <textarea matInput [(ngModel)]="tituloConsulta" [ngModelOptions]="{standalone: true}" rows="1"></textarea>
+      </mat-form-field>
+    
+      <mat-card-subtitle style="margin: 0 16px;">Dados completos do paciente</mat-card-subtitle>
     
 
-</div>
+      <mat-card-content>
+        <form [formGroup]="consultaForm" (ngSubmit)="onSubmit()">
+          <!-- Seção 1: Dados Antropométricos -->
+          <mat-card class="section-card">
+            <mat-card-header>
+              <mat-card-title>1. Dados Antropométricos e Percepção do Peso</mat-card-title>
+            </mat-card-header>
+            
+            <mat-card-content>
+              <div class="row">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Peso Atual (kg)</mat-label>
+                  <input matInput type="number" step="0.1" formControlName="pesoAtual" required>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Peso Habitual (kg)</mat-label>
+                  <input matInput type="number" step="0.1" formControlName="pesoHabitual">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Altura Atual (cm)</mat-label>
+                  <input matInput type="number" step="0.1" formControlName="alturaAtual" required>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Fator de Atividade Física</mat-label>
+                  <mat-select formControlName="fatorAtividadeFisica">
+                    <mat-option *ngFor="let fator of fatores" [value]="fator.valor">
+                      {{ fator.descricao }} ({{ fator.valor }})
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <div class="full-width" style="margin-top: 10px;">
+                  <button mat-raised-button color="primary" type="button" (click)="calcularTMB_GET()">Calcular TMB e GET</button>
+                </div>
+                
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>TMB (kcal)</mat-label>
+                  <input matInput formControlName="tmb" >
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>GET (kcal)</mat-label>
+                  <input matInput formControlName="get" >
+                </mat-form-field>
+              </div>
+
+              <!--perda de peso-->
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Teve perda de peso recente?</mat-panel-title>
+                </mat-expansion-panel-header>
+                
+                <div formGroupName="perdaPeso">
+                  <mat-slide-toggle formControlName="teve">Sim</mat-slide-toggle>
+                  
+                  <div *ngIf="consultaForm.get('perdaPeso.teve')?.value" class="expansion-content">
+                    <div class="row">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Em quanto tempo?</mat-label>
+                        <input matInput formControlName="tempo">
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Quantos quilos perdeu?</mat-label>
+                        <input matInput type="number" step="0.1" formControlName="quantidade">
+                      </mat-form-field>
+                    </div>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Motivo da perda</mat-label>
+                      <textarea matInput formControlName="motivo" rows="2"></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+
+              <!--Ganho de peso-->
+              <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>Teve ganho de peso recente?</mat-panel-title>
+                  </mat-expansion-panel-header>
+                  
+                  <div formGroupName="ganhoPeso">
+                    <mat-slide-toggle formControlName="teve">Sim</mat-slide-toggle>
+                    
+                    <div *ngIf="consultaForm.get('ganhoPeso.teve')?.value" class="expansion-content">
+                      <div class="row">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Em quanto tempo?</mat-label>
+                          <input matInput formControlName="tempo">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                          <mat-label>Quantos quilos ganhou?</mat-label>
+                          <input matInput type="number" step="0.1" formControlName="quantidade">
+                        </mat-form-field>
+                      </div>
+
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Motivo do ganho</mat-label>
+                        <textarea matInput formControlName="motivo" rows="2"></textarea>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </mat-expansion-panel>
+
+            </mat-card-content>
+          </mat-card>
+        
+
+

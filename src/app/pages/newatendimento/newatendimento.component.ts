@@ -146,8 +146,8 @@ export class NewatendimentoComponent implements OnInit{
       pesoAtual: ['', [Validators.required, Validators.max(500)]],
       pesoHabitual: [''],
       alturaAtual: ['', [Validators.required]],
-      tmb: [{ value: '', disabled: true }],   // campo calculado
-      
+      fatorAtividadeFisica: [''],
+      tmb: [{ value: '', disabled: true }],
       get: [{ value: '', disabled: true }] ,
       perdaPeso: this.fb.group({
         teve: [false],
@@ -205,7 +205,6 @@ export class NewatendimentoComponent implements OnInit{
         frequencia: [''],
         intensidade: [''],
         duracao: [''],
-        fatorAtividadeFisica: ['', Validators.required],
       }),
       restricoesReligiosas: [''],
       cirurgias: [''],
@@ -433,18 +432,18 @@ export class NewatendimentoComponent implements OnInit{
   calcularTMB_GET() {
     const peso = this.consultaForm.get('pesoAtual')?.value;
     const altura = this.consultaForm.get('alturaAtual')?.value;
-    const fator = this.consultaForm.get('atividadeFisica.fatorAtividadeFisica')?.value;
+    const fator = this.consultaForm.get('fatorAtividadeFisica')?.value;
     
     const sexo = this.paciente?.sexo;
     const idade = this.calcularIdade(this.paciente?.dataNascimento);
   
     if (!peso || !altura || !fator) {
-      alert('Preencha o peso, altura e fator de atividade física.');
+      this.toastr.warning('Preencha o peso, altura e fator de atividade física.');
       return;
     }
   
     if (!sexo || idade == null) {
-      alert('Sexo ou data de nascimento não disponíveis.');
+      this.toastr.warning('Sexo ou data de nascimento não disponíveis.');
       return;
     }
   
