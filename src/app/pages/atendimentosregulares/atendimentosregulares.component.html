@@ -157,6 +157,124 @@
 
             </mat-card-content>
           </mat-card>
+
+          <!-- Seção 2: Acompanhamento e Evolução -->
+          <mat-card class="section-card">
+            <mat-card-header>
+              <mat-card-title>2. Acompanhamento e Evolução</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Como você se sentiu desde a última consulta?</mat-label>
+                <textarea matInput formControlName="sentimentosDesdeUltimaConsulta"></textarea>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Conseguiu seguir o plano alimentar proposto?</mat-label>
+                <textarea matInput formControlName="seguiuPlano"></textarea>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Houve alguma dificuldade específica em manter a alimentação?</mat-label>
+                <textarea matInput formControlName="dificuldadesAlimentacao"></textarea>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Percebeu melhora nos sintomas relacionados à alimentação?</mat-label>
+                <textarea matInput formControlName="sintomasMelhoraram"></textarea>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Sentiu mais disposição ou energia?</mat-label>
+                <textarea matInput formControlName="disposicaoEnergia"></textarea>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Seção 3: Comportamento Alimentar -->
+          <mat-card class="section-card">
+            <mat-card-header>
+              <mat-card-title>3. Comportamento Alimentar</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Houve episódios de compulsão ou exagero alimentar?</mat-label>
+                <textarea matInput formControlName="compulsaoAlimentar"></textarea>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Em quais momentos do dia você sentiu mais fome ou vontade de comer?</mat-label>
+                <textarea matInput formControlName="momentosFome"></textarea>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Está fazendo refeições nos horários combinados?</mat-label>
+                <textarea matInput formControlName="horariosRefeicao"></textarea>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Como tem sido sua fome e saciedade?</mat-label>
+                <textarea matInput formControlName="fomeSaciedade"></textarea>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Seção 4: Aspectos Psicológicos e Sociais -->
+          <mat-card class="section-card">
+            <mat-card-header>
+              <mat-card-title>4. Aspectos Psicológicos e Sociais</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Como está o seu humor nos últimos dias?</mat-label>
+                <textarea matInput formControlName="humor"></textarea>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Alguma situação de estresse tem afetado sua alimentação?</mat-label>
+                <textarea matInput formControlName="estresseAfetandoAlimentacao"></textarea>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Teve apoio da família/amigos nesse processo?</mat-label>
+                <textarea matInput formControlName="apoioFamiliar"></textarea>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Seção 5: Feedback e Ajustes -->
+          <mat-card class="section-card">
+            <mat-card-header>
+              <mat-card-title>5. Feedback e Ajustes</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>O que gostaria de ajustar no plano atual?</mat-label>
+                <textarea matInput formControlName="ajustesPlano"></textarea>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Há alimentos que gostaria de incluir ou excluir?</mat-label>
+                <textarea matInput formControlName="alimentosIncluirExcluir"></textarea>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Você sente necessidade de mais flexibilidade ou variedade?</mat-label>
+                <textarea matInput formControlName="necessidadeFlexibilidade"></textarea>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+
+          <div class="button-container">
+            <button mat-raised-button color="warn" type="button" (click)="cancelar()">
+              Cancelar
+            </button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+              <span *ngIf="!loading">Salvar Consulta</span>
+              <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+            </button>
+          </div>
+
         
 
 

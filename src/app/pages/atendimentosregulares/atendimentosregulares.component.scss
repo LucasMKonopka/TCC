@@ -34,3 +34,23 @@ mat-card {
       padding: 16px 24px;
   }
 }
+
+mat-card.section-card {
+    margin: 16px 0;
+    padding: 16px;
+  }
+  
+  mat-card-content, .expansion-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .acompanhamento-section,
+  .comportamento-section,
+  .psicologico-section,
+  .feedback-section {
+    mat-form-field {
+      width: 100%;
+    }
+  }

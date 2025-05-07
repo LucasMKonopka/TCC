@@ -27,6 +27,9 @@ export class AtendimentosregularesComponent implements OnInit{
     { descricao: 'Altamente ativo (exercício pesado 6-7 dias/semana)', valor: 1.725 },
     { descricao: 'Extremamente ativo (treino pesado + trabalho físico)', valor: 1.9 }
   ];
+  loading = false;
+  exibirGestante: boolean = false;
+  isGestante: boolean = false;
 
   constructor(
       private fb: FormBuilder,
@@ -42,26 +45,55 @@ export class AtendimentosregularesComponent implements OnInit{
 
     createForm(): FormGroup {
       return this.fb.group({
-        titulo:[''],
+        titulo: [''],
         pesoAtual: ['', [Validators.required, Validators.max(500)]],
         pesoHabitual: [''],
         alturaAtual: ['', [Validators.required]],
         fatorAtividadeFisica: [''],
         tmb: [{ value: '', disabled: true }],
-        get: [{ value: '', disabled: true }] ,
+        get: [{ value: '', disabled: true }],
+        
         perdaPeso: this.fb.group({
           teve: [false],
           tempo: [''],
           quantidade: [''],
           motivo: ['']
         }),
+    
         ganhoPeso: this.fb.group({
           teve: [false],
           tempo: [''],
           quantidade: [''],
           motivo: ['']
         }),
-      })
+    
+        
+          sentimentosDesdeUltimaConsulta: [''],
+          seguiuPlano: [''],
+          dificuldadesAlimentacao: [''],
+          sintomasMelhoraram: [''],
+          disposicaoEnergia: [''],
+        
+    
+        
+          compulsaoAlimentar: [''],
+          momentosFome: [''],
+          horariosRefeicao: [''],
+          fomeSaciedade: [''],
+        
+    
+        
+          humor: [''],
+          estresseAfetandoAlimentacao: [''],
+          apoioFamiliar: [''],
+        
+    
+        
+          ajustesPlano: [''],
+          alimentosIncluirExcluir: [''],
+          necessidadeFlexibilidade: ['']
+        
+      });
     }
 
 
@@ -95,7 +127,48 @@ export class AtendimentosregularesComponent implements OnInit{
     return idade;
   }
 
-  async onSubmit() {}
+  async onSubmit() {
+    if (this.consultaForm.invalid) {
+      this.markFormGroupTouched(this.consultaForm);
+      this.toastr.warning('Preencha todos os campos obrigatórios');
+      return;
+    }
+  
+    this.loading = true;
+    try {
+      const formData = await this.prepareFormData();
+      
+      if (this.isEdicao && this.idPaciente) {
+        await this.atendimentosService.atualizarAtendimento(this.idPaciente, formData);
+        this.toastr.success('Atendimento atualizado com sucesso!');
+      } else {
+        await this.atendimentosService.criarPrimeiraConsulta(this.idPaciente, formData);
+        this.toastr.success('Primeira consulta registrada com sucesso!');
+      }
+      
+      this.router.navigate(['/listatendimentos', this.idPaciente]);
+    } catch (error) {
+      const mensagem = this.isEdicao ? 'Erro ao atualizar consulta' : 'Erro ao registrar consulta';
+      this.toastr.error(mensagem);
+      console.error(error);
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  async prepareFormData(): Promise<any> {
+    const formValue = this.consultaForm.value;
+    const user = await this.afAuth.currentUser;
+  
+    return {
+      ...formValue,
+      titulo: this.tituloConsulta, 
+      isGestante: this.isGestante,
+      nutricionistaId: user?.uid || '',
+      data: new Date().toISOString(),
+      tipo: 'primeira'
+    };
+  }
 
   calcularTMB_GET() {
     const peso = this.consultaForm.get('pesoAtual')?.value;
@@ -130,6 +203,20 @@ export class AtendimentosregularesComponent implements OnInit{
   
     this.consultaForm.get('tmb')?.setValue(tmb.toFixed(2));
     this.consultaForm.get('get')?.setValue(get.toFixed(2));
+  }
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
+
+  cancelar() {
+    this.router.navigate(['/listatendimentos', this.idPaciente]);
   }
 
 }
