@@ -30,6 +30,7 @@ export class AtendimentosregularesComponent implements OnInit{
   loading = false;
   exibirGestante: boolean = false;
   isGestante: boolean = false;
+  atendimentoId: string | null = null;
 
   constructor(
       private fb: FormBuilder,
@@ -97,22 +98,86 @@ export class AtendimentosregularesComponent implements OnInit{
     }
 
 
-    async ngOnInit(): Promise<void> {
-      this.idPaciente = this.route.snapshot.paramMap.get('id')!;
-    
-      try {
-        this.paciente = await firstValueFrom(this.pacientesService.getPacienteById(this.idPaciente));
+    ngOnInit(): void {
+      this.route.paramMap.subscribe(params => {
+        this.idPaciente = params.get('id') || '';
         
-        const consultas = await this.atendimentosService.getConsultasPorPaciente(this.idPaciente);
-        const primeiraConsulta = consultas.find((consulta: any) => consulta.tipo === 'primeira');
-    
-        if (primeiraConsulta) {
-          this.informacoesIniciais = primeiraConsulta;
+        const state = window.history.state;
+        if (state) {
+          this.atendimentoId = state.atendimentoId || null;
+          this.isEdicao = state.modoEdicao || false;
         }
-      } catch (error) {
-        console.error('Erro ao carregar dados do paciente ou da primeira consulta', error);
-        this.toastr.error('Erro ao carregar informações do paciente');
+  
+        if (this.idPaciente) {
+          this.carregarPaciente();
+          
+          if (this.isEdicao && this.idPaciente) {
+            this.carregarDadosAtendimento();
+          } else {
+            this.carregarInformacoesIniciais();
+          }
+        }
+      });
+    }
+  
+    private carregarPaciente(): void {
+      this.pacientesService.getPacienteById(this.idPaciente).subscribe({
+        next: (dados) => {
+          this.paciente = dados;
+        },
+        error: (err) => {
+          console.error('Erro ao buscar paciente:', err);
+          this.toastr.error('Erro ao carregar dados do paciente');
+        }
+      });
+    }
+  
+    private carregarInformacoesIniciais(): void {
+      this.atendimentosService.getConsultasPorPaciente(this.idPaciente)
+        .then(consultas => {
+          const consultaRegular = consultas.find((consulta: any) => consulta.tipo === 'regular');
+          if (consultaRegular) {
+            this.informacoesIniciais = consultaRegular;
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao carregar consultas:', error);
+        });
+    }
+  
+    private carregarDadosAtendimento(): void {
+      if (!this.atendimentoId) return;
+      
+      this.atendimentosService.getAtendimentoById(this.atendimentoId)
+        .then(atendimento => {
+          this.preencherFormulario(atendimento);
+        })
+        .catch(error => {
+          console.error('Erro ao carregar atendimento:', error);
+          this.toastr.error('Erro ao carregar dados do atendimento');
+        });
+    }
+  
+    private preencherFormulario(atendimento: any): void {
+      if (!this.consultaForm) {
+        setTimeout(() => this.preencherFormulario(atendimento), 100);
+        return;
       }
+  
+      const dados = { ...atendimento };
+      this.tituloConsulta = dados.titulo || '';
+  
+      // Remove campos que não são parte do formulário
+      delete dados.id;
+      delete dados.pacienteId;
+      delete dados.nutricionistaId;
+      delete dados.data;
+      delete dados.createdAt;
+      delete dados.updatedAt;
+      delete dados.tipo;
+  
+      this.consultaForm.patchValue(dados);
+      this.consultaForm.markAsPristine();
     }
 
   calcularIdade(dataNascimento: string): number {
@@ -138,12 +203,12 @@ export class AtendimentosregularesComponent implements OnInit{
     try {
       const formData = await this.prepareFormData();
       
-      if (this.isEdicao && this.idPaciente) {
-        await this.atendimentosService.atualizarAtendimento(this.idPaciente, formData);
+      if (this.isEdicao && this.atendimentoId) {  // Alterado para verificar atendimentoId
+        await this.atendimentosService.atualizarAtendimento(this.atendimentoId, formData);  // Usando atendimentoId
         this.toastr.success('Atendimento atualizado com sucesso!');
       } else {
-        await this.atendimentosService.criarPrimeiraConsulta(this.idPaciente, formData);
-        this.toastr.success('Primeira consulta registrada com sucesso!');
+        await this.atendimentosService.criarConsultaRegular(this.idPaciente, formData);
+        this.toastr.success('Consulta registrada com sucesso!');
       }
       
       this.router.navigate(['/listatendimentos', this.idPaciente]);
@@ -166,7 +231,7 @@ export class AtendimentosregularesComponent implements OnInit{
       isGestante: this.isGestante,
       nutricionistaId: user?.uid || '',
       data: new Date().toISOString(),
-      tipo: 'primeira'
+      tipo: 'regular'
     };
   }
 

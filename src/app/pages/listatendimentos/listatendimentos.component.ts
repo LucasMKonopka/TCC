@@ -96,7 +96,16 @@ export class ListatendimentosComponent implements OnInit{
 
   
   editarAtendimento(atendimentoId: string) {
-    this.router.navigate(['/newatendimento', this.paciente.id], {
+    const atendimento = this.atendimentos.data.find((a: any) => a.id === atendimentoId);
+    
+    if (!atendimento) {
+      this.toastr.error('Atendimento não encontrado');
+      return;
+    }
+  
+    const rota = atendimento.tipo === 'primeira' ? '/newatendimento' : '/atendimentosregulares';
+  
+    this.router.navigate([rota, this.paciente.id], {
       state: {
         pacienteNome: this.paciente.nome,
         atendimentoId: atendimentoId,

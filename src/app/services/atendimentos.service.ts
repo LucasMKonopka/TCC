@@ -60,10 +60,10 @@ export class AtendimentosService {
 
   async criarConsultaRegular(pacienteId: string, dados: any) {
     const consulta = {
+      ...dados, 
       pacienteId,
       tipo: 'regular',
       data: new Date().toISOString(),
-      dados,
       createdAt: new Date()
     };
     
