@@ -53,6 +53,7 @@ export class AtendimentosregularesComponent implements OnInit{
         fatorAtividadeFisica: [''],
         tmb: [{ value: '', disabled: true }],
         get: [{ value: '', disabled: true }],
+        observacoesadicionais: [''],
         
         perdaPeso: this.fb.group({
           teve: [false],

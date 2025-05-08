@@ -206,6 +206,7 @@ export class NewatendimentoComponent implements OnInit{
         intensidade: [''],
         duracao: [''],
       }),
+      observacoesadicionais: [''],//
       restricoesReligiosas: [''],
       cirurgias: [''],
       historicoDieteticoFamiliar: [''],
