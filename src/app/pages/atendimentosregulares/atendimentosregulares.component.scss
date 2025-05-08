@@ -34,6 +34,15 @@ mat-card {
       padding: 16px 24px;
   }
 }
+mat-slide-toggle {
+  margin-bottom: 16px;
+  margin-left: 10px;
+}
+
+.section-card mat-slide-toggle {
+margin-bottom: 16px;
+}
+
 
 mat-card.section-card {
     margin: 16px 0;

@@ -70,30 +70,46 @@ export class AtendimentosregularesComponent implements OnInit{
         }),
     
         
-          sentimentosDesdeUltimaConsulta: [''],
-          seguiuPlano: [''],
-          dificuldadesAlimentacao: [''],
-          sintomasMelhoraram: [''],
-          disposicaoEnergia: [''],
-        
-    
-        
-          compulsaoAlimentar: [''],
-          momentosFome: [''],
-          horariosRefeicao: [''],
-          fomeSaciedade: [''],
-        
-    
-        
-          humor: [''],
-          estresseAfetandoAlimentacao: [''],
-          apoioFamiliar: [''],
-        
-    
-        
-          ajustesPlano: [''],
-          alimentosIncluirExcluir: [''],
-          necessidadeFlexibilidade: ['']
+        sentimentosDesdeUltimaConsulta: [''],
+        seguiuPlano: [''],
+        dificuldadesAlimentacao: [''],
+        sintomasMelhoraram: [''],
+        disposicaoEnergia: [''],
+      
+        compulsaoAlimentar: [''],
+        momentosFome: [''],
+        horariosRefeicao: [''],
+        fomeSaciedade: [''],
+      
+        humor: [''],
+        estresseAfetandoAlimentacao: [''],
+        apoioFamiliar: [''],
+      
+        ajustesPlano: [''],
+        alimentosIncluirExcluir: [''],
+        necessidadeFlexibilidade: [''],
+
+        gestanteInfo: this.fb.group({
+          situacaoMatrimonial: [''],
+          primeiraGestacao: [''],
+          semanasGestacionais: [null],
+          abortoAnterior: [''],
+          fazAcompanhamento: [false],
+          preNatalFrequencia: [''],
+          sintomasGestacao: this.fb.group({
+            alteracaoApetite: [false],
+            enjoos: [false],
+            temDesejos: [false],
+            descricao: [''],
+            frequencia: [''],
+            tipo: [''],
+            consome: [false],
+            detalhesConsumo: [''],
+            historico: ['']
+          })
+        })
+
+          
         
       });
     }
@@ -104,6 +120,7 @@ export class AtendimentosregularesComponent implements OnInit{
       if (pacienteId) {
         this.carregarDados(pacienteId);
       }
+      this.exibirGestante = this.paciente?.sexo === 'Feminino';
       
       this.route.paramMap.subscribe(params => {
         this.idPaciente = params.get('id') || '';
@@ -151,6 +168,7 @@ export class AtendimentosregularesComponent implements OnInit{
       this.pacientesService.getPacienteById(this.idPaciente).subscribe({
         next: (dados) => {
           this.paciente = dados;
+          this.exibirGestante = dados?.sexo?.toLowerCase() === 'feminino';
         },
         error: (err) => {
           console.error('Erro ao buscar paciente:', err);
