@@ -99,6 +99,11 @@ export class AtendimentosregularesComponent implements OnInit{
 
 
     ngOnInit(): void {
+      const pacienteId = this.route.snapshot.paramMap.get('id');
+      if (pacienteId) {
+        this.carregarDados(pacienteId);
+      }
+      
       this.route.paramMap.subscribe(params => {
         this.idPaciente = params.get('id') || '';
         
@@ -119,6 +124,27 @@ export class AtendimentosregularesComponent implements OnInit{
         }
       });
     }
+
+    async carregarDados(pacienteId: string) {
+      try {
+        this.paciente = await firstValueFrom(this.pacientesService.getPacienteById(pacienteId));
+        console.log('Paciente encontrado:', this.paciente); 
+    
+        const consultas = await this.atendimentosService.getConsultasPorPaciente(pacienteId);
+        
+        const primeiraConsulta = consultas.find((consulta: any) => consulta.tipo === 'primeira');
+      if (primeiraConsulta) {
+        this.informacoesIniciais = primeiraConsulta;
+        console.log('Informações iniciais encontradas:', this.informacoesIniciais);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+        this.toastr.error('Erro ao carregar dados', 'Erro');
+      } finally {
+        this.loading = false;
+      }
+    }
+        
   
     private carregarPaciente(): void {
       this.pacientesService.getPacienteById(this.idPaciente).subscribe({
