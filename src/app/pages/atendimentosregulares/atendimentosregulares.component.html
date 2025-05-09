@@ -35,14 +35,13 @@
 
               <ng-container *ngIf="exibirGestante">
                 
-                  <mat-card-header>
-                    <mat-card-title>Gestante</mat-card-title>
-                  </mat-card-header>
-                  <mat-card-content>
-                    <mat-slide-toggle [(ngModel)]="isGestante" [ngModelOptions]="{standalone: true}">
-                      Gestante
-                    </mat-slide-toggle>
-                  </mat-card-content>
+                <div style="margin-top: 16px;"> 
+                  <mat-card-title>Gestante</mat-card-title>
+                </div>
+                  
+                <mat-slide-toggle [(ngModel)]="isGestante" [ngModelOptions]="{standalone: true}">
+                    Gestante
+                </mat-slide-toggle>
                 
               </ng-container>
             </mat-card-subtitle>
@@ -346,37 +345,39 @@
                     <!-- Desejos Alimentares -->
                     <mat-slide-toggle formControlName="temDesejos">Tem vontade de ingerir substâncias ou alimentos estranhos?</mat-slide-toggle>
                     
-                    <div *ngIf="consultaForm.get('gestanteInfo.sintomasGestacao.temDesejos')?.value">
-                      <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Descrição</mat-label>
-                        <input matInput formControlName="descricao">
-                      </mat-form-field>
-            
-                      <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Frequência</mat-label>
-                        <input matInput formControlName="frequencia">
-                      </mat-form-field>
-            
-                      <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Tipo</mat-label>
-                        <mat-select formControlName="tipo">
-                          <mat-option value="desejo">Desejo</mat-option>
-                          <mat-option value="necessidade">Necessidade</mat-option>
-                        </mat-select>
-                      </mat-form-field>
-            
+                      <div *ngIf="consultaForm.get('gestanteInfo.sintomasGestacao.temDesejos')?.value" class="coluna">
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>Descrição</mat-label>
+                          <input matInput formControlName="descricao">
+                        </mat-form-field>
+                      
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>Frequência</mat-label>
+                          <input matInput formControlName="frequencia">
+                        </mat-form-field>
+                      
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>Tipo</mat-label>
+                          <mat-select formControlName="tipo">
+                            <mat-option value="desejo">Desejo</mat-option>
+                            <mat-option value="necessidade">Necessidade</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      
+                    </div>
+                    <div class="coluna">
                       <mat-slide-toggle formControlName="consome">Você consome essas substâncias?</mat-slide-toggle>
                       
                       <mat-form-field appearance="outline" class="full-width" *ngIf="consultaForm.get('gestanteInfo.sintomasGestacao.consome')?.value">
                         <mat-label>Detalhes do consumo</mat-label>
-                        <textarea matInput formControlName="detalhesConsumo" rows="2"></textarea>
+                        <textarea matInput formControlName="detalhesConsumo" rows="1"></textarea>
                       </mat-form-field>
             
                       <mat-form-field appearance="outline" class="full-width">
                         <mat-label>Histórico desse comportamento</mat-label>
-                        <textarea matInput formControlName="historico" rows="2"></textarea>
+                        <textarea matInput formControlName="historico" rows="1"></textarea>
                       </mat-form-field>
-                  </div>
+                    </div>
                 </div>
               </mat-card-content>
             </mat-card>

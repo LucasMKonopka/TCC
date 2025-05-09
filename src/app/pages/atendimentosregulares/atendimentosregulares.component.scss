@@ -42,7 +42,11 @@ mat-slide-toggle {
 .section-card mat-slide-toggle {
 margin-bottom: 16px;
 }
-
+.coluna {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem /* espaço entre os campos, opcional */
+}
 
 mat-card.section-card {
     margin: 16px 0;
