@@ -1121,12 +1121,25 @@
         </mat-form-field>
 
 
-<div class="button-container">
-  <button mat-raised-button color="warn" type="button" (click)="cancelar()">
-    Cancelar
-  </button>
-  <button mat-raised-button color="primary" type="submit" [disabled]="loading">
-    <span *ngIf="!loading">Salvar Consulta</span>
-    <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
-  </button>
-</div>
+<div class="button-container" fxLayout="row" fxLayoutAlign="space-between center" style="margin-top: 24px;">
+          <!-- Botões à esquerda -->
+          <div>
+            <button mat-stroked-button color="primary" type="button" (click)="carregarCardapio()">
+              Carregar Cardápio
+            </button>
+            <button mat-stroked-button color="accent" type="button" (click)="novoCardapio()">
+              Novo Cardápio
+            </button>
+          </div>
+
+          <!-- Botões à direita -->
+          <div>
+            <button mat-raised-button color="warn" type="button" (click)="cancelar()">
+              Cancelar
+            </button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+              <span *ngIf="!loading">Salvar</span>
+              <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+            </button>
+          </div>
+        </div>

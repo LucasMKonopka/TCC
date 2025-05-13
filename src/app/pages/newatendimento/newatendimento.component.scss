@@ -161,3 +161,23 @@ mat-icon {
         }
     }
 }
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+
+  > div {
+    display: flex;
+    gap: 12px; 
+  }
+
+  button {
+    min-width: 130px;
+  }
+
+  .mat-spinner {
+    margin-left: 8px;
+  }
+}

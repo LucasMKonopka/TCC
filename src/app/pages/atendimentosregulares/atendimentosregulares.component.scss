@@ -67,3 +67,25 @@ mat-card.section-card {
       width: 100%;
     }
   }
+
+  .button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+
+  // Estilização opcional para espaçamento entre os botões de cada grupo
+  > div {
+    display: flex;
+    gap: 12px; // espaçamento horizontal entre botões
+  }
+
+  button {
+    min-width: 130px; // largura mínima para uniformidade
+  }
+
+  // Estilo para o botão com spinner
+  .mat-spinner {
+    margin-left: 8px;
+  }
+}

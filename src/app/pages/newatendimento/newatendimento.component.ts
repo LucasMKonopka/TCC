@@ -476,6 +476,18 @@ export class NewatendimentoComponent implements OnInit{
     });
   }
 
+  carregarCardapio() {
+  // Exemplo: abrir dialog de seleção ou carregar do Firebase
+  console.log('Carregar cardápio');
+  // this.dialog.open(CardapioSelecionarDialogComponent);
+  }
+
+  novoCardapio() {
+    // Exemplo: redirecionar para tela de criação
+    console.log('Criar novo cardápio');
+    // this.router.navigate(['/cardapio/novo', pacienteId]);
+  }
+
   cancelar() {
     this.router.navigate(['/listatendimentos', this.pacienteId]);
   }
