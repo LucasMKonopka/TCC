@@ -7,12 +7,16 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { PacientesService } from '../../services/pacientes.service';
 import { firstValueFrom } from 'rxjs';
 
+import { MatDialog } from '@angular/material/dialog';
+import { ModalNovoCardapioComponent } from '../../components/cardapios/modal-novo-cardapio/modal-novo-cardapio.component';
+
 
 @Component({
   selector: 'app-atendimentosregulares',
   templateUrl: './atendimentosregulares.component.html',
   styleUrl: './atendimentosregulares.component.scss'
 })
+
 export class AtendimentosregularesComponent implements OnInit{
   paciente: any = null;
   idPaciente!: string;
@@ -40,6 +44,7 @@ export class AtendimentosregularesComponent implements OnInit{
       private toastr: ToastrService,
       private afAuth: AngularFireAuth,
       private pacientesService: PacientesService,
+      public dialog: MatDialog
     ) {
       this.consultaForm = this.createForm();
     }
@@ -331,10 +336,16 @@ export class AtendimentosregularesComponent implements OnInit{
   // this.dialog.open(CardapioSelecionarDialogComponent);
   }
 
-  novoCardapio() {
-    // Exemplo: redirecionar para tela de criação
-    console.log('Criar novo cardápio');
-    // this.router.navigate(['/cardapio/novo', pacienteId]);
+  novoCardapio(){ 
+    
+    const dialogRef = this.dialog.open(ModalNovoCardapioComponent, {
+      width: '500px',
+      panelClass: 'custom-dialog-container' 
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('O modal foi fechado', result);
+    });
   }
 
   cancelar() {

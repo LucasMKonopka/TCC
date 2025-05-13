@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Criar Novo Cardápio</h2>
+<mat-dialog-content>
+  <form [formGroup]="cardapioForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Nome do Cardápio</mat-label>
+      <input matInput formControlName="nome" required>
+    </mat-form-field>
+    <!-- Adicione mais campos se necessário (ex: descrição, refeições) -->
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button color="primary" (click)="salvar()" [disabled]="!cardapioForm.valid">
+    Salvar
+  </button>
+</mat-dialog-actions>

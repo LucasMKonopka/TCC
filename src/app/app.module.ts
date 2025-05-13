@@ -41,6 +41,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ModalNovoCardapioComponent } from './components/cardapios/modal-novo-cardapio/modal-novo-cardapio.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -60,7 +62,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ListpacientesComponent,
     ListatendimentosComponent,
     NewatendimentoComponent,
-    AtendimentosregularesComponent
+    AtendimentosregularesComponent,
+    ModalNovoCardapioComponent
     
   ],
   imports: [
@@ -87,7 +90,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatExpansionModule,
     MatSlideToggleModule,
     MatButtonToggleModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDialogModule,
+    
   ],
   providers: [
     provideAnimationsAsync(),
