@@ -45,11 +45,11 @@ export class ModalNovoCardapioComponent {
 
   constructor(
     public dialogRef: MatDialogRef<ModalNovoCardapioComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: CardapioData
-  ) {
-    if (data) {
-      this.nomeCardapio.setValue(data.nome || '');
-      this.conteudoCardapio.setValue(data.conteudo || '');
+    @Inject(MAT_DIALOG_DATA) public data: any
+) {
+    if (data?.cardapio) {
+      this.nomeCardapio.setValue(data.cardapio.nome);
+      this.conteudoCardapio.setValue(data.cardapio.conteudo);
     }
   }
 

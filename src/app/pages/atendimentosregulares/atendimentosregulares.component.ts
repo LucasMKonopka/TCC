@@ -9,6 +9,7 @@ import { firstValueFrom } from 'rxjs';
 
 import { MatDialog } from '@angular/material/dialog';
 import { ModalNovoCardapioComponent } from '../../components/cardapios/modal-novo-cardapio/modal-novo-cardapio.component';
+import { PdfService } from '../../services/pdf.service';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class AtendimentosregularesComponent implements OnInit{
   exibirGestante: boolean = false;
   isGestante: boolean = false;
   atendimentoId: string | null = null;
+  cardapioAtual: any = null;
 
   constructor(
       private fb: FormBuilder,
@@ -44,7 +46,8 @@ export class AtendimentosregularesComponent implements OnInit{
       private toastr: ToastrService,
       private afAuth: AngularFireAuth,
       private pacientesService: PacientesService,
-      public dialog: MatDialog
+      public dialog: MatDialog,
+      private pdfService: PdfService
     ) {
       this.consultaForm = this.createForm();
     }
@@ -337,21 +340,35 @@ export class AtendimentosregularesComponent implements OnInit{
   }
 
   novoCardapio(){ 
-    
-    
     const dialogRef = this.dialog.open(ModalNovoCardapioComponent, {
-    width: '700px', 
-    height: '85vh',  
-    maxWidth: '90vw',
-    maxHeight: '90vh',
-    autoFocus: false,
-    panelClass: 'cardapio-modal-centralizado',
-    
+      width: '700px', 
+      height: '85vh',  
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      autoFocus: false,
+      panelClass: 'cardapio-modal-centralizado',
+      data: { 
+        cardapio: this.cardapioAtual 
+      }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('O modal foi fechado', result);
-    });
+    dialogRef.afterClosed().subscribe(async (result) => {
+    if (result) {
+      this.cardapioAtual = result;
+      this.consultaForm.patchValue({
+        cardapio: result
+      });
+      
+      this.toastr.success('Cardápio salvo na consulta!');
+    }
+  });
+  }
+  gerarPdf(): void {
+    if (this.cardapioAtual) {
+      this.pdfService.gerarPdfCardapio(this.cardapioAtual);
+    } else {
+      this.toastr.warning('Nenhum cardápio para exportar');
+    }
   }
 
   cancelar() {
