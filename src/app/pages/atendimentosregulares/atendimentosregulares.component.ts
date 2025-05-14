@@ -10,6 +10,7 @@ import { firstValueFrom } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalNovoCardapioComponent } from '../../components/cardapios/modal-novo-cardapio/modal-novo-cardapio.component';
 import { PdfService } from '../../services/pdf.service';
+import { CardapioService, Cardapio } from '../../services/cardapio.service';
 
 
 @Component({
@@ -47,7 +48,8 @@ export class AtendimentosregularesComponent implements OnInit{
       private afAuth: AngularFireAuth,
       private pacientesService: PacientesService,
       public dialog: MatDialog,
-      private pdfService: PdfService
+      private pdfService: PdfService,
+      private cardapioService: CardapioService,
     ) {
       this.consultaForm = this.createForm();
     }
@@ -128,8 +130,9 @@ export class AtendimentosregularesComponent implements OnInit{
       if (pacienteId) {
         this.carregarDados(pacienteId);
       }
+
       this.exibirGestante = this.paciente?.sexo === 'Feminino';
-      
+
       this.route.paramMap.subscribe(params => {
         this.idPaciente = params.get('id') || '';
         
@@ -138,12 +141,24 @@ export class AtendimentosregularesComponent implements OnInit{
           this.atendimentoId = state.atendimentoId || null;
           this.isEdicao = state.modoEdicao || false;
         }
-  
+
         if (this.idPaciente) {
           this.carregarPaciente();
-          
+
           if (this.isEdicao && this.idPaciente) {
             this.carregarDadosAtendimento();
+
+            // 🔹 Carregar cardápio do Firebase se estiver em modo de edição
+            if (this.atendimentoId) {
+              this.cardapioService.obterCardapio(this.idPaciente, this.atendimentoId)
+                .subscribe(cardapio => {
+                  if (cardapio) {
+                    this.cardapioAtual = cardapio;
+                    this.consultaForm.patchValue({ cardapio }); // opcional, se quiser atualizar o form
+                  }
+                });
+            }
+
           } else {
             this.carregarInformacoesIniciais();
           }
@@ -339,7 +354,7 @@ export class AtendimentosregularesComponent implements OnInit{
   // this.dialog.open(CardapioSelecionarDialogComponent);
   }
 
-  novoCardapio(){ 
+  novoCardapio() { 
     const dialogRef = this.dialog.open(ModalNovoCardapioComponent, {
       width: '700px', 
       height: '85vh',  
@@ -353,15 +368,26 @@ export class AtendimentosregularesComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {
-    if (result) {
-      this.cardapioAtual = result;
-      this.consultaForm.patchValue({
-        cardapio: result
-      });
-      
-      this.toastr.success('Cardápio salvo na consulta!');
-    }
-  });
+      if (result) {
+        this.cardapioAtual = result;
+        this.consultaForm.patchValue({
+          cardapio: result
+        });
+
+        this.toastr.success('Cardápio salvo na consulta!');
+
+        // 🔹 Complemento: salvar no Firebase, se possível
+        if (this.idPaciente && this.atendimentoId) {
+          try {
+            await this.cardapioService.salvarCardapio(this.idPaciente, this.atendimentoId, result);
+            this.toastr.success('Cardápio salvo com sucesso no Firebase!');
+          } catch (error) {
+            console.error('Erro ao salvar cardápio no Firebase:', error);
+            this.toastr.error('Erro ao salvar cardápio no Firebase');
+          }
+        }
+      }
+    });
   }
   gerarPdf(): void {
     if (this.cardapioAtual) {
