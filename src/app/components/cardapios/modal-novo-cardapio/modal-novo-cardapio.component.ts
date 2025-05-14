@@ -1,36 +1,73 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { FormControl, Validators } from '@angular/forms';
+
+interface CardapioData {
+  nome: string;
+  conteudo: string;
+}
 
 @Component({
   selector: 'app-modal-novo-cardapio',
   templateUrl: './modal-novo-cardapio.component.html',
-  styleUrl: './modal-novo-cardapio.component.scss'
+  styleUrls: ['./modal-novo-cardapio.component.scss']
 })
 export class ModalNovoCardapioComponent {
-  cardapioForm: FormGroup;
+  conteudoCardapio = new FormControl('', [
+    Validators.required,
+    Validators.minLength(10),
+    Validators.maxLength(2000)
+  ]);
+
+  nomeCardapio = new FormControl('', [
+    Validators.required,
+    Validators.maxLength(50)
+  ]);
+
+  get nomeErrorMessage(): string {
+    if (this.nomeCardapio.hasError('required')) {
+      return 'O nome do cardápio é obrigatório';
+    }
+    return this.nomeCardapio.hasError('maxlength') ? 
+      'Máximo de 50 caracteres' : '';
+  }
+
+  get conteudoErrorMessage(): string {
+    if (this.conteudoCardapio.hasError('required')) {
+      return 'O conteúdo do cardápio é obrigatório';
+    }
+    if (this.conteudoCardapio.hasError('minlength')) {
+      return 'Mínimo de 10 caracteres';
+    }
+    return this.conteudoCardapio.hasError('maxlength') ? 
+      'Máximo de 2000 caracteres' : '';
+  }
 
   constructor(
-    private fb: FormBuilder,
-    private firestore: AngularFirestore,
     public dialogRef: MatDialogRef<ModalNovoCardapioComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: CardapioData
   ) {
-    this.cardapioForm = this.fb.group({
-      nome: ['', Validators.required],
-      // Adicione outros campos do cardápio aqui
-    });
+    if (data) {
+      this.nomeCardapio.setValue(data.nome || '');
+      this.conteudoCardapio.setValue(data.conteudo || '');
+    }
   }
 
   salvar(): void {
-    if (this.cardapioForm.valid) {
-      this.firestore.collection('cardapios').add(this.cardapioForm.value)
-        .then(() => {
-          console.log('Cardápio salvo no Firebase!');
-          this.dialogRef.close();
-        })
-        .catch(error => console.error('Erro ao salvar:', error));
+    this.nomeCardapio.markAsTouched();
+    this.conteudoCardapio.markAsTouched();
+
+    if (this.nomeCardapio.invalid || this.conteudoCardapio.invalid) {
+      return;
     }
+
+    this.dialogRef.close({
+      nome: this.nomeCardapio.value!.trim(),
+      conteudo: this.conteudoCardapio.value!.trim()
+    });
+  }
+
+  cancelar(): void {
+    this.dialogRef.close();
   }
 }

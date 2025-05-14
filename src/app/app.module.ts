@@ -43,6 +43,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ModalNovoCardapioComponent } from './components/cardapios/modal-novo-cardapio/modal-novo-cardapio.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
@@ -92,6 +93,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatButtonToggleModule,
     MatAutocompleteModule,
     MatDialogModule,
+    
     
   ],
   providers: [

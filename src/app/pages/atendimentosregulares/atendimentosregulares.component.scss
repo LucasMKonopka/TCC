@@ -45,7 +45,7 @@ margin-bottom: 16px;
 .coluna {
   display: flex;
   flex-direction: column;
-  gap: 1rem /* espaço entre os campos, opcional */
+  gap: 1rem 
 }
 
 mat-card.section-card {
@@ -74,17 +74,15 @@ mat-card.section-card {
   align-items: center;
   margin-top: 24px;
 
-  // Estilização opcional para espaçamento entre os botões de cada grupo
   > div {
     display: flex;
-    gap: 12px; // espaçamento horizontal entre botões
+    gap: 12px; 
   }
 
   button {
-    min-width: 130px; // largura mínima para uniformidade
+    min-width: 130px; 
   }
 
-  // Estilo para o botão com spinner
   .mat-spinner {
     margin-left: 8px;
   }
@@ -107,3 +105,4 @@ mat-form-field {
   background: transparent !important; 
   backdrop-filter: blur(2px); 
 }
+

@@ -338,9 +338,15 @@ export class AtendimentosregularesComponent implements OnInit{
 
   novoCardapio(){ 
     
+    
     const dialogRef = this.dialog.open(ModalNovoCardapioComponent, {
-      width: '500px',
-      panelClass: 'custom-dialog-container' 
+    width: '700px', 
+    height: '85vh',  
+    maxWidth: '90vw',
+    maxHeight: '90vh',
+    autoFocus: false,
+    panelClass: 'cardapio-modal-centralizado',
+    
     });
 
     dialogRef.afterClosed().subscribe(result => {
