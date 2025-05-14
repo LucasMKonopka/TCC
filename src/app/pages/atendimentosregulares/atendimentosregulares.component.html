@@ -389,8 +389,13 @@
             <button mat-stroked-button color="primary" type="button" (click)="carregarCardapio()">
               Carregar Cardápio
             </button>
-            
 
+             <!-- Botão para editar cardápio -->
+            <button mat-stroked-button color="accent" 
+                    type="button" (click)="novoCardapio()">
+              {{ cardapioAtual ? 'Editar' : 'Novo' }} Cardápio
+            </button>
+            
              <button mat-stroked-button color="primary" 
                     (click)="gerarPdf()"
                     [disabled]="!cardapioAtual">
@@ -398,12 +403,6 @@
               Exportar PDF
             </button>
             
-            <!-- Botão para editar cardápio -->
-            <button mat-stroked-button color="accent" 
-                    (click)="novoCardapio()">
-              {{ cardapioAtual ? 'Editar' : 'Novo' }} Cardápio
-            </button>
-
           </div>
 
           <!-- Botões à direita -->
