@@ -386,9 +386,19 @@
         <div class="button-container" fxLayout="row" fxLayoutAlign="space-between center" style="margin-top: 24px;">
           <!-- Botões à esquerda -->
           <div>
-            <button mat-stroked-button color="primary" type="button" (click)="carregarCardapio()">
-              Carregar Cardápio
-            </button>
+            <div class="file-upload-container">
+              <button mat-stroked-button color="primary" type="button" (click)="fileInput.click()">
+                <mat-icon>upload</mat-icon>
+                Carregar Cardápio
+              </button>
+              
+              <input #fileInput type="file" accept=".pdf" hidden (change)="onFileSelected($event)">
+              
+              <span class="file-name" *ngIf="arquivoSelecionado">
+                {{ arquivoSelecionado.name }}
+                <mat-icon class="clear-icon" (click)="limparSelecao()">close</mat-icon>
+              </span>
+            </div>
 
              <!-- Botão para editar cardápio -->
             <button mat-stroked-button color="accent" 

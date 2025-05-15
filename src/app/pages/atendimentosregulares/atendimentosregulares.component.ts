@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AtendimentosService } from '../../services/atendimentos.service';
@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalNovoCardapioComponent } from '../../components/cardapios/modal-novo-cardapio/modal-novo-cardapio.component';
 import { PdfService } from '../../services/pdf.service';
 import { CardapioService, Cardapio } from '../../services/cardapio.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 
 @Component({
@@ -38,6 +39,10 @@ export class AtendimentosregularesComponent implements OnInit{
   isGestante: boolean = false;
   atendimentoId: string | null = null;
   cardapioAtual: any = null;
+  arquivoSelecionado: File | null = null;
+
+  @ViewChild('fileInput') fileInput!: ElementRef;
+  pdfPreviewUrl: SafeResourceUrl | null = null;
 
   constructor(
       private fb: FormBuilder,
@@ -50,6 +55,7 @@ export class AtendimentosregularesComponent implements OnInit{
       public dialog: MatDialog,
       private pdfService: PdfService,
       private cardapioService: CardapioService,
+      private sanitizer: DomSanitizer
     ) {
       this.consultaForm = this.createForm();
     }
@@ -348,11 +354,58 @@ export class AtendimentosregularesComponent implements OnInit{
     });
   }
 
-  carregarCardapio() {
-  // Exemplo: abrir dialog de seleção ou carregar do Firebase
-  console.log('Carregar cardápio');
-  // this.dialog.open(CardapioSelecionarDialogComponent);
+  carregarCardapio(): void {
+  this.fileInput.nativeElement.click();
+}
+
+handleFileInput(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files[0]) {
+    const file = input.files[0];
+    
+    if (file.type !== 'application/pdf') {
+      this.toastr.error('Por favor, selecione um arquivo PDF');
+      return;
+    }
+
+    const fileURL = URL.createObjectURL(file);
+    this.pdfPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
+    
+    
+    
+    this.toastr.success('PDF carregado com sucesso!');
+    
+    this.extrairTextoDoPDF(file);
   }
+}
+
+async extrairTextoDoPDF(file: File): Promise<void> {
+  const pdfjs = await import('pdfjs-dist');
+  const pdf = await pdfjs.getDocument(URL.createObjectURL(file)).promise;
+  let text = '';
+  
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    text += content.items.map((item: any) => item.str).join(' ');
+  }
+}
+onFileSelected(event: any): void {
+  const file: File = event.target.files[0];
+  
+  if (file && file.type === 'application/pdf') {
+    this.arquivoSelecionado = file;
+    this.toastr.success('PDF selecionado com sucesso!');
+  } else {
+    this.toastr.error('Por favor, selecione um arquivo PDF válido');
+  }
+}
+
+limparSelecao(): void {
+  this.arquivoSelecionado = null;
+  this.fileInput.nativeElement.value = ''; 
+}
+  
 
   novoCardapio() { 
     const dialogRef = this.dialog.open(ModalNovoCardapioComponent, {
@@ -376,7 +429,6 @@ export class AtendimentosregularesComponent implements OnInit{
 
         this.toastr.success('Cardápio salvo na consulta!');
 
-        // 🔹 Complemento: salvar no Firebase, se possível
         if (this.idPaciente && this.atendimentoId) {
           try {
             await this.cardapioService.salvarCardapio(this.idPaciente, this.atendimentoId, result);
