@@ -159,7 +159,7 @@ export class AtendimentosregularesComponent implements OnInit{
               .subscribe(cardapio => {
                 if (cardapio) {
                   this.cardapioAtual = cardapio;
-                  this.pdfPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(cardapio.conteudo); // 🔹 MOSTRA O PDF
+                  this.pdfPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(cardapio.conteudo); 
                 }
               });
             }

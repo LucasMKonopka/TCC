@@ -1124,10 +1124,20 @@
 <div class="button-container" fxLayout="row" fxLayoutAlign="space-between center" style="margin-top: 24px;">
           <!-- Botões à esquerda -->
           <div>
-            <button mat-stroked-button color="accent" type="button" (click)="novoCardapio()">
-              Novo Cardápio
+            <button mat-stroked-button color="accent" 
+                    type="button" (click)="novoCardapio()">
+              {{ cardapioAtual ? 'Editar' : 'Novo' }} Cardápio
+            </button>
+
+            <button mat-stroked-button color="primary" type="button"
+                    (click)="gerarPdf()"
+                    [disabled]="!cardapioAtual">
+              <mat-icon>picture_as_pdf</mat-icon>
+              Exportar PDF
             </button>
           </div>
+
+
 
           <!-- Botões à direita -->
           <div>

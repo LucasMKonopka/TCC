@@ -394,7 +394,7 @@
               {{ cardapioAtual ? 'Editar' : 'Novo' }} Cardápio
             </button>
             
-             <button mat-stroked-button color="primary" 
+             <button mat-stroked-button color="primary" type="button"
                     (click)="gerarPdf()"
                     [disabled]="!cardapioAtual">
               <mat-icon>picture_as_pdf</mat-icon>

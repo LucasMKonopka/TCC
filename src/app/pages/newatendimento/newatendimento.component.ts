@@ -6,6 +6,12 @@ import { ToastrService } from 'ngx-toastr';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { PacientesService } from '../../services/pacientes.service';
 
+import { MatDialog } from '@angular/material/dialog';
+import { ModalNovoCardapioComponent } from '../../components/cardapios/modal-novo-cardapio/modal-novo-cardapio.component';
+import { PdfService } from '../../services/pdf.service';
+import { CardapioService, Cardapio } from '../../services/cardapio.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-newatendimento',
   templateUrl: './newatendimento.component.html',
@@ -37,6 +43,7 @@ export class NewatendimentoComponent implements OnInit{
     { descricao: 'Altamente ativo (exercício pesado 6-7 dias/semana)', valor: 1.725 },
     { descricao: 'Extremamente ativo (treino pesado + trabalho físico)', valor: 1.9 }
   ];
+  cardapioAtual: any = null;
   
 
   constructor(
@@ -46,39 +53,50 @@ export class NewatendimentoComponent implements OnInit{
     private atendimentosService: AtendimentosService,
     private toastr: ToastrService,
     private afAuth: AngularFireAuth,
-    private pacientesService: PacientesService
+    private pacientesService: PacientesService,
+    public dialog: MatDialog,
+    private pdfService: PdfService,
+    private cardapioService: CardapioService,
+    private sanitizer: DomSanitizer
   ) {
     this.consultaForm = this.createForm();
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.pacienteId = params.get('pacienteId') || '';
-      
-      const state = window.history.state;
-      if (state) {
-        this.pacienteNome = state.pacienteNome || '';
-        this.atendimentoId = state.atendimentoId || null;
-        this.isEdicao = state.modoEdicao || false;
-      }
-  
-      if (this.pacienteId) {
-        this.pacientesService.getPacienteById(this.pacienteId).subscribe({
-          next: (dados) => {
-            this.paciente = dados;
-            this.exibirGestante = dados.sexo?.toLowerCase() === 'feminino';
-          },
-          error: (err) => {
-            console.error('Erro ao buscar paciente:', err);
-          }
-        });
-  
-        if (this.isEdicao && this.atendimentoId) {
-          this.carregarDadosAtendimento();
-        }
+  this.route.paramMap.subscribe(params => {
+    this.pacienteId = params.get('pacienteId') || '';
+
+    const state = window.history.state;
+    this.pacienteNome = state?.pacienteNome || '';
+    this.atendimentoId = state?.atendimentoId || null;
+    this.isEdicao = !!state?.modoEdicao;
+
+    if (!this.pacienteId) return;
+
+    this.pacientesService.getPacienteById(this.pacienteId).subscribe({
+      next: (dados) => {
+        this.paciente = dados;
+        this.exibirGestante = dados.sexo?.toLowerCase() === 'feminino';
+      },
+      error: (err) => {
+        console.error('Erro ao buscar paciente:', err);
       }
     });
-  }
+
+    if (this.isEdicao && this.pacienteId) {
+      this.carregarDadosAtendimento();
+
+      if (this.atendimentoId) {
+        this.cardapioService.obterCardapio(this.pacienteId, this.atendimentoId)
+          .subscribe(cardapio => {
+            if (cardapio) {
+              this.cardapioAtual = cardapio;
+            }
+          });
+      }
+    }
+  });
+}
 
   private carregarDadosPaciente(): void {
     this.pacientesService.getPacienteById(this.pacienteId).subscribe({
@@ -476,17 +494,52 @@ export class NewatendimentoComponent implements OnInit{
     });
   }
 
-  carregarCardapio() {
-  // Exemplo: abrir dialog de seleção ou carregar do Firebase
-  console.log('Carregar cardápio');
-  // this.dialog.open(CardapioSelecionarDialogComponent);
-  }
+  
 
   novoCardapio() {
-    // Exemplo: redirecionar para tela de criação
-    console.log('Criar novo cardápio');
-    // this.router.navigate(['/cardapio/novo', pacienteId]);
+      const dialogRef = this.dialog.open(ModalNovoCardapioComponent, {
+      width: '700px',
+      height: '85vh',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      autoFocus: false,
+      panelClass: 'cardapio-modal-centralizado',
+      data: {
+      cardapio: this.cardapioAtual
+      }
+      });
+  
+  
+      dialogRef.afterClosed().subscribe(async (result) => {
+        if (result) {
+          this.cardapioAtual = result;
+          this.consultaForm.patchValue({
+            cardapio: result
+          });
+  
+          this.toastr.success('Cardápio salvo na consulta!');
+  
+          if (this.pacienteId && this.atendimentoId) {
+            try {
+              await this.cardapioService.salvarCardapio(this.pacienteId, this.atendimentoId, result);
+              this.toastr.success('Cardápio salvo com sucesso no Firebase!');
+            } catch (error) {
+              console.error('Erro ao salvar cardápio no Firebase:', error);
+              this.toastr.error('Erro ao salvar cardápio no Firebase');
+            }
+          }
+      }
+    });
   }
+
+
+    gerarPdf(): void {
+      if (this.cardapioAtual) {
+        this.pdfService.gerarPdfCardapio(this.cardapioAtual);
+      } else {
+        this.toastr.warning('Nenhum cardápio para exportar');
+      }
+    }
 
   cancelar() {
     this.router.navigate(['/listatendimentos', this.pacienteId]);

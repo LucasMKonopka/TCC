@@ -71,6 +71,23 @@ export class CardapioService {
       .valueChanges()
       .pipe(map(cardapios => cardapios[0]));
   }
+
+  getCardapioById(idPaciente: string, idAtendimento: string, cardapioId: string): Promise<Cardapio> {
+  const docRef = this.firestore.doc<Cardapio>(
+    `pacientes/${idPaciente}/atendimentos/${idAtendimento}/cardapios/${cardapioId}`
+  );
+
+  return docRef
+    .get()
+    .toPromise()
+    .then(doc => {
+      if (doc && doc.exists) {
+        return { id: doc.id, ...doc.data() } as Cardapio;
+      } else {
+        throw new Error('Cardápio não encontrado');
+      }
+    });
+}
   
 
 
