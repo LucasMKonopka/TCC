@@ -154,15 +154,14 @@ export class AtendimentosregularesComponent implements OnInit{
           if (this.isEdicao && this.idPaciente) {
             this.carregarDadosAtendimento();
 
-            // 🔹 Carregar cardápio do Firebase se estiver em modo de edição
             if (this.atendimentoId) {
               this.cardapioService.obterCardapio(this.idPaciente, this.atendimentoId)
-                .subscribe(cardapio => {
-                  if (cardapio) {
-                    this.cardapioAtual = cardapio;
-                    this.consultaForm.patchValue({ cardapio }); // opcional, se quiser atualizar o form
-                  }
-                });
+              .subscribe(cardapio => {
+                if (cardapio) {
+                  this.cardapioAtual = cardapio;
+                  this.pdfPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(cardapio.conteudo); // 🔹 MOSTRA O PDF
+                }
+              });
             }
 
           } else {
@@ -171,6 +170,7 @@ export class AtendimentosregularesComponent implements OnInit{
         }
       });
     }
+
 
     async carregarDados(pacienteId: string) {
       try {
@@ -241,7 +241,6 @@ export class AtendimentosregularesComponent implements OnInit{
       const dados = { ...atendimento };
       this.tituloConsulta = dados.titulo || '';
   
-      // Remove campos que não são parte do formulário
       delete dados.id;
       delete dados.pacienteId;
       delete dados.nutricionistaId;
@@ -293,6 +292,21 @@ export class AtendimentosregularesComponent implements OnInit{
     } finally {
       this.loading = false;
     }
+
+
+    if (this.arquivoSelecionado && this.atendimentoId) {
+        const user = await this.afAuth.currentUser;
+        const nutricionistaId = user?.uid || '';
+
+        await this.cardapioService.uploadEGuardarCardapio(
+          this.idPaciente,
+          this.atendimentoId,
+          this.arquivoSelecionado,
+          nutricionistaId
+        );
+    }
+
+    
   }
 
   async prepareFormData(): Promise<any> {
@@ -354,31 +368,6 @@ export class AtendimentosregularesComponent implements OnInit{
     });
   }
 
-  carregarCardapio(): void {
-  this.fileInput.nativeElement.click();
-}
-
-handleFileInput(event: Event): void {
-  const input = event.target as HTMLInputElement;
-  if (input.files && input.files[0]) {
-    const file = input.files[0];
-    
-    if (file.type !== 'application/pdf') {
-      this.toastr.error('Por favor, selecione um arquivo PDF');
-      return;
-    }
-
-    const fileURL = URL.createObjectURL(file);
-    this.pdfPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
-    
-    
-    
-    this.toastr.success('PDF carregado com sucesso!');
-    
-    this.extrairTextoDoPDF(file);
-  }
-}
-
 async extrairTextoDoPDF(file: File): Promise<void> {
   const pdfjs = await import('pdfjs-dist');
   const pdf = await pdfjs.getDocument(URL.createObjectURL(file)).promise;
@@ -407,18 +396,19 @@ limparSelecao(): void {
 }
   
 
-  novoCardapio() { 
+  novoCardapio() {
     const dialogRef = this.dialog.open(ModalNovoCardapioComponent, {
-      width: '700px', 
-      height: '85vh',  
-      maxWidth: '90vw',
-      maxHeight: '90vh',
-      autoFocus: false,
-      panelClass: 'cardapio-modal-centralizado',
-      data: { 
-        cardapio: this.cardapioAtual 
-      }
+    width: '700px',
+    height: '85vh',
+    maxWidth: '90vw',
+    maxHeight: '90vh',
+    autoFocus: false,
+    panelClass: 'cardapio-modal-centralizado',
+    data: {
+    cardapio: this.cardapioAtual
+    }
     });
+
 
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
@@ -440,7 +430,27 @@ limparSelecao(): void {
         }
       }
     });
+
+
+    }
+
+  handleFileInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+
+      if (file.type !== 'application/pdf') {
+        this.toastr.error('Por favor, selecione um arquivo PDF');
+        return;
+      }
+
+      this.arquivoSelecionado = file;
+
+      const fileURL = URL.createObjectURL(file);
+      this.pdfPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
+    }
   }
+
   gerarPdf(): void {
     if (this.cardapioAtual) {
       this.pdfService.gerarPdfCardapio(this.cardapioAtual);

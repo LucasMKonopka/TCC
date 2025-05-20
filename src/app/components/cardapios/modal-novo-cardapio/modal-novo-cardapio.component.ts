@@ -24,6 +24,30 @@ export class ModalNovoCardapioComponent {
     Validators.maxLength(50)
   ]);
 
+  private templatePadrao = `Café da manhã:
+ 
+
+  
+Lanche da manhã:
+  
+  
+  
+Almoço:
+  
+  
+  
+Lanche da tarde:
+  
+  
+  
+Jantar:
+  
+  
+  
+Ceia:
+
+`;
+
   get nomeErrorMessage(): string {
     if (this.nomeCardapio.hasError('required')) {
       return 'O nome do cardápio é obrigatório';
@@ -46,10 +70,12 @@ export class ModalNovoCardapioComponent {
   constructor(
     public dialogRef: MatDialogRef<ModalNovoCardapioComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-) {
+  ) {
     if (data?.cardapio) {
       this.nomeCardapio.setValue(data.cardapio.nome);
       this.conteudoCardapio.setValue(data.cardapio.conteudo);
+    } else {
+      this.conteudoCardapio.setValue(this.templatePadrao);
     }
   }
 

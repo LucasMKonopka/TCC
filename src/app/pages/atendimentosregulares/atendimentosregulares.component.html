@@ -56,7 +56,7 @@
         <mat-card-title>{{ isEdicao ? 'Editar Consulta Regular' : 'Consulta Regular' }}</mat-card-title>
       </mat-card-header>
     
-      <mat-form-field appearance="outline" class="full-width" style="margin: 0 16px;">
+      <mat-form-field appearance="outline" class="full-width" style="margin: 0 5px; width: calc(100% - 20px);">
         <mat-label>Adicione um título para a consulta</mat-label>
         <textarea matInput [(ngModel)]="tituloConsulta" [ngModelOptions]="{standalone: true}" rows="1"></textarea>
       </mat-form-field>
@@ -102,7 +102,7 @@
                   <button mat-raised-button color="primary" type="button" (click)="calcularTMB_GET()">Calcular TMB e GET</button>
                 </div>
                 
-                <mat-form-field appearance="outline" class="full-width">
+                <mat-form-field appearance="outline" class="full-width" style="margin-top: 16px;">
                   <mat-label>TMB (kcal)</mat-label>
                   <input matInput formControlName="tmb" >
                 </mat-form-field>
@@ -386,19 +386,7 @@
         <div class="button-container" fxLayout="row" fxLayoutAlign="space-between center" style="margin-top: 24px;">
           <!-- Botões à esquerda -->
           <div>
-            <div class="file-upload-container">
-              <button mat-stroked-button color="primary" type="button" (click)="fileInput.click()">
-                <mat-icon>upload</mat-icon>
-                Carregar Cardápio
-              </button>
-              
-              <input #fileInput type="file" accept=".pdf" hidden (change)="onFileSelected($event)">
-              
-              <span class="file-name" *ngIf="arquivoSelecionado">
-                {{ arquivoSelecionado.name }}
-                <mat-icon class="clear-icon" (click)="limparSelecao()">close</mat-icon>
-              </span>
-            </div>
+            
 
              <!-- Botão para editar cardápio -->
             <button mat-stroked-button color="accent" 
