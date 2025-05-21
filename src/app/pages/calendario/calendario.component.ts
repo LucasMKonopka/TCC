@@ -111,6 +111,12 @@ export class CalendarioComponent implements OnInit {
       })
       .sort((a, b) => a.horario.localeCompare(b.horario));
   }
+//////////////////////////////
+converterHorarioParaMinutos(horario: string): number {
+  const [horas, minutos] = horario.split(':').map(Number);
+  return horas * 60 + minutos;
+}
+//////////
 
   agendarConsulta() {
     if (!this.novoHorario.trim() || !this.novoPaciente.trim()) {
@@ -123,7 +129,6 @@ export class CalendarioComponent implements OnInit {
       return;
     }
 
-    // Encontra o paciente completo (para pegar o ID)
     const pacienteSelecionado = this.pacientes.find(p => 
       p.nome.toLowerCase() === this.novoPaciente.toLowerCase()
     );
@@ -137,7 +142,7 @@ export class CalendarioComponent implements OnInit {
       data: this.formatarData(this.dataSelecionada),
       horario: this.novoHorario,
       paciente: this.novoPaciente,
-      pacienteId: pacienteSelecionado.id // Adicionado aqui
+      pacienteId: pacienteSelecionado.id 
     };
   
     if (this.isEditando && this.consultaEditandoIndex !== null) {
@@ -156,7 +161,7 @@ export class CalendarioComponent implements OnInit {
         novaConsulta.horario, 
         novaConsulta.paciente, 
         novaConsulta.data,
-        novaConsulta.pacienteId // Adicionado aqui
+        novaConsulta.pacienteId 
       )
         .then(() => {
           const consultaAtualizada = {
@@ -184,7 +189,19 @@ export class CalendarioComponent implements OnInit {
         this.toastr.warning('Já existe uma consulta agendada para este horário!'); 
         return;
       }
-  
+      
+      const novoHorarioEmMinutos = this.converterHorarioParaMinutos(this.novoHorario);
+
+      const temIntervaloInvalido = this.consultasDoDia.some(c => {
+        const horarioExistenteEmMinutos = this.converterHorarioParaMinutos(c.horario);
+        return Math.abs(horarioExistenteEmMinutos - novoHorarioEmMinutos) < 20;
+      });
+
+      if (temIntervaloInvalido) {
+        this.toastr.warning('Deve haver um intervalo mínimo de 20 minutos entre as consultas!');
+        return;
+      }
+
       this.calendarioService.salvarConsulta(
         novaConsulta.horario, 
         novaConsulta.paciente, 
