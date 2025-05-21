@@ -5,6 +5,14 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 
+interface Consulta {
+  id: string;
+  data: string;
+  horario: string;
+  paciente: string;    
+  pacienteId: string;  
+}
+
 @Component({
   selector: 'app-calendario',
   templateUrl: './calendario.component.html',
@@ -13,7 +21,7 @@ import Swal from 'sweetalert2';
 export class CalendarioComponent implements OnInit {
   dataSelecionada: Date = new Date();  
   ultimaDataValida: Date = new Date();
-  consultas: { id: string; data: string; horario: string; paciente: string }[] = [];  
+  consultas: { id: string; data: string; horario: string; paciente: string, pacienteId: string }[] = [];  
   consultasDoDia: { id: string; horario: string; paciente: string }[] = []; 
 
   novoHorario: string = '';
@@ -24,6 +32,8 @@ export class CalendarioComponent implements OnInit {
 
   pacientes: any[] = [];
   pacientesFiltrados: any[] = [];
+
+  pacienteId: string;
 
   constructor(private calendarioService: CalendarioService, private afAuth: AngularFireAuth, private pacientesService: PacientesService, private toastr: ToastrService) {}
 
@@ -42,7 +52,7 @@ export class CalendarioComponent implements OnInit {
       if (user) {
         this.pacientesService.getAllPacientes(user.uid).subscribe(pacientes => {
           this.pacientes = pacientes;
-          this.pacientesFiltrados = pacientes; // Inicialmente mostra todos
+          this.pacientesFiltrados = pacientes; 
         });
       }
     });
@@ -113,8 +123,12 @@ export class CalendarioComponent implements OnInit {
       return;
     }
 
-    const pacienteValido = this.pacientes.some(p => p.nome.toLowerCase() === this.novoPaciente.toLowerCase());
-    if (!pacienteValido) {
+    // Encontra o paciente completo (para pegar o ID)
+    const pacienteSelecionado = this.pacientes.find(p => 
+      p.nome.toLowerCase() === this.novoPaciente.toLowerCase()
+    );
+
+    if (!pacienteSelecionado) {
       this.toastr.error('Paciente não encontrado. Selecione um paciente cadastrado.');
       return;
     }
@@ -122,25 +136,35 @@ export class CalendarioComponent implements OnInit {
     const novaConsulta = {
       data: this.formatarData(this.dataSelecionada),
       horario: this.novoHorario,
-      paciente: this.novoPaciente
+      paciente: this.novoPaciente,
+      pacienteId: pacienteSelecionado.id // Adicionado aqui
     };
   
     if (this.isEditando && this.consultaEditandoIndex !== null) {
       const consulta = this.consultasDoDia[this.consultaEditandoIndex];
   
-      const horarioExistenteEdicao = this.consultasDoDia.find(c => c.horario === this.novoHorario && c.id !== consulta.id);
+      const horarioExistenteEdicao = this.consultasDoDia.find(c => 
+        c.horario === this.novoHorario && c.id !== consulta.id
+      );
       if (horarioExistenteEdicao) {
         this.toastr.warning('Já existe uma consulta agendada para este horário!'); 
         return;
       }
 
-      this.calendarioService.atualizarConsulta(consulta.id, novaConsulta.horario, novaConsulta.paciente, novaConsulta.data)
+      this.calendarioService.atualizarConsulta(
+        consulta.id, 
+        novaConsulta.horario, 
+        novaConsulta.paciente, 
+        novaConsulta.data,
+        novaConsulta.pacienteId // Adicionado aqui
+      )
         .then(() => {
           const consultaAtualizada = {
             id: consulta.id,
             data: novaConsulta.data,
             horario: novaConsulta.horario,
-            paciente: novaConsulta.paciente
+            paciente: novaConsulta.paciente,
+            pacienteId: novaConsulta.pacienteId 
           };
   
           this.consultas = this.consultas.map(c =>
@@ -148,7 +172,6 @@ export class CalendarioComponent implements OnInit {
           );
   
           this.atualizarConsultasDoDia();
-  
           this.limparCampos();
           this.toastr.success('Consulta atualizada com sucesso!');
         })
@@ -162,16 +185,21 @@ export class CalendarioComponent implements OnInit {
         return;
       }
   
-      this.calendarioService.salvarConsulta(novaConsulta.horario, novaConsulta.paciente, novaConsulta.data)
+      this.calendarioService.salvarConsulta(
+        novaConsulta.horario, 
+        novaConsulta.paciente, 
+        novaConsulta.data,
+        novaConsulta.pacienteId 
+      )
         .then((docRef) => {
           this.consultas.push({
             id: docRef.id,
             data: novaConsulta.data,
             horario: novaConsulta.horario,
-            paciente: novaConsulta.paciente
+            paciente: novaConsulta.paciente,
+            pacienteId: novaConsulta.pacienteId 
           });
           this.atualizarConsultasDoDia();
-  
           this.limparCampos();
           this.toastr.success('Consulta agendada com sucesso!');
         })
@@ -179,7 +207,7 @@ export class CalendarioComponent implements OnInit {
           this.toastr.error('Erro ao agendar a consulta: ' + error.message);
         });
     }
-  }
+}
 
   limparCampos() {
     this.novoHorario = '';

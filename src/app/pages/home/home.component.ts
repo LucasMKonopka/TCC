@@ -17,7 +17,7 @@ export class HomeComponent {
   dataCadastro: string = '';
   totalConsultas: number = 0;
   totalPacientes: number = 0;
-  consultasDoDia: { horario: string; paciente: string }[] = []; 
+  consultasDoDia: { horario: string; paciente: string; pacienteId: string }[] = [];
 
   constructor(private authService: AuthService, private firestore: Firestore, private router: Router, private toastr: ToastrService) {}
 
@@ -63,10 +63,11 @@ export class HomeComponent {
     const dataFormatada = this.formatarData(dataAtual); // Formata a data para YYYY-MM-DD
   
     this.authService.getConsultasDoDia(nutricionistaId, dataFormatada).subscribe(consultas => {
-      this.consultasDoDia = consultas;
-      console.log('Consultas do dia:', this.consultasDoDia);
-    }, error => {
-      console.error('Erro ao carregar consultas do dia:', error);
+      this.consultasDoDia = consultas.map(c => ({
+        horario: c.horario,
+        paciente: c.paciente,
+        pacienteId: c.pacienteId 
+      }));
     });
   }
 

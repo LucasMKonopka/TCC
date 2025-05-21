@@ -10,7 +10,9 @@
                 <div class="consultas-container">
                     <ul>
                         <li *ngFor="let consulta of consultasDoDia">
-                            <a href="#">{{consulta.horario}} - {{consulta.paciente}}</a>
+                            <a [routerLink]="['/listatendimentos', consulta.pacienteId]">
+                                {{consulta.horario}} - {{consulta.paciente}}
+                            </a>
                         </li>
                         <li *ngIf="consultasDoDia.length === 0">Nenhuma consulta marcada para hoje.</li>
                     </ul>

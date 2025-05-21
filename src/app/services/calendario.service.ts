@@ -8,7 +8,7 @@ import { Auth } from '@angular/fire/auth';
 export class CalendarioService {
   constructor(private firestore: Firestore, private auth: Auth) {}
 
-  async salvarConsulta(horario: string, paciente: string, data: string) {
+  async salvarConsulta(horario: string, paciente: string, data: string, pacienteId: string) {
     const user = this.auth.currentUser;
     if (!user) throw new Error('Usuário não autenticado');
   
@@ -17,7 +17,8 @@ export class CalendarioService {
       userId: user.uid,
       horario,
       paciente,
-      data: data // Usa a data recebida como parâmetro
+      data: data,
+      pacienteId: pacienteId
     });
   }
 
@@ -35,12 +36,13 @@ export class CalendarioService {
         id: doc.id, 
         data: data['data'],
         horario: data['horario'], 
-        paciente: data['paciente']
+        paciente: data['paciente'],
+        pacienteId: data['pacienteId'] || ''
       };
     });
   }
 
-  async atualizarConsulta(id: string, novoHorario: string, novoPaciente: string, novaData: string) {
+  async atualizarConsulta(id: string, novoHorario: string, novoPaciente: string, novaData: string, pacienteId: string) {
     if (!id) {
       throw new Error('ID da consulta não pode ser vazio.');
     }
@@ -49,7 +51,8 @@ export class CalendarioService {
     return updateDoc(consultaRef, {
       horario: novoHorario,
       paciente: novoPaciente,
-      data: novaData
+      data: novaData,
+      pacienteId: pacienteId
     });
   }
 
