@@ -63,6 +63,18 @@ export class NewatendimentoComponent implements OnInit{
   }
 
   ngOnInit(): void {
+  // Primeiro verifica o modo de visualização pelos queryParams
+  this.route.queryParams.subscribe(params => {
+    this.modoVisualizacao = params['modo'] === 'visualizar';
+    
+    // Se for modo visualização, desabilita o formulário
+    if (this.modoVisualizacao) {
+      this.consultaForm.disable();
+      this.tituloConsulta = 'Visualizando Consulta';
+    }
+  });
+
+  // Mantém toda a lógica existente de params
   this.route.paramMap.subscribe(params => {
     this.pacienteId = params.get('pacienteId') || '';
 
@@ -77,13 +89,17 @@ export class NewatendimentoComponent implements OnInit{
       next: (dados) => {
         this.paciente = dados;
         this.exibirGestante = dados.sexo?.toLowerCase() === 'feminino';
+        
+        if (this.modoVisualizacao && !this.atendimentoId) {
+          this.atendimentoId = params.get('id'); 
+        }
       },
       error: (err) => {
         console.error('Erro ao buscar paciente:', err);
       }
     });
 
-    if (this.isEdicao && this.pacienteId) {
+    if ((this.isEdicao || this.modoVisualizacao) && this.pacienteId) {
       this.carregarDadosAtendimento();
 
       if (this.atendimentoId) {
@@ -505,13 +521,14 @@ export class NewatendimentoComponent implements OnInit{
       autoFocus: false,
       panelClass: 'cardapio-modal-centralizado',
       data: {
-      cardapio: this.cardapioAtual
+      cardapio: this.cardapioAtual,
+      modoVisualizacao: this.modoVisualizacao
       }
       });
   
   
       dialogRef.afterClosed().subscribe(async (result) => {
-        if (result) {
+        if (result && !this.modoVisualizacao) {
           this.cardapioAtual = result;
           this.consultaForm.patchValue({
             cardapio: result

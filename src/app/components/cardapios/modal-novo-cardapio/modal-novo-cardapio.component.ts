@@ -5,6 +5,7 @@ import { FormControl, Validators } from '@angular/forms';
 interface CardapioData {
   nome: string;
   conteudo: string;
+  modoVisualizacao?: boolean;
 }
 
 @Component({
@@ -13,16 +14,18 @@ interface CardapioData {
   styleUrls: ['./modal-novo-cardapio.component.scss']
 })
 export class ModalNovoCardapioComponent {
-  conteudoCardapio = new FormControl('', [
+  conteudoCardapio = new FormControl({value: '', disabled: this.data.modoVisualizacao}, [
     Validators.required,
     Validators.minLength(10),
     Validators.maxLength(2000)
   ]);
 
-  nomeCardapio = new FormControl('', [
+  nomeCardapio = new FormControl({value: '', disabled: this.data.modoVisualizacao}, [
     Validators.required,
     Validators.maxLength(50)
   ]);
+
+  modoVisualizacao = this.data.modoVisualizacao || false;
 
   private templatePadrao = `Café da manhã:
  

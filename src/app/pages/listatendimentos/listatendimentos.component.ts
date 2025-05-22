@@ -131,7 +131,7 @@ export class ListatendimentosComponent implements OnInit{
   async visualizarAtendimento(id: string) {
   try {
     const docRef = doc(this.firestore, 'consultas', id);
-    const docSnap: DocumentSnapshot<DocumentData> = await getDoc(docRef);
+    const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
       this.toastr.error('Atendimento não encontrado.');
@@ -139,14 +139,26 @@ export class ListatendimentosComponent implements OnInit{
     }
 
     const atendimento = docSnap.data();
-    const tipo = atendimento?.['tipo']; 
+    const tipo = atendimento?.['tipo'];
+    const pacienteId = atendimento?.['pacienteId']; // Adicione esta linha
 
     if (tipo === 'primeira') {
-      this.router.navigate(['/newatendimento', id], { queryParams: { modo: 'visualizar' } });
+      this.router.navigate(['/newatendimento', pacienteId], { 
+        queryParams: { modo: 'visualizar' },
+        state: { 
+          atendimentoId: id,
+          pacienteNome: atendimento?.['pacienteNome'] || '' 
+        }
+      });
     } else {
-      this.router.navigate(['/atendimentosregulares', id], { queryParams: { modo: 'visualizar' } });
+      this.router.navigate(['/atendimentosregulares', pacienteId], { 
+        queryParams: { modo: 'visualizar' },
+        state: { 
+          atendimentoId: id,
+          pacienteNome: atendimento?.['pacienteNome'] || ''
+        }
+      });
     }
-
   } catch (error: any) {
     this.toastr.error('Erro ao buscar atendimento: ' + error.message);
   }

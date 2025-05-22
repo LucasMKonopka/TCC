@@ -1,18 +1,21 @@
-<h2 mat-dialog-title>Criar Novo Cardápio</h2>
+<h2 mat-dialog-title>
+  {{ modoVisualizacao ? 'Visualizar Cardápio' : (data?.cardapio ? 'Editar Cardápio' : 'Criar Novo Cardápio') }}
+</h2>
+
 <mat-dialog-content>
-  <mat-form-field appearance="outline" class="full-width">
+  <mat-form-field [appearance]="modoVisualizacao ? 'fill' : 'outline'" class="full-width">
     <mat-label>Nome do Cardápio*</mat-label>
-    <input matInput [formControl]="nomeCardapio" required>
-    <mat-error *ngIf="nomeCardapio.invalid">
+    <input matInput [formControl]="nomeCardapio" [readonly]="modoVisualizacao" required>
+    <mat-error *ngIf="nomeCardapio.invalid && !modoVisualizacao">
       {{ nomeErrorMessage }}
     </mat-error>
   </mat-form-field>
 
   <div class="conteudo-container">
-    <mat-form-field appearance="outline" class="full-width">
+    <mat-form-field [appearance]="modoVisualizacao ? 'fill' : 'outline'" class="full-width">
       <mat-label>Conteúdo do Cardápio*</mat-label>
-      <textarea matInput [formControl]="conteudoCardapio" rows="20" required></textarea>
-      <mat-error *ngIf="conteudoCardapio.invalid">
+      <textarea matInput [formControl]="conteudoCardapio" rows="20" [readonly]="modoVisualizacao" required></textarea>
+      <mat-error *ngIf="conteudoCardapio.invalid && !modoVisualizacao">
         {{ conteudoErrorMessage }}
       </mat-error>
     </mat-form-field>
@@ -20,8 +23,12 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="cancelar()">Cancelar</button>
-  <button mat-raised-button color="primary" (click)="salvar()" [disabled]="nomeCardapio.invalid || conteudoCardapio.invalid">
+  <button mat-button mat-dialog-close>Fechar</button>
+  <button *ngIf="!modoVisualizacao" 
+          mat-raised-button 
+          color="primary" 
+          (click)="salvar()" 
+          [disabled]="nomeCardapio.invalid || conteudoCardapio.invalid">
     Salvar
   </button>
 </mat-dialog-actions>
