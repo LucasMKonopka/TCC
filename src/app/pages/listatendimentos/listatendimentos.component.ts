@@ -8,7 +8,7 @@ import { NewatendimentoComponent } from '../newatendimento/newatendimento.compon
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { firstValueFrom } from 'rxjs';
-
+import { Firestore, doc, getDoc, DocumentData, DocumentSnapshot } from '@angular/fire/firestore';
 @Component({
   selector: 'app-listatendimentos',
   templateUrl: './listatendimentos.component.html',
@@ -27,7 +27,8 @@ export class ListatendimentosComponent implements OnInit{
     private pacientesService: PacientesService,
     private atendimentosService: AtendimentosService,
     private dialog: MatDialog,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private firestore: Firestore
   ) {}
 
   async ngOnInit() {
@@ -126,6 +127,30 @@ export class ListatendimentosComponent implements OnInit{
       }
     }
   }
+
+  async visualizarAtendimento(id: string) {
+  try {
+    const docRef = doc(this.firestore, 'consultas', id);
+    const docSnap: DocumentSnapshot<DocumentData> = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      this.toastr.error('Atendimento não encontrado.');
+      return;
+    }
+
+    const atendimento = docSnap.data();
+    const tipo = atendimento?.['tipo']; 
+
+    if (tipo === 'primeira') {
+      this.router.navigate(['/newatendimento', id], { queryParams: { modo: 'visualizar' } });
+    } else {
+      this.router.navigate(['/atendimentosregulares', id], { queryParams: { modo: 'visualizar' } });
+    }
+
+  } catch (error: any) {
+    this.toastr.error('Erro ao buscar atendimento: ' + error.message);
+  }
+}
   
   private confirmarExclusao(): Promise<boolean> {
     return Swal.fire({

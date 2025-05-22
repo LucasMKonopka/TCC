@@ -44,7 +44,7 @@ export class NewatendimentoComponent implements OnInit{
     { descricao: 'Extremamente ativo (treino pesado + trabalho físico)', valor: 1.9 }
   ];
   cardapioAtual: any = null;
-  
+  modoVisualizacao = false;
 
   constructor(
     private fb: FormBuilder,

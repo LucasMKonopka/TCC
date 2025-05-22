@@ -40,6 +40,7 @@ export class AtendimentosregularesComponent implements OnInit{
   atendimentoId: string | null = null;
   cardapioAtual: any = null;
   arquivoSelecionado: File | null = null;
+  modoVisualizacao = false;
 
   @ViewChild('fileInput') fileInput!: ElementRef;
   pdfPreviewUrl: SafeResourceUrl | null = null;
