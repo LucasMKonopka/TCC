@@ -119,111 +119,115 @@ converterHorarioParaMinutos(horario: string): number {
 //////////
 
   agendarConsulta() {
-    if (!this.novoHorario.trim() || !this.novoPaciente.trim()) {
-      this.toastr.warning('Por favor, preencha todos os campos!'); 
-      return;
-    }
-  
-    if (/\d/.test(this.novoPaciente)) { 
-      this.toastr.warning('O nome do paciente não pode conter números!'); 
-      return;
-    }
+  if (!this.novoHorario.trim() || !this.novoPaciente.trim()) {
+    this.toastr.warning('Por favor, preencha todos os campos!');
+    return;
+  }
 
-    const pacienteSelecionado = this.pacientes.find(p => 
-      p.nome.toLowerCase() === this.novoPaciente.toLowerCase()
-    );
+  if (/\d/.test(this.novoPaciente)) {
+    this.toastr.warning('O nome do paciente não pode conter números!');
+    return;
+  }
 
-    if (!pacienteSelecionado) {
-      this.toastr.error('Paciente não encontrado. Selecione um paciente cadastrado.');
-      return;
-    }
-  
-    const novaConsulta = {
-      data: this.formatarData(this.dataSelecionada),
-      horario: this.novoHorario,
-      paciente: this.novoPaciente,
-      pacienteId: pacienteSelecionado.id 
-    };
-  
+  const pacienteSelecionado = this.pacientes.find(p =>
+    p.nome.toLowerCase() === this.novoPaciente.toLowerCase()
+  );
+
+  if (!pacienteSelecionado) {
+    this.toastr.error('Paciente não encontrado. Selecione um paciente cadastrado.');
+    return;
+  }
+
+  const novaConsulta = {
+    data: this.formatarData(this.dataSelecionada),
+    horario: this.novoHorario,
+    paciente: this.novoPaciente,
+    pacienteId: pacienteSelecionado.id
+  };
+
+  const novoHorarioEmMinutos = this.converterHorarioParaMinutos(this.novoHorario);
+
+  const conflitoHorario = this.consultasDoDia.find((c, i) => {
     if (this.isEditando && this.consultaEditandoIndex !== null) {
-      const consulta = this.consultasDoDia[this.consultaEditandoIndex];
-  
-      const horarioExistenteEdicao = this.consultasDoDia.find(c => 
-        c.horario === this.novoHorario && c.id !== consulta.id
-      );
-      if (horarioExistenteEdicao) {
-        this.toastr.warning('Já existe uma consulta agendada para este horário!'); 
-        return;
-      }
+      const consultaEditando = this.consultasDoDia[this.consultaEditandoIndex];
+      return c.horario === this.novoHorario && c.id !== consultaEditando.id;
+    }
+    return c.horario === this.novoHorario;
+  });
 
-      this.calendarioService.atualizarConsulta(
-        consulta.id, 
-        novaConsulta.horario, 
-        novaConsulta.paciente, 
-        novaConsulta.data,
-        novaConsulta.pacienteId 
-      )
-        .then(() => {
-          const consultaAtualizada = {
-            id: consulta.id,
-            data: novaConsulta.data,
-            horario: novaConsulta.horario,
-            paciente: novaConsulta.paciente,
-            pacienteId: novaConsulta.pacienteId 
-          };
-  
-          this.consultas = this.consultas.map(c =>
-            c.id === consulta.id ? consultaAtualizada : c
-          );
-  
-          this.atualizarConsultasDoDia();
-          this.limparCampos();
-          this.toastr.success('Consulta atualizada com sucesso!');
-        })
-        .catch(error => {
-          this.toastr.error('Erro ao atualizar a consulta: ' + error.message); 
-        });
-    } else {
-      const horarioExistente = this.consultasDoDia.find(c => c.horario === this.novoHorario);
-      if (horarioExistente) {
-        this.toastr.warning('Já existe uma consulta agendada para este horário!'); 
-        return;
-      }
-      
-      const novoHorarioEmMinutos = this.converterHorarioParaMinutos(this.novoHorario);
+  if (conflitoHorario) {
+    this.toastr.warning('Já existe uma consulta agendada para este horário!');
+    return;
+  }
 
-      const temIntervaloInvalido = this.consultasDoDia.some(c => {
-        const horarioExistenteEmMinutos = this.converterHorarioParaMinutos(c.horario);
-        return Math.abs(horarioExistenteEmMinutos - novoHorarioEmMinutos) < 20;
+  const temIntervaloInvalido = this.consultasDoDia.some(c => {
+    if (this.isEditando && this.consultaEditandoIndex !== null) {
+      const consultaEditando = this.consultasDoDia[this.consultaEditandoIndex];
+      if (c.id === consultaEditando.id) return false;
+    }
+    const horarioExistenteEmMinutos = this.converterHorarioParaMinutos(c.horario);
+    return Math.abs(horarioExistenteEmMinutos - novoHorarioEmMinutos) < 20;
+  });
+
+  if (temIntervaloInvalido) {
+    this.toastr.warning('Deve haver um intervalo mínimo de 20 minutos entre as consultas!');
+    return;
+  }
+
+  if (this.isEditando && this.consultaEditandoIndex !== null) {
+    const consulta = this.consultasDoDia[this.consultaEditandoIndex];
+
+    this.calendarioService.atualizarConsulta(
+      consulta.id,
+      novaConsulta.horario,
+      novaConsulta.paciente,
+      novaConsulta.data,
+      novaConsulta.pacienteId
+    )
+      .then(() => {
+        const consultaAtualizada = {
+          id: consulta.id,
+          data: novaConsulta.data,
+          horario: novaConsulta.horario,
+          paciente: novaConsulta.paciente,
+          pacienteId: novaConsulta.pacienteId
+        };
+
+        this.consultas = this.consultas.map(c =>
+          c.id === consulta.id ? consultaAtualizada : c
+        );
+
+        this.atualizarConsultasDoDia();
+        this.limparCampos();
+        this.toastr.success('Consulta atualizada com sucesso!');
+      })
+      .catch(error => {
+        this.toastr.error('Erro ao atualizar a consulta: ' + error.message);
       });
 
-      if (temIntervaloInvalido) {
-        this.toastr.warning('Deve haver um intervalo mínimo de 20 minutos entre as consultas!');
-        return;
-      }
-
-      this.calendarioService.salvarConsulta(
-        novaConsulta.horario, 
-        novaConsulta.paciente, 
-        novaConsulta.data,
-        novaConsulta.pacienteId 
-      )
-        .then((docRef) => {
-          this.consultas.push({
-            id: docRef.id,
-            data: novaConsulta.data,
-            horario: novaConsulta.horario,
-            paciente: novaConsulta.paciente,
-            pacienteId: novaConsulta.pacienteId 
-          });
-          this.atualizarConsultasDoDia();
-          this.limparCampos();
-          this.toastr.success('Consulta agendada com sucesso!');
-        })
-        .catch((error) => {
-          this.toastr.error('Erro ao agendar a consulta: ' + error.message);
+  } else {
+    this.calendarioService.salvarConsulta(
+      novaConsulta.horario,
+      novaConsulta.paciente,
+      novaConsulta.data,
+      novaConsulta.pacienteId
+    )
+      .then((docRef) => {
+        this.consultas.push({
+          id: docRef.id,
+          data: novaConsulta.data,
+          horario: novaConsulta.horario,
+          paciente: novaConsulta.paciente,
+          pacienteId: novaConsulta.pacienteId
         });
-    }
+        this.atualizarConsultasDoDia();
+        this.limparCampos();
+        this.toastr.success('Consulta agendada com sucesso!');
+      })
+      .catch((error) => {
+        this.toastr.error('Erro ao agendar a consulta: ' + error.message);
+      });
+  }
 }
 
   limparCampos() {
