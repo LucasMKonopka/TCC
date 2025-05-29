@@ -14,9 +14,16 @@ export class MenuComponent {
   touchStartX = 0;
 
   toggleMenu(): void {
-    this.menuVisible = !this.menuVisible;
-    this.toggleBodyScroll();
+  this.menuVisible = !this.menuVisible;
+  this.toggleBodyScroll();
+  
+  const mainContent = document.querySelector('.main-content');
+  if (mainContent) {
+    this.menuVisible ? 
+      mainContent.classList.add('menu-open') : 
+      mainContent.classList.remove('menu-open');
   }
+}
 
   @HostListener('document:touchstart', ['$event'])
   onTouchStart(event: TouchEvent) {

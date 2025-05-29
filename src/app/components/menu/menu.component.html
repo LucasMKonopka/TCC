@@ -1,6 +1,7 @@
-<div class="mobile-menu-toggle" [class.hidden]="menuVisible" (click)="toggleMenu()">
-    <mat-icon>menu</mat-icon>
-</div>
+<div class="top-bar">
+  <div class="mobile-menu-toggle" [class.hidden]="menuVisible" (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon> </div>
+  </div>
 
 <div class="menu-overlay" [class.visible]="menuVisible" (click)="toggleMenu()"></div>
 
@@ -19,7 +20,7 @@
 
         <li routerLink="/calendario"><mat-icon>calendar_month</mat-icon>Calendário</li>
 
-        <li routerLink="/planosAlimentares"><mat-icon>menu_book</mat-icon>Planos Alimentares</li>
+    <!--<li routerLink="/planosAlimentares"><mat-icon>menu_book</mat-icon>Planos Alimentares</li>-->
 
         <li routerLink="/Login" class = "logout" (click)="logout()"><mat-icon>logout</mat-icon>Sair</li>
 
