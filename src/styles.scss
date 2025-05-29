@@ -2,8 +2,12 @@
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import 'ngx-toastr/toastr';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* opcional, para evitar rolagem horizontal */
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 :root{
     --primary-color: #198754;
