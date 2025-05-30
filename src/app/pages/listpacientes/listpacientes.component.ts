@@ -86,6 +86,10 @@ export class ListpacientesComponent implements OnInit {
     });
   }
 
+  visualizarPaciente(pacienteId: string) {
+    this.router.navigate(['/newpacientes', pacienteId], { queryParams: { view: 'true' } });
+  }
+
   aplicarFiltro(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

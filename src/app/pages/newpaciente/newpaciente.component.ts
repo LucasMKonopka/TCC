@@ -16,6 +16,7 @@ export class NewpacienteComponent implements OnInit {
   loading = false; 
   isEdit = false;
   originalCpf: string | null = null;
+  isViewMode = false;
 
   constructor(
     private fb: FormBuilder,
@@ -29,6 +30,7 @@ export class NewpacienteComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.checkEditMode();
+    this.checkViewMode();
 
     if (this.isEdit) {
       const pacienteId = this.route.snapshot.paramMap.get('id');
@@ -38,6 +40,15 @@ export class NewpacienteComponent implements OnInit {
       });
     }
   }
+
+  checkViewMode(): void {
+  const viewMode = this.route.snapshot.queryParamMap.get('view');
+  if (viewMode === 'true') {
+    this.isViewMode = true;
+    const pacienteId = this.route.snapshot.paramMap.get('id');
+    this.carregarPaciente(pacienteId!);
+  }
+}
 
   initForm(): void {
     this.form = this.fb.group({
@@ -146,6 +157,10 @@ export class NewpacienteComponent implements OnInit {
   }
 
   cancelar(): void {
+    if (this.isViewMode) {
+      this.router.navigate(['/listpacientes']);
+      return;
+    }
     if (this.isEdit){
       Swal.fire({
         title: 'Tem certeza?',

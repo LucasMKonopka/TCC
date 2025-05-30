@@ -28,3 +28,17 @@
   .spinner {
     margin: 20px auto;
   }
+
+
+  .acoes-header{
+  text-align: center;
+  vertical-align: middle;
+}
+
+
+.acoes-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  //gap: 2px;
+}

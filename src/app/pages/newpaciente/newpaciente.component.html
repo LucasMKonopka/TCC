@@ -3,7 +3,7 @@
 <div class="cadastro-container">
   <mat-card class="card-cadastro">
     <mat-card-header class="card-header">
-      <mat-card-title>{{ isEdit ? 'Editar Paciente' : 'Cadastrar Novo Paciente' }}</mat-card-title>
+      <mat-card-title>{{ isViewMode ? 'Visualizar Paciente' : (isEdit ? 'Editar Paciente' : 'Cadastrar Novo Paciente') }}</mat-card-title>
     </mat-card-header>
 
     <mat-card-content>
@@ -13,19 +13,19 @@
           <h3 class="section-title">Dados Pessoais</h3>
           
           <div class="form-row">
-            <mat-form-field appearance="outline" class="form-field-full">
+            <mat-form-field appearance="outline" class="form-field-full"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Nome Completo</mat-label>
               <input matInput formControlName="nome">
             </mat-form-field>
           </div>
 
           <div class="form-row">
-            <mat-form-field appearance="outline" class="form-field-half">
+            <mat-form-field appearance="outline" class="form-field-half"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Data de Nascimento</mat-label>
               <input matInput type="date" formControlName="dataNascimento" required>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="form-field-half">
+            <mat-form-field appearance="outline" class="form-field-half"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Sexo</mat-label>
               <mat-select formControlName="sexo">
                 <mat-option value="Masculino">Masculino</mat-option>
@@ -36,7 +36,7 @@
           </div>
 
           <div class="form-row">
-            <mat-form-field appearance="outline" class="form-field-half">
+            <mat-form-field appearance="outline" class="form-field-half"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>CPF</mat-label>
               <input matInput formControlName="cpf" mask="000.000.000-00" required>
               <mat-error *ngIf="form.get('cpf')?.hasError('pattern')">
@@ -50,7 +50,7 @@
               </mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="form-field-half">
+            <mat-form-field appearance="outline" class="form-field-half"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Telefone</mat-label>
               <input matInput formControlName="telefone" mask="(00) 00000-0000" required>
             </mat-form-field>
@@ -62,36 +62,36 @@
           <h3 class="section-title">Endereço</h3>
           
           <div class="form-row">
-            <mat-form-field appearance="outline" class="form-field-small">
+            <mat-form-field appearance="outline" class="form-field-small"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>CEP</mat-label>
               <input matInput formControlName="cep" mask="00000-000" (blur)="buscarCEP()">
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="form-field-medium">
+            <mat-form-field appearance="outline" class="form-field-medium"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Rua</mat-label>
               <input matInput formControlName="rua">
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="form-field-xsmall">
+            <mat-form-field appearance="outline" class="form-field-xsmall"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Número</mat-label>
               <input matInput formControlName="numero">
             </mat-form-field>
           </div>
 
           <div class="form-row">
-            <mat-form-field appearance="outline" class="form-field-half">
+            <mat-form-field appearance="outline" class="form-field-half"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Bairro</mat-label>
               <input matInput formControlName="bairro">
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="form-field-half">
+            <mat-form-field appearance="outline" class="form-field-half"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Cidade</mat-label>
               <input matInput formControlName="cidade">
             </mat-form-field>
           </div>
 
           <div class="form-row">
-            <mat-form-field appearance="outline" class="form-field-full">
+            <mat-form-field appearance="outline" class="form-field-full"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Estado</mat-label>
               <input matInput formControlName="estado">
             </mat-form-field>
@@ -100,7 +100,7 @@
 
 
 <!-- Botões de Ação -->
-<div class="action-buttons">
+<div class="action-buttons" *ngIf="!isViewMode">
   <button mat-raised-button type="button" (click)="cancelar()" class="cancel-button">
     <mat-icon>cancel</mat-icon> Cancelar
   </button>
@@ -113,3 +113,9 @@
     </mat-card-content>
   </mat-card>
 </div>
+
+<div class="action-buttons" *ngIf="isViewMode">
+          <button mat-raised-button type="button" (click)="cancelar()" class="cancel-button">
+            <mat-icon>arrow_back</mat-icon> Voltar
+          </button>
+        </div>

@@ -19,6 +19,7 @@ const routes: Routes = [
   {path: 'editUser', component: EditUserComponent},
   {path: 'calendario', component: CalendarioComponent},
   {path: 'newpacientes', component: NewpacienteComponent},
+  {path: 'newpacientes/:id', component: NewpacienteComponent},
   {path: 'listpacientes', component: ListpacientesComponent},
   {path: 'editar-paciente/:id', component: NewpacienteComponent },
   {path: 'listatendimentos/:id', component: ListatendimentosComponent},
