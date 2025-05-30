@@ -79,3 +79,16 @@
     bottom: 30px;
     z-index: 100;
   }
+
+.acoes-header{
+  text-align: center;
+  vertical-align: middle;
+}
+
+
+.acoes-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  //gap: 2px;
+}
