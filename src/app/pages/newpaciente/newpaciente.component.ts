@@ -42,13 +42,16 @@ export class NewpacienteComponent implements OnInit {
   }
 
   checkViewMode(): void {
-  const viewMode = this.route.snapshot.queryParamMap.get('view');
-  if (viewMode === 'true') {
-    this.isViewMode = true;
-    const pacienteId = this.route.snapshot.paramMap.get('id');
-    this.carregarPaciente(pacienteId!);
+    this.route.queryParamMap.subscribe(params => {
+      this.isViewMode = params.get('view') === 'true';
+      
+      if (this.isViewMode) {
+        this.form.disable();
+      } else {
+        this.form.enable();
+      }
+    });
   }
-}
 
   initForm(): void {
     this.form = this.fb.group({

@@ -15,19 +15,19 @@
           <div class="form-row">
             <mat-form-field appearance="outline" class="form-field-full"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Nome Completo</mat-label>
-              <input matInput formControlName="nome">
+              <input matInput formControlName="nome" [readonly]="isViewMode">
             </mat-form-field>
           </div>
 
           <div class="form-row">
             <mat-form-field appearance="outline" class="form-field-half"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Data de Nascimento</mat-label>
-              <input matInput type="date" formControlName="dataNascimento" required>
+              <input matInput type="date" formControlName="dataNascimento" [readonly]="isViewMode" required>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-field-half"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Sexo</mat-label>
-              <mat-select formControlName="sexo">
+              <mat-select formControlName="sexo" [disabled]="isViewMode">
                 <mat-option value="Masculino">Masculino</mat-option>
                 <mat-option value="Feminino">Feminino</mat-option>
                 <mat-option value="Outro">Outro</mat-option>
@@ -38,7 +38,7 @@
           <div class="form-row">
             <mat-form-field appearance="outline" class="form-field-half"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>CPF</mat-label>
-              <input matInput formControlName="cpf" mask="000.000.000-00" required>
+              <input matInput formControlName="cpf" mask="000.000.000-00" [readonly]="isViewMode" required>
               <mat-error *ngIf="form.get('cpf')?.hasError('pattern')">
                 Digite exatamente 11 números (sem pontos ou traço)
               </mat-error>
@@ -52,7 +52,7 @@
 
             <mat-form-field appearance="outline" class="form-field-half"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Telefone</mat-label>
-              <input matInput formControlName="telefone" mask="(00) 00000-0000" required>
+              <input matInput formControlName="telefone" mask="(00) 00000-0000" [readonly]="isViewMode" required>
             </mat-form-field>
           </div>
         </section>
@@ -64,36 +64,36 @@
           <div class="form-row">
             <mat-form-field appearance="outline" class="form-field-small"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>CEP</mat-label>
-              <input matInput formControlName="cep" mask="00000-000" (blur)="buscarCEP()">
+              <input matInput formControlName="cep" mask="00000-000" (blur)="buscarCEP()" [readonly]="isViewMode">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-field-medium"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Rua</mat-label>
-              <input matInput formControlName="rua">
+              <input matInput formControlName="rua" [readonly]="isViewMode">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-field-xsmall"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Número</mat-label>
-              <input matInput formControlName="numero">
+              <input matInput formControlName="numero" [readonly]="isViewMode">
             </mat-form-field>
           </div>
 
           <div class="form-row">
             <mat-form-field appearance="outline" class="form-field-half"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Bairro</mat-label>
-              <input matInput formControlName="bairro">
+              <input matInput formControlName="bairro" [readonly]="isViewMode">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-field-half"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Cidade</mat-label>
-              <input matInput formControlName="cidade">
+              <input matInput formControlName="cidade" [readonly]="isViewMode">
             </mat-form-field>
           </div>
 
           <div class="form-row">
             <mat-form-field appearance="outline" class="form-field-full"[floatLabel]="isViewMode ? 'always' : 'auto'">
               <mat-label>Estado</mat-label>
-              <input matInput formControlName="estado">
+              <input matInput formControlName="estado" [readonly]="isViewMode">
             </mat-form-field>
           </div>
         </section>
