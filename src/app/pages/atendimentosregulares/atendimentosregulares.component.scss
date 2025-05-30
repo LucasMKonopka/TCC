@@ -69,23 +69,49 @@ mat-card.section-card {
   }
 
   .button-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 24px;
-
-  > div {
     display: flex;
-    gap: 12px; 
-  }
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    gap: 16px;
 
-  button {
-    min-width: 130px; 
-  }
+    > div {
+        display: flex;
+        gap: 12px;
+    }
 
-  .mat-spinner {
-    margin-left: 8px;
-  }
+    button {
+        min-width: 130px;
+        
+        mat-icon {
+            color: inherit;
+        }
+    }
+
+    .mat-spinner {
+        margin-left: 8px;
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+
+        > div {
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+
+        button {
+            width: 100%;
+            margin: 0 !important;
+        }
+
+        > div:last-child {
+            order: -1; 
+        }
+    }
 }
 
 mat-dialog-content {
