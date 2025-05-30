@@ -56,7 +56,7 @@
         <mat-card-title>{{ isEdicao ? 'Editar Consulta Regular' : 'Consulta Regular' }}</mat-card-title>
       </mat-card-header>
     
-      <mat-form-field appearance="outline" class="full-width" style="margin: 0 5px; width: calc(100% - 20px);">
+      <mat-form-field appearance="outline" class="full-width" style="margin: 0 5px; width: calc(100% - 20px);" *ngIf="!modoVisualizacao">
         <mat-label>Adicione um título para a consulta</mat-label>
         <textarea matInput [(ngModel)]="tituloConsulta" [ngModelOptions]="{standalone: true}" rows="1"></textarea>
       </mat-form-field>
@@ -391,7 +391,7 @@
              <!-- Botão para editar cardápio -->
             <button mat-stroked-button color="accent" 
                     type="button" (click)="novoCardapio()">
-              {{ cardapioAtual ? 'Editar' : 'Novo' }} Cardápio
+              {{ cardapioAtual ? (modoVisualizacao ? 'Visualizar' : 'Editar'): 'Novo' }} Cardápio
             </button>
             
              <button mat-stroked-button color="primary" type="button"
@@ -405,10 +405,10 @@
 
           <!-- Botões à direita -->
           <div>
-            <button mat-raised-button color="warn" type="button" (click)="cancelar()">
-              Cancelar
+            <button mat-button (click)="cancelar()">
+              {{ modoVisualizacao ? 'Voltar' : 'Cancelar' }}
             </button>
-            <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+            <button mat-raised-button color="primary" type="submit" *ngIf="!modoVisualizacao" [disabled]="loading">
               <span *ngIf="!loading">Salvar Consulta</span>
               <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
             </button>

@@ -40,7 +40,7 @@ export class AtendimentosregularesComponent implements OnInit{
   atendimentoId: string | null = null;
   cardapioAtual: any = null;
   arquivoSelecionado: File | null = null;
-  modoVisualizacao = false;
+  modoVisualizacao: boolean = false;
 
   @ViewChild('fileInput') fileInput!: ElementRef;
   pdfPreviewUrl: SafeResourceUrl | null = null;
@@ -133,44 +133,38 @@ export class AtendimentosregularesComponent implements OnInit{
 
 
     ngOnInit(): void {
-      const pacienteId = this.route.snapshot.paramMap.get('id');
-      if (pacienteId) {
-        this.carregarDados(pacienteId);
+      this.idPaciente = this.route.snapshot.paramMap.get('id') || '';
+      const state = window.history.state;
+
+      if (this.idPaciente) {
+        this.carregarPaciente();
+        this.carregarDados(this.idPaciente);
       }
 
-      this.exibirGestante = this.paciente?.sexo === 'Feminino';
+      this.modoVisualizacao = this.route.snapshot.queryParamMap.get('modo') === 'visualizar';
+      this.isEdicao = state?.modoEdicao || false;
+      this.atendimentoId = state?.atendimentoId || null;
 
-      this.route.paramMap.subscribe(params => {
-        this.idPaciente = params.get('id') || '';
-        
-        const state = window.history.state;
-        if (state) {
-          this.atendimentoId = state.atendimentoId || null;
-          this.isEdicao = state.modoEdicao || false;
-        }
+      if ((this.isEdicao || this.modoVisualizacao) && this.atendimentoId && this.idPaciente) {
+        this.carregarDadosAtendimento();
 
-        if (this.idPaciente) {
-          this.carregarPaciente();
-
-          if (this.isEdicao && this.idPaciente) {
-            this.carregarDadosAtendimento();
-
-            if (this.atendimentoId) {
-              this.cardapioService.obterCardapio(this.idPaciente, this.atendimentoId)
-              .subscribe(cardapio => {
-                if (cardapio) {
-                  this.cardapioAtual = cardapio;
-                  this.pdfPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(cardapio.conteudo); 
-                }
-              });
+        this.cardapioService.obterCardapio(this.idPaciente, this.atendimentoId)
+          .subscribe(cardapio => {
+            if (cardapio) {
+              this.cardapioAtual = cardapio;
+              this.pdfPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(cardapio.conteudo);
             }
+          });
+      } else if (this.idPaciente) {
+        this.carregarInformacoesIniciais();
 
-          } else {
-            this.carregarInformacoesIniciais();
-          }
-        }
-      });
+      }
+      if (this.modoVisualizacao) {
+        this.consultaForm.disable();
+        this.tituloConsulta = 'Visualizando Consulta';
+      }
     }
+
 
 
     async carregarDados(pacienteId: string) {

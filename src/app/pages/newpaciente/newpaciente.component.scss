@@ -175,3 +175,19 @@ mat-form-field {
   margin-bottom: 8px;
 
 }
+.button-voltar {
+  display: flex;
+  justify-content: flex-start; /* Alinha à esquerda */
+  margin-top: 24px;
+  
+  .voltar-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 24px;
+    background-color: #f5f5f5;
+    color: #333;
+    margin-left: 0; /* Remove qualquer margem esquerda */
+  }
+}
+

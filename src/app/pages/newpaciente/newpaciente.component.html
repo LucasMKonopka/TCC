@@ -100,12 +100,13 @@
 
 
 <!-- Botões de Ação -->
-<div class="action-buttons" *ngIf="!isViewMode">
-  <button mat-raised-button type="button" (click)="cancelar()" class="cancel-button">
-    <mat-icon>cancel</mat-icon> Cancelar
+<div class="action-buttons" >
+   <button mat-raised-button type="button" (click)="cancelar()" class="cancel-button">
+    <mat-icon>{{ isViewMode ? 'arrow_back' : 'cancel' }}</mat-icon> 
+    {{ isViewMode ? 'Voltar' : 'Cancelar' }}
   </button>
 
-  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid" [disabled]="isViewMode">
     <mat-icon>save</mat-icon> Salvar
   </button>
 </div>
@@ -114,8 +115,8 @@
   </mat-card>
 </div>
 
-<div class="action-buttons" *ngIf="isViewMode">
+
           <button mat-raised-button type="button" (click)="cancelar()" class="cancel-button">
             <mat-icon>arrow_back</mat-icon> Voltar
           </button>
-        </div>
+        
