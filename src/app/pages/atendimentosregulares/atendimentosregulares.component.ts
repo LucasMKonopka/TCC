@@ -446,6 +446,8 @@ limparSelecao(): void {
     }
   }
 
+  
+
   gerarPdf(): void {
     if (this.cardapioAtual) {
       this.pdfService.gerarPdfCardapio(this.cardapioAtual);

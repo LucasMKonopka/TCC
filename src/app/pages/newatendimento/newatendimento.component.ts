@@ -63,18 +63,15 @@ export class NewatendimentoComponent implements OnInit{
   }
 
   ngOnInit(): void {
-  // Primeiro verifica o modo de visualização pelos queryParams
   this.route.queryParams.subscribe(params => {
     this.modoVisualizacao = params['modo'] === 'visualizar';
     
-    // Se for modo visualização, desabilita o formulário
     if (this.modoVisualizacao) {
       this.consultaForm.disable();
       this.tituloConsulta = 'Visualizando Consulta';
     }
   });
 
-  // Mantém toda a lógica existente de params
   this.route.paramMap.subscribe(params => {
     this.pacienteId = params.get('pacienteId') || '';
 
