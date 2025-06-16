@@ -11,20 +11,22 @@ import { ListatendimentosComponent } from './pages/listatendimentos/listatendime
 import { NewatendimentoComponent } from './pages/newatendimento/newatendimento.component';
 import { AtendimentosregularesComponent } from './pages/atendimentosregulares/atendimentosregulares.component';
 
+import { authGuard } from './guards/auth.guard';
+
 const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'Login', component: LoginComponent},
-  {path: 'home', component: HomeComponent},
+  {path: 'home', component: HomeComponent, canActivate: [authGuard]},
   {path: 'signup', component: SignupComponent},
-  {path: 'editUser', component: EditUserComponent},
-  {path: 'calendario', component: CalendarioComponent},
-  {path: 'newpacientes', component: NewpacienteComponent},
-  {path: 'newpacientes/:id', component: NewpacienteComponent},
-  {path: 'listpacientes', component: ListpacientesComponent},
-  {path: 'editar-paciente/:id', component: NewpacienteComponent },
-  {path: 'listatendimentos/:id', component: ListatendimentosComponent},
-  {path: 'newatendimento/:pacienteId', component: NewatendimentoComponent},
-  {path: 'atendimentosregulares/:id', component: AtendimentosregularesComponent},
+  {path: 'editUser', component: EditUserComponent, canActivate: [authGuard]},
+  {path: 'calendario', component: CalendarioComponent, canActivate: [authGuard]},
+  {path: 'newpacientes', component: NewpacienteComponent, canActivate: [authGuard]},
+  {path: 'newpacientes/:id', component: NewpacienteComponent, canActivate: [authGuard]},
+  {path: 'listpacientes', component: ListpacientesComponent, canActivate: [authGuard]},
+  {path: 'editar-paciente/:id', component: NewpacienteComponent, canActivate: [authGuard]},
+  {path: 'listatendimentos/:id', component: ListatendimentosComponent, canActivate: [authGuard]},
+  {path: 'newatendimento/:pacienteId', component: NewatendimentoComponent, canActivate: [authGuard]},
+  {path: 'atendimentosregulares/:id', component: AtendimentosregularesComponent, canActivate: [authGuard]},
 ];
 
 @NgModule({
