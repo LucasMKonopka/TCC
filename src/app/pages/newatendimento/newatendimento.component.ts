@@ -458,6 +458,7 @@ export class NewatendimentoComponent implements OnInit{
             {
               ...this.cardapioAtual,
               idPaciente: this.pacienteId,
+              id: this.cardapioAtual?.id || this.atendimentoId,
               idNutricionista: user?.uid || '',
               criadoEm: new Date()
             }
@@ -473,6 +474,7 @@ export class NewatendimentoComponent implements OnInit{
             {
               ...this.cardapioAtual,
               idPaciente: this.pacienteId,
+              id: this.cardapioAtual?.id || this.atendimentoId,
               idNutricionista: user?.uid || '',
               criadoEm: new Date()
             }

@@ -92,16 +92,16 @@ export class CardapioService {
 
 
   salvarCardapio(idPaciente: string, idAtendimento: string, cardapio: Cardapio): Promise<void> {
-  const id = cardapio.id || this.firestore.createId();
-  return this.firestore
-    .doc(`pacientes/${idPaciente}/atendimentos/${idAtendimento}/cardapios/${id}`)
-    .set({ 
-      ...cardapio, 
-      tipo: 'estruturado', 
-      id, 
-      atualizadoEm: new Date() 
-    }, { merge: true });
-}
+    const id = cardapio.id || this.firestore.createId();
+    return this.firestore
+      .doc(`pacientes/${idPaciente}/atendimentos/${idAtendimento}/cardapios/${id}`)
+      .set({ 
+        ...cardapio, 
+        tipo: 'estruturado', 
+        id, 
+        atualizadoEm: new Date() 
+      }, { merge: true });
+  }
 
   
 }
