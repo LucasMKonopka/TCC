@@ -413,6 +413,19 @@ export class NewatendimentoComponent implements OnInit{
   }
 
   async onSubmit() {
+    if (this.modoVisualizacao) return; // Impede salvar no modo de visualização
+
+  if (!this.tipoPaciente) {
+    this.toastr.warning('Selecione o tipo de paciente');
+    return;
+  }
+
+  if (this.consultaForm.invalid) {
+    this.markFormGroupTouched(this.consultaForm);
+    this.toastr.warning('Preencha todos os campos obrigatórios');
+    return;
+  }
+
     if (!this.tipoPaciente) {
       this.toastr.warning('Selecione o tipo de paciente');
       return;
@@ -452,6 +465,7 @@ export class NewatendimentoComponent implements OnInit{
   
     return {
       ...formValue,
+      cardapio: this.cardapioAtual,
       titulo: this.tituloConsulta, 
       isGestante: this.isGestante,
       tipoPaciente: this.tipoPaciente,
