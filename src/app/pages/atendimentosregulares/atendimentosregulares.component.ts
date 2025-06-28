@@ -12,6 +12,7 @@ import { ModalNovoCardapioComponent } from '../../components/cardapios/modal-nov
 import { PdfService } from '../../services/pdf.service';
 import { CardapioService, Cardapio } from '../../services/cardapio.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -261,6 +262,10 @@ export class AtendimentosregularesComponent implements OnInit{
   }
 
   async onSubmit() {
+    if (this.modoVisualizacao) {
+      return;
+    }
+
     if (this.consultaForm.invalid) {
       this.markFormGroupTouched(this.consultaForm);
       this.toastr.warning('Preencha todos os campos obrigatórios');
@@ -271,8 +276,8 @@ export class AtendimentosregularesComponent implements OnInit{
     try {
       const formData = await this.prepareFormData();
       
-      if (this.isEdicao && this.atendimentoId) {  // Alterado para verificar atendimentoId
-        await this.atendimentosService.atualizarAtendimento(this.atendimentoId, formData);  // Usando atendimentoId
+      if (this.isEdicao && this.atendimentoId) {  
+        await this.atendimentosService.atualizarAtendimento(this.atendimentoId, formData);  
         this.toastr.success('Atendimento atualizado com sucesso!');
       } else {
         await this.atendimentosService.criarConsultaRegular(this.idPaciente, formData);
@@ -457,7 +462,24 @@ limparSelecao(): void {
   }
 
   cancelar() {
-    this.router.navigate(['/listatendimentos', this.idPaciente]);
+    if (this.isEdicao) {
+      Swal.fire({
+        title: 'Cancelar edição?',
+        text: 'Todas as alterações não salvas serão perdidas.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sim, cancelar',
+        cancelButtonText: 'Continuar editando'
+      }).then(result => {
+        if (result.isConfirmed) {
+          this.router.navigate(['/listatendimentos', this.idPaciente]);
+        }
+      });
+    } else {
+      this.router.navigate(['/listatendimentos', this.idPaciente]);
+    }
   }
 
 }
