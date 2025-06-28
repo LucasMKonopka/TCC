@@ -273,15 +273,35 @@ export class AtendimentosregularesComponent implements OnInit{
     }
   
     this.loading = true;
+    let atendimentoIdParaSalvar = this.atendimentoId;
     try {
       const formData = await this.prepareFormData();
       
       if (this.isEdicao && this.atendimentoId) {  
-        await this.atendimentosService.atualizarAtendimento(this.atendimentoId, formData);  
+        await this.atendimentosService.atualizarAtendimento(this.atendimentoId, formData);
         this.toastr.success('Atendimento atualizado com sucesso!');
       } else {
-        await this.atendimentosService.criarConsultaRegular(this.idPaciente, formData);
+        const novaConsultaRef = await this.atendimentosService.criarConsultaRegular(this.idPaciente, formData);
+        atendimentoIdParaSalvar = novaConsultaRef.id;
         this.toastr.success('Consulta registrada com sucesso!');
+      }
+      if (atendimentoIdParaSalvar) {
+        if (this.cardapioAtual) {
+          await this.cardapioService.salvarCardapio(this.idPaciente, atendimentoIdParaSalvar, this.cardapioAtual);
+          console.log('Cardápio estruturado salvo com sucesso.');
+        }
+
+        if (this.arquivoSelecionado) {
+          const user = await this.afAuth.currentUser;
+          const nutricionistaId = user?.uid || '';
+          await this.cardapioService.uploadEGuardarCardapio(
+            this.idPaciente,
+            atendimentoIdParaSalvar,
+            this.arquivoSelecionado,
+            nutricionistaId
+          );
+           console.log('Cardápio em PDF salvo com sucesso.');
+        }
       }
       
       this.router.navigate(['/listatendimentos', this.idPaciente]);
