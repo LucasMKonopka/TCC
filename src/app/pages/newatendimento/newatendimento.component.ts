@@ -11,6 +11,7 @@ import { ModalNovoCardapioComponent } from '../../components/cardapios/modal-nov
 import { PdfService } from '../../services/pdf.service';
 import { CardapioService, Cardapio } from '../../services/cardapio.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-newatendimento',
@@ -98,6 +99,7 @@ export class NewatendimentoComponent implements OnInit{
 
     if ((this.isEdicao || this.modoVisualizacao) && this.pacienteId) {
       this.carregarDadosAtendimento();
+      this.carregarCardapio();
 
       if (this.atendimentoId) {
         this.cardapioService.obterCardapio(this.pacienteId, this.atendimentoId)
@@ -389,7 +391,12 @@ export class NewatendimentoComponent implements OnInit{
           detalhesConsumo: [''],
           historico: ['']
         }),
-      })  
+      }),
+    
+    cardapio: this.fb.group({
+      nome: [''],
+      conteudo: ['']
+    }),
     });
   }
 
@@ -413,18 +420,18 @@ export class NewatendimentoComponent implements OnInit{
   }
 
   async onSubmit() {
-    if (this.modoVisualizacao) return; // Impede salvar no modo de visualização
+    if (this.modoVisualizacao) return;
 
-  if (!this.tipoPaciente) {
-    this.toastr.warning('Selecione o tipo de paciente');
-    return;
-  }
+    if (!this.tipoPaciente) {
+      this.toastr.warning('Selecione o tipo de paciente');
+      return;
+    }
 
-  if (this.consultaForm.invalid) {
-    this.markFormGroupTouched(this.consultaForm);
-    this.toastr.warning('Preencha todos os campos obrigatórios');
-    return;
-  }
+    if (this.consultaForm.invalid) {
+      this.markFormGroupTouched(this.consultaForm);
+      this.toastr.warning('Preencha todos os campos obrigatórios');
+      return;
+    }
 
     if (!this.tipoPaciente) {
       this.toastr.warning('Selecione o tipo de paciente');
@@ -440,12 +447,38 @@ export class NewatendimentoComponent implements OnInit{
     this.loading = true;
     try {
       const formData = await this.prepareFormData();
+      const user = await this.afAuth.currentUser;
       
       if (this.isEdicao && this.atendimentoId) {
         await this.atendimentosService.atualizarAtendimento(this.atendimentoId, formData);
+        if (this.cardapioAtual) {
+          await this.cardapioService.salvarCardapio(
+            this.pacienteId,
+            this.atendimentoId,
+            {
+              ...this.cardapioAtual,
+              idPaciente: this.pacienteId,
+              idNutricionista: user?.uid || '',
+              criadoEm: new Date()
+            }
+          );
+        }
         this.toastr.success('Atendimento atualizado com sucesso!');
       } else {
-        await this.atendimentosService.criarPrimeiraConsulta(this.pacienteId, formData);
+        const docRef = await this.atendimentosService.criarPrimeiraConsulta(this.pacienteId, formData);
+        this.atendimentoId = docRef.id;  
+        if (this.cardapioAtual) {
+          await this.cardapioService.salvarCardapio(
+            this.pacienteId, this.atendimentoId,
+            {
+              ...this.cardapioAtual,
+              idPaciente: this.pacienteId,
+              idNutricionista: user?.uid || '',
+              criadoEm: new Date()
+            }
+          );
+        }
+
         this.toastr.success('Primeira consulta registrada com sucesso!');
       }
       
@@ -560,6 +593,17 @@ export class NewatendimentoComponent implements OnInit{
     });
   }
 
+  async carregarCardapio() {
+  if (this.pacienteId && this.atendimentoId) {
+    try {
+      this.cardapioAtual = await this.cardapioService.obterCardapio(this.pacienteId, this.atendimentoId);
+      this.consultaForm.patchValue({ cardapio: this.cardapioAtual });
+    } catch (error) {
+      console.error('Erro ao carregar cardápio:', error);
+    }
+  }
+}
+
 
     gerarPdf(): void {
       if (this.cardapioAtual) {
@@ -570,7 +614,25 @@ export class NewatendimentoComponent implements OnInit{
     }
 
   cancelar() {
+  if (this.isEdicao) {
+    Swal.fire({
+      title: 'Cancelar edição?',
+      text: 'Todas as alterações não salvas serão perdidas.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sim, cancelar',
+      cancelButtonText: 'Continuar editando'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/listatendimentos', this.pacienteId]);
+      }
+    });
+  } else {
     this.router.navigate(['/listatendimentos', this.pacienteId]);
   }
+}
+
 
 }

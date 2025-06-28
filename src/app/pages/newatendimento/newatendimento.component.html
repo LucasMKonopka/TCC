@@ -1143,7 +1143,7 @@
 
           <!-- Botões à direita -->
           <div>
-            <button mat-button (click)="cancelar()">
+            <button mat-button type="button" (click)="cancelar()">
               {{ modoVisualizacao ? 'Voltar' : 'Cancelar' }}
             </button>
             <button mat-raised-button color="primary" type="submit" *ngIf="!modoVisualizacao" [disabled]="consultaForm.invalid || loading">
