@@ -425,7 +425,8 @@ limparSelecao(): void {
     autoFocus: false,
     panelClass: 'cardapio-modal-centralizado',
     data: {
-    cardapio: this.cardapioAtual
+      cardapio: this.cardapioAtual,
+      modoVisualizacao: this.modoVisualizacao
     }
     });
 
