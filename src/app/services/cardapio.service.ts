@@ -13,7 +13,7 @@ export interface Cardapio {
   idNutricionista: string;
   criadoEm: Date;
   atualizadoEm?: Date;
-  textoExtraido?: string; 
+  textoExtraido?: string;
 }
 
 @Injectable({
@@ -29,8 +29,8 @@ export class CardapioService {
     arquivo: File,
     idNutricionista: string
   ): Promise<void> {
-    const id = this.firestore.createId();
-    const path = `cardapios/${idPaciente}/${idAtendimento}/${id}.pdf`;
+    const docId = 'cardapio-atual';
+    const path = `cardapios/${idPaciente}/${idAtendimento}/${new Date().getTime()}_${arquivo.name}`;
     const ref = this.storage.ref(path);
     const task = this.storage.upload(path, arquivo);
 
@@ -40,18 +40,18 @@ export class CardapioService {
           const downloadURL = await ref.getDownloadURL().toPromise();
 
           const cardapio: Cardapio = {
-            id,
+            id: docId, 
             nome: arquivo.name,
             conteudo: downloadURL,
-            tipo: 'pdf', // Adicionado aqui
+            tipo: 'pdf',
             idPaciente,
             idNutricionista,
             criadoEm: new Date(),
             atualizadoEm: new Date()
-          };
-
+        };
+          
           await this.firestore
-            .doc(`pacientes/${idPaciente}/atendimentos/${idAtendimento}/cardapios/${id}`)
+            .doc(`pacientes/${idPaciente}/atendimentos/${idAtendimento}/cardapios/${docId}`)
             .set(cardapio, { merge: true });
 
           resolve();
@@ -62,46 +62,40 @@ export class CardapioService {
     });
   }
 
+  
   obterCardapio(idPaciente: string, idAtendimento: string): Observable<Cardapio | undefined> {
+    const docId = 'cardapio-atual';
     return this.firestore
-      .collection<Cardapio>(
-        `pacientes/${idPaciente}/atendimentos/${idAtendimento}/cardapios`, 
-        ref => ref.limit(1)
-      )
-      .valueChanges()
-      .pipe(map(cardapios => cardapios[0]));
+      .doc<Cardapio>(`pacientes/${idPaciente}/atendimentos/${idAtendimento}/cardapios/${docId}`)
+      .valueChanges();
   }
 
-  getCardapioById(idPaciente: string, idAtendimento: string, cardapioId: string): Promise<Cardapio> {
+getCardapioById(idPaciente: string, idAtendimento: string, cardapioId: string): Promise<Cardapio> {
   const docRef = this.firestore.doc<Cardapio>(
     `pacientes/${idPaciente}/atendimentos/${idAtendimento}/cardapios/${cardapioId}`
   );
 
-  return docRef
-    .get()
-    .toPromise()
-    .then(doc => {
-      if (doc && doc.exists) {
-        return { id: doc.id, ...doc.data() } as Cardapio;
-      } else {
-        throw new Error('Cardápio não encontrado');
-      }
-    });
-}
-  
-
-
-  salvarCardapio(idPaciente: string, idAtendimento: string, cardapio: Cardapio): Promise<void> {
-    const id = cardapio.id || this.firestore.createId();
-    return this.firestore
-      .doc(`pacientes/${idPaciente}/atendimentos/${idAtendimento}/cardapios/${id}`)
-      .set({ 
-        ...cardapio, 
-        tipo: 'estruturado', 
-        id, 
-        atualizadoEm: new Date() 
-      }, { merge: true });
+return docRef
+  .get()
+  .toPromise()
+  .then(doc => {
+  if (doc && doc.exists) {
+  return { id: doc.id, ...doc.data() } as Cardapio;
+  } else {
+  throw new Error('Cardápio não encontrado');
   }
+  });
+}
 
-  
+salvarCardapio(idPaciente: string, idAtendimento: string, cardapio: Cardapio): Promise<void> {
+  const id = 'cardapio-atual';
+  return this.firestore
+  .doc(`pacientes/${idPaciente}/atendimentos/${idAtendimento}/cardapios/${id}`)
+  .set({
+  ...cardapio,
+  tipo: 'estruturado',
+  id,
+  atualizadoEm: new Date()
+  }, { merge: true });
+  }
 }
